@@ -135,6 +135,30 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 .ct-count{font-family:'Space Mono',monospace;font-size:.56rem;margin-left:5px;color:var(--R2)}
 
 
+/* ══ COLECCIÓN DESTACADA ══ */
+.coll-section{background:var(--B2);border-top:1px solid var(--B4);position:relative;overflow:hidden}
+.coll-section::before{content:'BF';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Playfair Display',serif;font-size:clamp(80px,18vw,280px);font-weight:700;color:rgba(230,16,151,.04);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:.1em}
+.coll-inner{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:start;position:relative;z-index:1}
+@media(max-width:900px){.coll-inner{grid-template-columns:1fr;gap:40px}}
+.coll-desc{font-size:.9rem;color:var(--W3);line-height:1.85;max-width:440px;margin-bottom:30px;border-left:2px solid rgba(230,16,151,.35);padding-left:16px}
+.coll-feats{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:32px}
+.coll-feat{background:var(--B3);padding:18px 16px;border-left:2px solid transparent;transition:border-color .3s,background .3s}
+.coll-feat:hover{border-left-color:var(--R);background:var(--B4)}
+.coll-feat h4{font-size:.76rem;font-weight:700;color:var(--W);margin-bottom:4px}
+.coll-feat p{font-size:.7rem;color:var(--W3);line-height:1.6}
+.coll-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.coll-card{background:var(--B3);border:1px solid var(--B4);border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;position:relative}
+.coll-card:hover{transform:translateY(-4px);border-color:rgba(230,16,151,.32);box-shadow:0 10px 28px rgba(230,16,151,.12)}
+.coll-card-img{aspect-ratio:3/4;overflow:hidden;background:var(--B4)}
+.coll-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);display:block}
+.coll-card:hover .coll-card-img img{transform:scale(1.06)}
+.coll-card-body{padding:12px 13px 14px}
+.coll-card-cat{font-size:.55rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--R);font-weight:700;margin-bottom:3px}
+.coll-card-name{font-size:.84rem;font-weight:600;color:var(--W);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coll-card-price{font-size:.8rem;color:var(--R);font-weight:700;margin-top:5px}
+.coll-badge{position:absolute;top:9px;left:9px;background:var(--R);color:#fff;font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+@media(max-width:480px){.coll-grid{grid-template-columns:1fr 1fr;gap:7px}}
+
 /* ══ PRODUCTS ══ */
 .prod-section{background:var(--B);border-top:1px solid var(--B4)}
 .prod-search{display:flex;align-items:center;gap:10px;background:var(--B3);border:1.5px solid var(--B4);border-radius:6px;padding:10px 16px;margin-bottom:18px;transition:border-color .25s}
@@ -955,6 +979,34 @@ body.cart-open,.cart-open{overflow:hidden!important}
 </div>
 
 
+<!-- ════ COLECCIÓN DESTACADA ════ -->
+<section class="section coll-section" id="collection">
+  <div style="max-width:1440px;margin:0 auto">
+    <div class="coll-inner">
+      <!-- IZQUIERDA: info de la colección -->
+      <div>
+        <div class="sec-label reveal fl">Colección Bossa Fashion</div>
+        <h2 class="sec-h reveal d1">Calzado de <em>Dama.</em></h2>
+        <p class="coll-desc reveal d2">Cada par de zapatos cuenta una historia. En Bossa Fashion encontrarás tacones, sandalias, sneakers y botas seleccionados por Kari Bossa con un criterio claro: estilo, comodidad y calidad que dura.</p>
+        <div class="coll-feats reveal d3">
+          <div class="coll-feat"><h4>👠 Tacones</h4><p>De salón, stilettos y kitten heels para cada ocasión.</p></div>
+          <div class="coll-feat"><h4>👡 Sandalias</h4><p>Elegantes y cómodas para el día a día y la playa.</p></div>
+          <div class="coll-feat"><h4>👟 Sneakers</h4><p>Estilo casual con toda la comodidad que mereces.</p></div>
+          <div class="coll-feat"><h4>🥾 Botas</h4><p>Tendencia y versatilidad para cada temporada.</p></div>
+        </div>
+      </div>
+      <!-- DERECHA: 4 productos destacados -->
+      <div class="reveal fr d1">
+        <div class="coll-grid" id="collGrid">
+          <!-- Se llena dinámicamente con JS -->
+          <div style="grid-column:span 2;text-align:center;padding:32px;color:var(--W3);font-size:.82rem">Cargando colección…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ════ PRODUCTS SECTION ════ -->
 <section class="section prod-section" id="products">
   <div class="inner-w">
@@ -1260,6 +1312,7 @@ function loadProducts(){
   showSkeletons();
   allProducts = PRODUCTOS_BOSSA;
   buildCounts();
+  renderCollGrid();
   applyAll();
 }
 
@@ -1273,6 +1326,34 @@ function buildCounts(){
   document.getElementById('ct-san').textContent=allProducts.filter(p=>p.categoria==='Sandalias').length;
   document.getElementById('ct-sne').textContent=allProducts.filter(p=>p.categoria==='Sneakers').length;
   document.getElementById('ct-bot').textContent=allProducts.filter(p=>p.categoria==='Botas').length;
+}
+
+// ══════════════════════════════════
+//  COLECCIÓN DESTACADA (4 productos)
+// ══════════════════════════════════
+function renderCollGrid(){
+  const grid=document.getElementById('collGrid');
+  if(!grid) return;
+  const featured=allProducts.slice(0,4);
+  if(!featured.length){
+    grid.innerHTML='<div style="grid-column:span 2;text-align:center;padding:32px;color:var(--W3);font-size:.82rem">Pronto disponible.</div>';
+    return;
+  }
+  grid.innerHTML=featured.map((p,i)=>{
+    const gi=allProducts.indexOf(p);
+    const badges=['NUEVO','HOT','',''];
+    return `<div class="coll-card" onclick="openModal(${gi})">
+      ${badges[i]?`<div class="coll-badge">${badges[i]}</div>`:''}
+      <div class="coll-card-img">
+        <img src="${esc(p.imagen||FB)}" alt="${esc(p.nombre)}" loading="lazy" onerror="fallbackImg(this)"/>
+      </div>
+      <div class="coll-card-body">
+        <div class="coll-card-cat">${esc(p.categoria||'Calzado')}</div>
+        <div class="coll-card-name">${esc(p.nombre)}</div>
+        ${p.precio?`<div class="coll-card-price">$${p.precio.toFixed(2)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════
