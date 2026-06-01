@@ -1128,21 +1128,17 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <div class="mi-desc" id="mi-desc"></div>
       <div class="mi-vars" id="mi-vars" style="display:none"><div class="mi-vars-label">Selecciona Variaciones y Cantidades</div><div id="mi-vars-list"></div></div>
       <div class="mi-price-box">
-        <div class="mipb-item"><div class="a" id="mi-price-unit">$4.99</div><div class="l">Por unidad</div></div>
-        <div class="mipb-div"></div>
-        <div class="mipb-item"><div class="a" style="color:var(--R2)" id="mi-price-bulk">$3.99</div><div class="l">200+ uds</div><div class="w">Mayoreo automático</div></div>
+        <div class="mipb-item"><div class="a" id="mi-price-unit" style="color:var(--R)">$0.00</div><div class="l">Precio por par</div></div>
       </div>
       <div class="mi-qty-label">Cantidad a agregar</div>
       <div class="qty-presets">
-        <button class="qp-btn" onclick="setQtyPreset(10,this)">×10</button>
-        <button class="qp-btn" onclick="setQtyPreset(50,this)">×50</button>
-        <button class="qp-btn" onclick="setQtyPreset(100,this)">×100</button>
-        <button class="qp-btn" onclick="setQtyPreset(200,this)">×200</button>
-        <button class="qp-btn" onclick="setQtyPreset(400,this)">×400</button>
+        <button class="qp-btn" onclick="setQtyPreset(1,this)">×1</button>
+        <button class="qp-btn" onclick="setQtyPreset(2,this)">×2</button>
+        <button class="qp-btn" onclick="setQtyPreset(3,this)">×3</button>
+        <button class="qp-btn" onclick="setQtyPreset(4,this)">×4</button>
       </div>
       <div class="qty-custom" id="qtyCustomRow" style="display:none"><label>Cantidad:</label><input type="number" id="customQtyInput" min="1" value="1" oninput="updateQtyTotal()"/></div>
       <div class="qty-total"><span>Subtotal estimado</span><span id="qtyTotalDisplay">$499.00</span></div>
-      <div class="wholesale-note-m" id="wholesaleNoteM">✦ Precio mayoreo activo — $3.99 c/u</div>
       <button class="btn-add-cart" onclick="addCurrentToCart()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Agregar al Carrito</button>
     </div>
   </div>
@@ -1173,16 +1169,8 @@ body.cart-open,.cart-open{overflow:hidden!important}
 
   <!-- ═══ STEP 1: PRODUCTS ═══ -->
   <div class="cd-step" id="cdStep1">
-    <div class="cd-whl" id="cdWhl">
-      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
-      ¡Mayoreo activo! Precio: <strong style="color:var(--W);margin-left:4px">$3.99 c/u</strong>
-    </div>
     <div class="cd-products" id="cdBody"></div>
     <div class="cd-step1-ftr" id="cdStep1Ftr" style="display:none">
-      <div class="whl-progress" id="whlProgress">
-        <div class="whl-progress-label"><span id="whlMsg"></span><span id="whlPct"></span></div>
-        <div class="whl-progress-bar"><div class="whl-progress-fill" id="whlFill"></div></div>
-      </div>
       <div class="cd-totals" id="cdSummary"></div>
       <button class="btn-continue" onclick="goStep2()">
         Continuar con mis datos
@@ -1233,7 +1221,7 @@ body.cart-open,.cart-open{overflow:hidden!important}
 
       <div class="delivery-note">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-        <span>Pedidos mayoristas: plazo de entrega <strong style="color:var(--W)">25–30 días hábiles</strong> desde confirmación de pago.</span>
+        <span>Te contactaremos para coordinar la entrega. Ocala, Florida y alrededores.</span>
       </div>
     </div>
 
@@ -1254,14 +1242,115 @@ body.cart-open,.cart-open{overflow:hidden!important}
 
 <script>
 // ══════════════════════════════════
+//  CATÁLOGO BOSSA FASHION — Calzado de Dama
+// ══════════════════════════════════
+const PRODUCTOS_BOSSA = [
+  {
+    id:'BF001', sku:'TAC-001',
+    nombre:'Tacón Stiletto Clásico Negro',
+    categoria:'Tacones',
+    descripcion:'Tacón de aguja 10cm. Punta fina, cuero vegano. Ideal para eventos formales y noches especiales.',
+    imagen:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&auto=format&fit=crop',
+    precio:59.99, precioMayor:59.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
+  },
+  {
+    id:'BF002', sku:'TAC-002',
+    nombre:'Tacón Block Nude Elegante',
+    categoria:'Tacones',
+    descripcion:'Tacón cuadrado 8cm color nude. Cómodo para todo el día. Correa al tobillo con hebilla dorada.',
+    imagen:'https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=600&auto=format&fit=crop',
+    precio:54.99, precioMayor:54.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
+  },
+  {
+    id:'BF003', sku:'TAC-003',
+    nombre:'Kitten Heel Rosa Pastel',
+    categoria:'Tacones',
+    descripcion:'Tacón bajo 5cm en tono rosa pastel. Punta redonda. Perfecto para la oficina o brunch.',
+    imagen:'https://images.unsplash.com/photo-1594938298603-c8148c4b4057?w=600&auto=format&fit=crop',
+    precio:49.99, precioMayor:49.99, variaciones:'Talla: 35, 36, 37, 38, 39', estado:'Activo', badge:''
+  },
+  {
+    id:'BF004', sku:'SAN-001',
+    nombre:'Sandalia Plana Trenzada Camel',
+    categoria:'Sandalias',
+    descripcion:'Sandalia plana de tiras trenzadas. Cuero genuino color camel. Comodidad máxima para el verano.',
+    imagen:'https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=600&auto=format&fit=crop',
+    precio:44.99, precioMayor:44.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
+  },
+  {
+    id:'BF005', sku:'SAN-002',
+    nombre:'Sandalia Gladiadora Dorada',
+    categoria:'Sandalias',
+    descripcion:'Sandalia gladiadora con tiras hasta la pantorrilla. Acabado dorado metálico. Look diosa griega.',
+    imagen:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600&auto=format&fit=crop',
+    precio:52.99, precioMayor:52.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
+  },
+  {
+    id:'BF006', sku:'SAN-003',
+    nombre:'Sandalia con Cuña Blanca',
+    categoria:'Sandalias',
+    descripcion:'Sandalia de cuña 6cm en blanco total. Tira delantera ajustable. Cómoda y estilizada.',
+    imagen:'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&auto=format&fit=crop',
+    precio:47.99, precioMayor:47.99, variaciones:'Talla: 36, 37, 38, 39, 40', estado:'Activo', badge:''
+  },
+  {
+    id:'BF007', sku:'SNK-001',
+    nombre:'Sneaker Chunky Blanco Rosa',
+    categoria:'Sneakers',
+    descripcion:'Sneaker plataforma chunky en blanco con detalles en rosa. Suela gruesa 4cm. Tendencia Y2K.',
+    imagen:'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&auto=format&fit=crop',
+    precio:69.99, precioMayor:69.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
+  },
+  {
+    id:'BF008', sku:'SNK-002',
+    nombre:'Sneaker Low Top Minimalista',
+    categoria:'Sneakers',
+    descripcion:'Sneaker minimalista blanco hueso. Diseño limpio sin logos. Combina con todo tu armario.',
+    imagen:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop',
+    precio:59.99, precioMayor:59.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40, 41', estado:'Activo', badge:''
+  },
+  {
+    id:'BF009', sku:'SNK-003',
+    nombre:'Sneaker Deportivo Rosa Chicle',
+    categoria:'Sneakers',
+    descripcion:'Running style en rosa chicle vibrante. Suela de goma antideslizante. Para el gym o la calle.',
+    imagen:'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&auto=format&fit=crop',
+    precio:64.99, precioMayor:64.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'sale'
+  },
+  {
+    id:'BF010', sku:'BOT-001',
+    nombre:'Bota Cowboy Marrón Caoba',
+    categoria:'Botas',
+    descripcion:'Bota western de caña media en cuero marrón caoba. Puntera y tacón cowboy. Icónica y versátil.',
+    imagen:'https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=600&auto=format&fit=crop',
+    precio:89.99, precioMayor:89.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
+  },
+  {
+    id:'BF011', sku:'BOT-002',
+    nombre:'Bota Chelsea Negra Elástica',
+    categoria:'Botas',
+    descripcion:'Chelsea boot clásica en negro. Elásticos laterales, suela de goma. Para lluvia o sol.',
+    imagen:'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&auto=format&fit=crop',
+    precio:79.99, precioMayor:79.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:''
+  },
+  {
+    id:'BF012', sku:'BOT-003',
+    nombre:'Bota Over-the-Knee Beige',
+    categoria:'Botas',
+    descripcion:'Bota sobre la rodilla en gamuza beige. Cierre lateral. Silueta larga y elegante.',
+    imagen:'https://images.unsplash.com/photo-1573100925118-870b8efc799d?w=600&auto=format&fit=crop',
+    precio:94.99, precioMayor:94.99, variaciones:'Talla: 35, 36, 37, 38, 39', estado:'Activo', badge:'new'
+  }
+];
+</script>
+
+<script>
+// ══════════════════════════════════
 //  CONFIG
 // ══════════════════════════════════
 const CFG = {
   WA:  '17866454434',
-  PER_PAGE: 12,
-  P_UNIT: 0,
-  P_WHOLESALE: 0,
-  WHL_MIN: 999999
+  PER_PAGE: 12
 };
 
 // ══════════════════════════════════
@@ -1482,7 +1571,6 @@ function openModal(gi){
   document.getElementById('mi-sku').textContent=p.sku?'SKU: '+p.sku:'';
   document.getElementById('mi-fecha').textContent=p.fecha?'Alta: '+p.fecha:'';
   document.getElementById('mi-price-unit').textContent='$'+p.precio.toFixed(2);
-  document.getElementById('mi-price-bulk').textContent='$'+p.precioMayor.toFixed(2);
   const descEl=document.getElementById('mi-desc');
   descEl.textContent=p.descripcion||''; descEl.style.display=p.descripcion?'block':'none';
   // Badge
@@ -1564,31 +1652,19 @@ function getSelectedVars(){
 
 function updateVarSubtotal(){
   const varsWrap=document.getElementById('mi-vars');
+  const p=modalProduct;
+  const price=p?p.precio:0;
   if(!varsWrap||varsWrap.style.display==='none'){
-    // No variations — use normal qty
     modalQty=Math.max(1,parseInt(document.getElementById('customQtyInput').value)||1);
-    const w=modalQty>=CFG.WHL_MIN;
-    const p=modalProduct;
-    const price=w?(p?p.precioMayor:CFG.P_WHOLESALE):(p?p.precio:CFG.P_UNIT);
     document.getElementById('qtyTotalDisplay').textContent='$'+(modalQty*price).toFixed(2);
-    document.getElementById('wholesaleNoteM').className='wholesale-note-m'+(w?' show':'');
     return;
   }
   const selectedVars=getSelectedVars();
   if(selectedVars.length>0){
     const totalVarQty=selectedVars.reduce((s,v)=>s+v.qty,0);
-    const p=modalProduct;
-    const w=totalVarQty>=CFG.WHL_MIN;
-    const price=w?(p?p.precioMayor:CFG.P_WHOLESALE):(p?p.precio:CFG.P_UNIT);
-    document.getElementById('qtyTotalDisplay').textContent='$'+(totalVarQty*price).toFixed(2)+' ('+totalVarQty+' uds total)';
-    document.getElementById('wholesaleNoteM').className='wholesale-note-m'+(w?' show':'');
+    document.getElementById('qtyTotalDisplay').textContent='$'+(totalVarQty*price).toFixed(2)+' ('+totalVarQty+' pares)';
   } else {
-    // fallback to preset qty
-    const w=modalQty>=CFG.WHL_MIN;
-    const p=modalProduct;
-    const price=w?(p?p.precioMayor:CFG.P_WHOLESALE):(p?p.precio:CFG.P_UNIT);
     document.getElementById('qtyTotalDisplay').textContent='$'+(modalQty*price).toFixed(2);
-    document.getElementById('wholesaleNoteM').className='wholesale-note-m'+(w?' show':'');
   }
 }
 
@@ -1611,8 +1687,7 @@ function addCurrentToCart(){
 //  CART
 // ══════════════════════════════════
 function totalUnits(){ return cart.reduce((s,i)=>s+i.qty,0); }
-function isWholesale(){ return totalUnits()>=CFG.WHL_MIN; }
-function priceEach(p){ return isWholesale()?p.precioMayor:p.precio; }
+function priceEach(p){ return p.precio||0; }
 function cartTotal(){ return cart.reduce((s,i)=>s+(i.qty*priceEach(i)),0); }
 
 function addToCart(product,qty){
@@ -1627,9 +1702,8 @@ function changeQty(idx,d){ cart[idx].qty=Math.max(1,cart[idx].qty+d); updateCart
 function removeItem(idx){ cart.splice(idx,1); updateCartUI(); }
 
 function updateCartUI(){
-  const units=totalUnits(),w=isWholesale(),total=cartTotal();
+  const units=totalUnits(),total=cartTotal();
   document.getElementById('cartBadge').textContent=units;
-  document.getElementById('cdWhl').className='cd-whl'+(w?' show':'');
 
   const body=document.getElementById('cdBody');
   const ftr=document.getElementById('cdStep1Ftr');
@@ -1666,32 +1740,9 @@ function updateCartUI(){
     </div>`;
   }).join('');
 
-  // Wholesale progress bar
-  const prog=document.getElementById('whlProgress');
-  const fill=document.getElementById('whlFill');
-  const msg=document.getElementById('whlMsg');
-  const pct=document.getElementById('whlPct');
-  if(prog){
-    if(!w){
-      prog.className='whl-progress show';
-      const remain=CFG.WHL_MIN-units;
-      const percent=Math.min(100,Math.round(units/CFG.WHL_MIN*100));
-      msg.textContent='Faltan '+remain+' uds para precio mayoreo';
-      pct.textContent=percent+'%';
-      fill.style.width=percent+'%';
-    } else {
-      prog.className='whl-progress show';
-      msg.textContent='✦ Precio mayoreo activo — $'+CFG.P_WHOLESALE.toFixed(2)+' c/u';
-      pct.textContent='';
-      fill.style.width='100%';
-      fill.style.background='var(--R2)';
-    }
-  }
-
-  // Summary
+  // Resumen del carrito
   document.getElementById('cdSummary').innerHTML=`
     <div class="cd-row"><span>Total unidades</span><span>${units}</span></div>
-    <div class="cd-row"><span>Precio c/u</span><span style="${w?'color:var(--R2)':''}">${w?'$'+CFG.P_WHOLESALE.toFixed(2)+' mayoreo':'$'+CFG.P_UNIT.toFixed(2)}</span></div>
     <div class="cd-row total"><span>TOTAL</span><span>$${total.toFixed(2)}</span></div>`;
 
   if(ftr) ftr.style.display='block';
@@ -1701,16 +1752,15 @@ function updateCartUI(){
 function goStep2(){
   if(!cart.length) return;
   // Update mini order summary
-  const units=totalUnits(),w=isWholesale(),total=cartTotal();
-  const pe=w?CFG.P_WHOLESALE:CFG.P_UNIT;
+  const units=totalUnits(),total=cartTotal();
   document.getElementById('coMiniList').innerHTML=cart.map(item=>`
     <div class="co-mini-row">
       ${item.imagen?`<img class="co-mini-img" src="${esc(item.imagen)}" alt="" onerror="fallbackImg(this)"/>`:'<div class="co-mini-img"></div>'}
       <div class="co-mini-name">${esc(item.nombre)}</div>
-      <div class="co-mini-qty">${item.qty} uds</div>
+      <div class="co-mini-qty">${item.qty} par${item.qty!==1?'es':''}</div>
       <div class="co-mini-price">$${(item.qty*priceEach(item)).toFixed(2)}</div>
     </div>`).join('');
-  document.getElementById('coMiniTotal').innerHTML=`<span>TOTAL ${w?'(mayoreo)':''}</span><span>$${total.toFixed(2)}</span>`;
+  document.getElementById('coMiniTotal').innerHTML=`<span>TOTAL</span><span>$${total.toFixed(2)}</span>`;
   // Switch step
   document.getElementById('cdStep1').classList.add('hidden');
   document.getElementById('cdStep2').classList.remove('hidden');
@@ -1780,9 +1830,9 @@ function sendOrder(){
   if(!tel){toast('Ingresa tu número de teléfono');return;}
   if(!pago){toast('Selecciona un método de pago');return;}
   if(!cart.length){toast('El carrito está vacío');return;}
-  const units=totalUnits(),total=cartTotal().toFixed(2),w=isWholesale();
+  const units=totalUnits(),total=cartTotal().toFixed(2);
   const lines=[
-    '🛍️ *Pedido — The Sweet Zone*',
+    '👠 *Pedido — Bossa Fashion by Kari Bossa*',
     '━━━━━━━━━━━━━━━━━━━━',
     `👤 *Cliente:* ${nombre} ${apellido}`,
     `📞 *Teléfono:* ${tel}`,
@@ -1792,13 +1842,12 @@ function sendOrder(){
     `💳 *Pago:* ${pago}`,
     '',
     '🛒 *Productos:*',
-    ...cart.map((item,i)=>`  ${i+1}. ${item.nombre}${item.sku?' ('+item.sku+')':''} × ${item.qty} uds = $${(item.qty*priceEach(item)).toFixed(2)}${item.variaciones?' ['+item.variaciones+']':''}`),
+    ...cart.map((item,i)=>`  ${i+1}. ${item.nombre}${item.sku?' ('+item.sku+')':''} × ${item.qty} par${item.qty!==1?'es':''} = $${(item.qty*priceEach(item)).toFixed(2)}`),
     '',
     '━━━━━━━━━━━━━━━━━━━━',
-    `📦 Total unidades: ${units}`,
-    `💲 Precio c/u: ${w?'$'+CFG.P_WHOLESALE.toFixed(2)+' ✦ mayoreo':'$'+CFG.P_UNIT.toFixed(2)}`,
+    `📦 Total pares: ${units}`,
     `💰 *TOTAL: $${total}*`,
-    w?'📅 Plazo de entrega: 25–30 días hábiles (pedido mayorista)':'',
+    '📍 Ocala, Florida — bossafashion2025@gmail.com',
   ].filter(Boolean).join('\n');
   window.open('https://wa.me/'+CFG.WA+'?text='+encodeURIComponent(lines),'_blank');
   toast('¡Pedido enviado por WhatsApp! ✓');
