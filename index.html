@@ -1054,12 +1054,9 @@ body.cart-open,.cart-open{overflow:hidden!important}
 
 <!-- ════ CATEGORY TABS ════ -->
 <div class="cat-tabs" id="catTabs">
-  <div class="cat-tabs-inner">
-    <button class="ct-btn on" onclick="setCategory('Todos',this)">Todos<span class="ct-count" id="ct-todos">0</span></button>
-    <button class="ct-btn" onclick="setCategory('Tacones',this)">Tacones<span class="ct-count" id="ct-tac">0</span></button>
-    <button class="ct-btn" onclick="setCategory('Sandalias',this)">Sandalias<span class="ct-count" id="ct-san">0</span></button>
-    <button class="ct-btn" onclick="setCategory('Sneakers',this)">Sneakers<span class="ct-count" id="ct-sne">0</span></button>
-    <button class="ct-btn" onclick="setCategory('Botas',this)">Botas<span class="ct-count" id="ct-bot">0</span></button>
+  <div class="cat-tabs-inner" id="catTabsInner">
+    <button class="ct-btn on" id="ctTodos" onclick="setCategory('Todos',this)">Todos<span class="ct-count" id="ct-todos">0</span></button>
+    <!-- category tabs rendered dynamically by buildCategoryUI() -->
     <button class="ct-btn" onclick="nav('about')">Nosotros</button>
     <button class="ct-btn" onclick="nav('contact')">Contacto</button>
   </div>
@@ -1103,12 +1100,9 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <input type="text" id="searchInput" placeholder="Buscar por nombre, SKU, categoría…" oninput="handleSearch(this.value)"/>
     </div>
-    <div class="filter-row reveal d2">
+    <div class="filter-row reveal d2" id="filterRow">
       <button class="flt on" onclick="setCategory('Todos',this)">Todos</button>
-      <button class="flt" onclick="setCategory('Tacones',this)">Tacones</button>
-      <button class="flt" onclick="setCategory('Sandalias',this)">Sandalias</button>
-      <button class="flt" onclick="setCategory('Sneakers',this)">Sneakers</button>
-      <button class="flt" onclick="setCategory('Botas',this)">Botas</button>
+      <!-- filter buttons rendered dynamically by buildCategoryUI() -->
     </div>
     <div class="prod-header">
       <div class="prod-ttl" id="prodTtl">Cargando…<span id="prodCount"></span></div>
@@ -1415,14 +1409,41 @@ function loadProducts(){
 // ══════════════════════════════════
 //  COUNTS
 // ══════════════════════════════════
-function buildCounts(){
-  const cats=['Tacones','Sandalias','Sneakers','Botas'];
+function buildCategoryUI(){
+  // Derive unique categories from loaded products (order of first appearance)
+  const seen=new Set(), cats=[];
+  allProducts.forEach(p=>{ const c=(p.categoria||'').trim(); if(c&&!seen.has(c)){seen.add(c);cats.push(c);} });
+
+  // ── Cat tabs (keep Todos + nav buttons, inject dynamic category tabs before them)
+  const tabsInner=document.getElementById('catTabsInner');
+  // Remove old dynamic tabs (everything except Todos and the last two nav buttons)
+  tabsInner.querySelectorAll('.ct-dyn').forEach(el=>el.remove());
+  const navBtns=tabsInner.querySelectorAll('.ct-btn:not(#ctTodos)');
+  const insertBefore=navBtns[0]||null;
+  cats.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className='ct-btn ct-dyn';
+    btn.innerHTML=cat+'<span class="ct-count">'+allProducts.filter(p=>p.categoria===cat).length+'</span>';
+    btn.onclick=()=>setCategory(cat,btn);
+    tabsInner.insertBefore(btn,insertBefore);
+  });
+
+  // ── Filter row (keep Todos, inject dynamic filters)
+  const filterRow=document.getElementById('filterRow');
+  filterRow.querySelectorAll('.flt-dyn').forEach(el=>el.remove());
+  cats.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className='flt flt-dyn';
+    btn.textContent=cat;
+    btn.onclick=()=>setCategory(cat,btn);
+    filterRow.appendChild(btn);
+  });
+
+  // ── Todos count
   document.getElementById('ct-todos').textContent=allProducts.length;
-  document.getElementById('ct-tac').textContent=allProducts.filter(p=>p.categoria==='Tacones').length;
-  document.getElementById('ct-san').textContent=allProducts.filter(p=>p.categoria==='Sandalias').length;
-  document.getElementById('ct-sne').textContent=allProducts.filter(p=>p.categoria==='Sneakers').length;
-  document.getElementById('ct-bot').textContent=allProducts.filter(p=>p.categoria==='Botas').length;
 }
+
+function buildCounts(){ buildCategoryUI(); }
 
 // ══════════════════════════════════
 //  COLECCIÓN DESTACADA (4 productos)
@@ -1504,11 +1525,11 @@ function renderProducts(){
   const pageProds=filtered.slice(start,start+CFG.PER_PAGE);
 
   if(currentCat==='Todos'&&!searchQ&&currentSort==='default'){
-    // Group by category
+    // Group by whatever categories exist in the loaded products
     const groups={};
     pageProds.forEach(p=>{ const c=p.categoria||'Sin categoría'; if(!groups[c])groups[c]=[]; groups[c].push(p); });
     container.innerHTML=Object.entries(groups).map(([cat,prods])=>
-      `<div class="cat-sec-title">${cat==='Tacones'?'<em>Tacones</em>':cat==='Sandalias'?'<em>Sandalias</em>':cat==='Sneakers'?'<em>Sneakers</em>':cat==='Botas'?'<em>Botas</em>':esc(cat)}</div>
+      `<div class="cat-sec-title"><em>${esc(cat)}</em></div>
        <div class="p-grid">${prods.map(productCard).join('')}</div>`
     ).join('');
   } else {
