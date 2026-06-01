@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>The Sweet Zone | Todo en un Lugar · Precios para Emprendedores</title>
-<meta name="description" content="The Sweet Zone — Maquillaje, Salud & Belleza. $4.99 por unidad · Mayoreo 200+ uds a $3.99."/>
+<title>Bossa Fashion by Kari Bossa | Calzados · Ocala, Florida</title>
+<meta name="description" content="Bossa Fashion by Kari Bossa — Tienda de calzados en Ocala, Florida. Damas, Caballeros y Niños. Calidad y estilo garantizados."/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -32,7 +32,7 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 /* ── HEADER ── */
 .hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:600;background:rgba(255,255,255,.92);border-bottom:1px solid rgba(230,16,151,.15);backdrop-filter:blur(22px);display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);gap:16px;transition:border-color .3s,background .3s}
 .hdr.sc{background:rgba(255,255,255,.99);border-bottom-color:var(--R)}
-.hdr-logo img{height:46px;width:auto;mix-blend-mode:screen;display:block}
+.hdr-logo{text-decoration:none;display:flex;align-items:center;gap:2px}.hdr-logo-text{font-family:"Playfair Display",serif;font-size:1.15rem;font-weight:700;line-height:1;color:var(--W)}.hdr-logo-text span{color:var(--R)}
 .hdr-nav{display:flex;align-items:center;gap:2px;list-style:none}
 .hdr-nav a{font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--W3);text-decoration:none;padding:6px 11px;border-radius:3px;white-space:nowrap;transition:color .2s,background .2s}
 .hdr-nav a:hover{color:var(--W2);background:var(--W4)}
@@ -850,7 +850,6 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 @media(max-width:380px){
   .sec-h{font-size:1.9rem}
   .hero-h1{font-size:2rem}
-  .hdr-logo img{height:38px}
 }
 
 /* ── Wholesale bar on mobile ── */
@@ -892,24 +891,23 @@ body.cart-open,.cart-open{overflow:hidden!important}
 <!-- MOB NAV -->
 <nav class="mob-nav" id="mobNav">
   <a href="#home" onclick="closeMob()">Inicio</a>
-  <a href="#tsz" onclick="closeMob()">The Sweet Zone</a>
-  <a href="#products" onclick="closeMob()">Productos</a>
+  <a href="#collection" onclick="closeMob()">Colección</a>
+  <a href="#products" onclick="closeMob()">Tienda</a>
   <a href="#about" onclick="closeMob()">Nosotros</a>
   <a href="#contact" onclick="closeMob()">Contacto</a>
 </nav>
 
 <!-- HEADER -->
 <header class="hdr" id="hdr">
-  <a href="#home" class="hdr-logo"><img src="https://drive.google.com/thumbnail?id=1i1ovW9Fn2jCkRfZZ2LLTn3SWiZ-z3_-0&sz=s400" alt="The Sweet Zone"/></a>
+  <a href="#home" class="hdr-logo"><div class="hdr-logo-text">Bossa <span>Fashion</span></div></a>
   <ul class="hdr-nav">
     <li><a href="#home">Inicio</a></li>
-    <li><a href="#tsz">The Sweet Zone</a></li>
-    <li><a href="#products">Productos</a></li>
+    <li><a href="#collection">Colección</a></li>
+    <li><a href="#products">Tienda</a></li>
     <li><a href="#about">Nosotros</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <div class="hdr-right">
-    <div class="sync-pill"><div class="sync-dot" id="syncDot"></div><span id="syncTxt">Cargando…</span></div>
     <button class="cart-btn" id="cartBtn"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H18c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0022.46 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
     <button class="mob-ham" id="mobHam"><span></span><span></span><span></span></button>
   </div>
