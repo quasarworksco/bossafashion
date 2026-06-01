@@ -9,8 +9,8 @@
 <style>
 :root{
   --R:#E61097;--R2:#FF40B8;--R3:#fce4f6;
-  --B:#ffffff;--B2:#fafafa;--B3:#f5f5f5;--B4:#eeeeee;--B5:#e0e0e0;
-  --W:#1a1a1a;--W2:#333333;--W3:rgba(0,0,0,.55);--W4:rgba(0,0,0,.04);
+  --B:#ffffff;--B2:#fff8fc;--B3:#fff0f8;--B4:#fce4f6;--B5:#f9d0ee;
+  --W:#1a1a1a;--W2:#2d2d2d;--W3:rgba(0,0,0,.5);--W4:rgba(230,16,151,.04);
   --ease:cubic-bezier(.22,1,.36,1);--hh:70px;--pad:clamp(20px,5vw,64px)
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1240,109 +1240,6 @@ body.cart-open,.cart-open{overflow:hidden!important}
 
 </div>
 
-<script>
-// ══════════════════════════════════
-//  CATÁLOGO BOSSA FASHION — Calzado de Dama
-// ══════════════════════════════════
-const PRODUCTOS_BOSSA = [
-  {
-    id:'BF001', sku:'TAC-001',
-    nombre:'Tacón Stiletto Clásico Negro',
-    categoria:'Tacones',
-    descripcion:'Tacón de aguja 10cm. Punta fina, cuero vegano. Ideal para eventos formales y noches especiales.',
-    imagen:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&auto=format&fit=crop',
-    precio:59.99, precioMayor:59.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
-  },
-  {
-    id:'BF002', sku:'TAC-002',
-    nombre:'Tacón Block Nude Elegante',
-    categoria:'Tacones',
-    descripcion:'Tacón cuadrado 8cm color nude. Cómodo para todo el día. Correa al tobillo con hebilla dorada.',
-    imagen:'https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=600&auto=format&fit=crop',
-    precio:54.99, precioMayor:54.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
-  },
-  {
-    id:'BF003', sku:'TAC-003',
-    nombre:'Kitten Heel Rosa Pastel',
-    categoria:'Tacones',
-    descripcion:'Tacón bajo 5cm en tono rosa pastel. Punta redonda. Perfecto para la oficina o brunch.',
-    imagen:'https://images.unsplash.com/photo-1594938298603-c8148c4b4057?w=600&auto=format&fit=crop',
-    precio:49.99, precioMayor:49.99, variaciones:'Talla: 35, 36, 37, 38, 39', estado:'Activo', badge:''
-  },
-  {
-    id:'BF004', sku:'SAN-001',
-    nombre:'Sandalia Plana Trenzada Camel',
-    categoria:'Sandalias',
-    descripcion:'Sandalia plana de tiras trenzadas. Cuero genuino color camel. Comodidad máxima para el verano.',
-    imagen:'https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=600&auto=format&fit=crop',
-    precio:44.99, precioMayor:44.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
-  },
-  {
-    id:'BF005', sku:'SAN-002',
-    nombre:'Sandalia Gladiadora Dorada',
-    categoria:'Sandalias',
-    descripcion:'Sandalia gladiadora con tiras hasta la pantorrilla. Acabado dorado metálico. Look diosa griega.',
-    imagen:'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600&auto=format&fit=crop',
-    precio:52.99, precioMayor:52.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
-  },
-  {
-    id:'BF006', sku:'SAN-003',
-    nombre:'Sandalia con Cuña Blanca',
-    categoria:'Sandalias',
-    descripcion:'Sandalia de cuña 6cm en blanco total. Tira delantera ajustable. Cómoda y estilizada.',
-    imagen:'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&auto=format&fit=crop',
-    precio:47.99, precioMayor:47.99, variaciones:'Talla: 36, 37, 38, 39, 40', estado:'Activo', badge:''
-  },
-  {
-    id:'BF007', sku:'SNK-001',
-    nombre:'Sneaker Chunky Blanco Rosa',
-    categoria:'Sneakers',
-    descripcion:'Sneaker plataforma chunky en blanco con detalles en rosa. Suela gruesa 4cm. Tendencia Y2K.',
-    imagen:'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&auto=format&fit=crop',
-    precio:69.99, precioMayor:69.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'new'
-  },
-  {
-    id:'BF008', sku:'SNK-002',
-    nombre:'Sneaker Low Top Minimalista',
-    categoria:'Sneakers',
-    descripcion:'Sneaker minimalista blanco hueso. Diseño limpio sin logos. Combina con todo tu armario.',
-    imagen:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop',
-    precio:59.99, precioMayor:59.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40, 41', estado:'Activo', badge:''
-  },
-  {
-    id:'BF009', sku:'SNK-003',
-    nombre:'Sneaker Deportivo Rosa Chicle',
-    categoria:'Sneakers',
-    descripcion:'Running style en rosa chicle vibrante. Suela de goma antideslizante. Para el gym o la calle.',
-    imagen:'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&auto=format&fit=crop',
-    precio:64.99, precioMayor:64.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'sale'
-  },
-  {
-    id:'BF010', sku:'BOT-001',
-    nombre:'Bota Cowboy Marrón Caoba',
-    categoria:'Botas',
-    descripcion:'Bota western de caña media en cuero marrón caoba. Puntera y tacón cowboy. Icónica y versátil.',
-    imagen:'https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=600&auto=format&fit=crop',
-    precio:89.99, precioMayor:89.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:'hot'
-  },
-  {
-    id:'BF011', sku:'BOT-002',
-    nombre:'Bota Chelsea Negra Elástica',
-    categoria:'Botas',
-    descripcion:'Chelsea boot clásica en negro. Elásticos laterales, suela de goma. Para lluvia o sol.',
-    imagen:'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&auto=format&fit=crop',
-    precio:79.99, precioMayor:79.99, variaciones:'Talla: 35, 36, 37, 38, 39, 40', estado:'Activo', badge:''
-  },
-  {
-    id:'BF012', sku:'BOT-003',
-    nombre:'Bota Over-the-Knee Beige',
-    categoria:'Botas',
-    descripcion:'Bota sobre la rodilla en gamuza beige. Cierre lateral. Silueta larga y elegante.',
-    imagen:'https://images.unsplash.com/photo-1573100925118-870b8efc799d?w=600&auto=format&fit=crop',
-    precio:94.99, precioMayor:94.99, variaciones:'Talla: 35, 36, 37, 38, 39', estado:'Activo', badge:'new'
-  }
-];
-</script>
 
 <script>
 // ══════════════════════════════════
@@ -1395,11 +1292,10 @@ const FB='https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&auto=f
 function fallbackImg(el){ el.onerror=null; el.src=FB; }
 
 // ══════════════════════════════════
-//  CARGAR PRODUCTOS (estáticos)
+//  CARGAR PRODUCTOS (Firestore — próximamente)
 // ══════════════════════════════════
 function loadProducts(){
-  showSkeletons();
-  allProducts = PRODUCTOS_BOSSA;
+  allProducts=[];
   buildCounts();
   renderCollGrid();
   applyAll();
@@ -1425,7 +1321,7 @@ function renderCollGrid(){
   if(!grid) return;
   const featured=allProducts.slice(0,4);
   if(!featured.length){
-    grid.innerHTML='<div style="grid-column:span 2;text-align:center;padding:32px;color:var(--W3);font-size:.82rem">Pronto disponible.</div>';
+    grid.innerHTML='<div style="grid-column:span 2;text-align:center;padding:40px 20px;color:var(--W3);font-size:.85rem;line-height:1.7">👠 Colección próximamente.<br><span style="font-size:.76rem">Síguenos en Instagram <strong style="color:var(--R)">@bossafashion_</strong></span></div>';
     return;
   }
   grid.innerHTML=featured.map((p,i)=>{
@@ -1480,7 +1376,14 @@ function renderProducts(){
   cnt.textContent=total?` — ${total} producto${total!==1?'s':''}`:'';
 
   if(!total){
-    container.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg><p>No se encontraron productos.</p></div>`;
+    container.innerHTML=searchQ||currentCat!=='Todos'
+      ? `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><p>No se encontraron productos.</p></div>`
+      : `<div class="empty-state">
+           <svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:rgba(230,16,151,.25);margin:0 auto 16px;display:block"><path d="M19.5 12c0-4.14-3.36-7.5-7.5-7.5S4.5 7.86 4.5 12s3.36 7.5 7.5 7.5 7.5-3.36 7.5-7.5zm-7.5 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-1-9h2v4h-2zm0 6h2v2h-2z"/></svg>
+           <p style="font-size:1rem;font-weight:700;color:var(--W);margin-bottom:8px">Catálogo próximamente</p>
+           <p style="font-size:.82rem;color:var(--W3);line-height:1.7">Estamos preparando nuestra colección.<br>Contáctanos por WhatsApp para ver disponibilidad.</p>
+           <a href="https://wa.me/17866454434" target="_blank" class="btn-prim" style="margin-top:22px;display:inline-flex;text-decoration:none">Ver disponibilidad <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+         </div>`;
     removePag(); return;
   }
 
