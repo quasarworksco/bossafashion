@@ -134,50 +134,6 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 .ct-btn.on{color:var(--W);border-bottom-color:var(--R)}
 .ct-count{font-family:'Space Mono',monospace;font-size:.56rem;margin-left:5px;color:var(--R2)}
 
-/* ══ TSZ SECTION ══ */
-.tsz-section{background:var(--B2);border-top:1px solid var(--B4);position:relative;overflow:hidden}
-.tsz-section::before{content:'TSZ';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Playfair Display',serif;font-size:clamp(80px,18vw,280px);font-weight:700;color:rgba(230,16,151,.04);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:.1em}
-.tsz-inner{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:start;position:relative;z-index:1}
-@media(max-width:900px){.tsz-inner{grid-template-columns:1fr;gap:40px}}
-.tsz-desc{font-size:.9rem;color:var(--W3);line-height:1.85;max-width:440px;margin-bottom:30px;border-left:2px solid rgba(230,16,151,.35);padding-left:16px}
-.tsz-feats{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:32px}
-.tsz-feat{background:var(--B3);padding:18px 16px;border-left:2px solid transparent;transition:border-color .3s,background .3s}
-.tsz-feat:hover{border-left-color:var(--R);background:var(--B4)}
-.tsz-feat h4{font-size:.76rem;font-weight:700;color:var(--W2);margin-bottom:4px}
-.tsz-feat p{font-size:.7rem;color:var(--W3);line-height:1.6}
-
-/* TSZ PRODUCT GRID */
-.tsz-grid-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.tsz-grid-label{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--R2);font-weight:700}
-.tsz-grid-count{font-size:.62rem;color:#555;font-family:'Space Mono',monospace}
-.tsz-prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tsz-prod-card{background:var(--B3);border:1px solid var(--B4);border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;position:relative}
-.tsz-prod-card:hover{transform:translateY(-4px);border-color:rgba(230,16,151,.32);box-shadow:0 10px 28px rgba(0,0,0,.6)}
-.tsz-prod-img-wrap{aspect-ratio:1;overflow:hidden;background:var(--B4)}
-.tsz-prod-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.92) saturate(.9);transition:filter .4s,transform .5s var(--ease);display:block}
-.tsz-prod-card:hover .tsz-prod-img-wrap img{filter:brightness(.92) saturate(1);transform:scale(1.06)}
-.tsz-prod-body{padding:11px 11px 13px}
-.tsz-prod-name{font-size:.8rem;font-weight:600;color:var(--W2);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tsz-prod-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-.tsz-prod-price{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--W);font-weight:700}
-.tsz-prod-sku{font-size:.58rem;color:#555;font-family:'Space Mono',monospace;margin-bottom:2px}
-.tsz-add-btn{width:26px;height:26px;background:var(--R);border:none;border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
-.tsz-add-btn:hover{background:var(--R2);transform:scale(1.1)}
-.tsz-add-btn svg{width:12px;height:12px;fill:var(--W)}
-.tsz-pag{display:flex;gap:5px;justify-content:center;margin-top:14px}
-.tsz-pag button{width:30px;height:30px;background:var(--B4);border:1px solid var(--B5);border-radius:3px;color:var(--W3);cursor:pointer;font-size:.7rem;font-family:'Space Mono',monospace;transition:all .2s}
-.tsz-pag button.on,.tsz-pag button:hover{background:rgba(230,16,151,.15);border-color:var(--R);color:var(--W)}
-.tsz-empty{color:var(--W3);font-size:.82rem;padding:32px;text-align:center;grid-column:span 2;background:var(--B4);border-radius:6px}
-
-/* wholesale bar */
-.wholesale-bar{background:linear-gradient(135deg,var(--R3) 0%,var(--B3) 100%);border:1px solid rgba(230,16,151,.28);border-radius:6px;padding:22px 26px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;position:relative;z-index:1}
-.wb-text h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:4px}
-.wb-text p{font-size:.74rem;color:var(--W3);line-height:1.6}
-.wb-prices{display:flex;gap:16px;align-items:center}
-.wbp-item{text-align:center}
-.wbp-item .a{font-family:'Space Mono',monospace;font-size:1.2rem;color:var(--W)}
-.wbp-item .l{font-size:.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--W3);margin-top:2px}
-.wbp-div{width:1px;height:26px;background:rgba(230,16,151,.3)}
 
 /* ══ PRODUCTS ══ */
 .prod-section{background:var(--B);border-top:1px solid var(--B4)}
@@ -610,7 +566,6 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 
 /* TSZ section */
 @media(max-width:600px){
-  .tsz-section{padding:52px 16px}
   .tsz-desc{font-size:.84rem;margin-bottom:22px}
   .tsz-feats{grid-template-columns:1fr 1fr;gap:2px}
   .tsz-feat{padding:14px 12px}
@@ -999,48 +954,6 @@ body.cart-open,.cart-open{overflow:hidden!important}
   </div>
 </div>
 
-<!-- ════ THE SWEET ZONE SECTION ════ -->
-<section class="section tsz-section" id="tsz">
-  <div style="max-width:1440px;margin:0 auto">
-    <div class="tsz-inner">
-      <!-- LEFT: info -->
-      <div>
-        <div class="sec-label reveal fl">Categoría Exclusiva</div>
-        <h2 class="sec-h reveal d1">The <em>Sweet</em><br>Zone.</h2>
-        <p class="tsz-desc reveal d2">Nuestra colección insignia — productos seleccionados con el sello de calidad de The Sweet Zone. Cada artículo fue elegido para ofrecerte la mejor experiencia al mejor precio del mercado.</p>
-        <div class="tsz-feats reveal d3">
-          <div class="tsz-feat"><h4>Precio Fijo</h4><p>Todos los productos a $4.99 por unidad. Sin sorpresas.</p></div>
-          <div class="tsz-feat"><h4>Mayoreo</h4><p>200+ unidades baja automáticamente a $3.99 c/u.</p></div>
-          <div class="tsz-feat"><h4>Por Unidad</h4><p>Compra exactamente lo que necesitas, sin mínimos.</p></div>
-          <div class="tsz-feat"><h4>Entrega</h4><p>Pedidos mayoristas: 25–30 días hábiles confirmados.</p></div>
-        </div>
-      </div>
-      <!-- RIGHT: products from CSV -->
-      <div class="reveal fr d1">
-        <div class="tsz-grid-header">
-          <div class="tsz-grid-label">Productos de esta categoría</div>
-          <div class="tsz-grid-count" id="tszCount"></div>
-        </div>
-        <div class="tsz-prod-grid" id="tszGrid">
-          <div class="tsz-empty" id="tszLoading">Cargando productos…</div>
-        </div>
-        <div class="tsz-pag" id="tszPag" style="display:none"></div>
-      </div>
-    </div>
-    <!-- Wholesale bar -->
-    <div class="wholesale-bar reveal">
-      <div class="wb-text">
-        <h3>Precio especial de <em style="font-style:italic;color:var(--W)">mayoreo</em></h3>
-        <p>Agrega 200 o más unidades al carrito — el precio cambia automáticamente.</p>
-      </div>
-      <div class="wb-prices">
-        <div class="wbp-item"><div class="a">$4.99</div><div class="l">1–199 uds</div></div>
-        <div class="wbp-div"></div>
-        <div class="wbp-item"><div class="a" style="color:var(--R2)">$3.99</div><div class="l">200+ uds</div></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ════ PRODUCTS SECTION ════ -->
 <section class="section prod-section" id="products">
@@ -1292,13 +1205,11 @@ body.cart-open,.cart-open{overflow:hidden!important}
 //  CONFIG
 // ══════════════════════════════════
 const CFG = {
-  CSV: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScL8nIC92kU9YU2Fh2dIdDtPSkXxUetW9n0fHBCvMVuWJzPhyY3qk572MHAnmx6rv6p-QL7_c-n__c/pub?output=csv',
-  WA:  '17864195886',
-  P_UNIT: 4.99,
-  P_WHOLESALE: 3.99,
-  WHL_MIN: 200,
+  WA:  '17866454434',
   PER_PAGE: 12,
-  TSZ_PER: 4
+  P_UNIT: 0,
+  P_WHOLESALE: 0,
+  WHL_MIN: 999999
 };
 
 // ══════════════════════════════════
@@ -1308,7 +1219,6 @@ let allProducts=[], filtered=[], cart=[];
 let currentCat='Todos', currentPage=1, currentSort='default', searchQ='';
 let modalProduct=null, modalQty=1;
 let userLocation='', selectedPay='';
-let tszProducts=[], tszPage=0;
 
 // ══════════════════════════════════
 //  HERO SLIDER
@@ -1338,193 +1248,31 @@ slideTimer=setInterval(()=>goSlide(slideIdx+1),5500);
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function nav(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
 
-function fixImg(url){
-  if(!url||!url.trim()) return '';
-  const u=url.trim();
-  if(u.includes('drive.google.com/thumbnail')) return u.includes('sz=')?u:u+'&sz=s400';
-  const m1=u.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
-  if(m1) return 'https://drive.google.com/thumbnail?id='+m1[1]+'&sz=s400';
-  const m2=u.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
-  if(m2) return 'https://drive.google.com/thumbnail?id='+m2[1]+'&sz=s400';
-  if(u.startsWith('http')) return u;
-  return '';
-}
+function fixImg(url){ return (url||'').trim(); }
 
-const FB='https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&auto=format&fit=crop';
+const FB='https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&auto=format&fit=crop';
 function fallbackImg(el){ el.onerror=null; el.src=FB; }
 
 // ══════════════════════════════════
-//  CSV LOADER — parses ALL sheet columns
-//  Sheet columns: ID, SKU, Nombre, Categoria, Descripcion,
-//                 Imagen_URL, Precio, Precio_Mayorista,
-//                 Variaciones, Estado, Fecha_Creacion
+//  CARGAR PRODUCTOS (estáticos)
 // ══════════════════════════════════
-async function loadProducts(){
+function loadProducts(){
   showSkeletons();
-  const urls=[
-    CFG.CSV+'&t='+Date.now(),
-    'https://api.allorigins.win/raw?url='+encodeURIComponent(CFG.CSV),
-    'https://corsproxy.io/?'+encodeURIComponent(CFG.CSV)
-  ];
-  let data=null;
-  for(const url of urls){
-    try{
-      const r=await fetch(url,{cache:'no-store'});
-      if(!r.ok) continue;
-      const t=await r.text();
-      const p=parseCSV(t);
-      if(p.length>0){data=p;break;}
-    }catch(e){ console.warn('CSV attempt failed:',e.message); }
-  }
-  if(data){
-    allProducts=data;
-    setSyncLive(allProducts.length+' productos sincronizados ✓');
-  } else {
-    allProducts=[];
-    setSyncOffline('Sin conexión al inventario');
-  }
+  allProducts = PRODUCTOS_BOSSA;
   buildCounts();
-  tszProducts=allProducts.filter(p=>p.categoria==='The Sweet Zone');
-  renderTSZGrid();
   applyAll();
 }
-
-function parseCSV(txt){
-  if(!txt||!txt.trim()) return [];
-  const raw=txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-  const lines=raw.split('\n').filter(l=>l.trim());
-  if(lines.length<2) return [];
-
-  function splitLine(line){
-    const r=[]; let cur='',inQ=false;
-    for(let i=0;i<line.length;i++){
-      const c=line[i];
-      if(c==='"'){ if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ; }
-      else if(c===','&&!inQ){ r.push(cur.trim()); cur=''; }
-      else cur+=c;
-    }
-    r.push(cur.trim()); return r;
-  }
-
-  const rawHdr=splitLine(lines[0]);
-  const hdr=rawHdr.map(h=>h.replace(/^\uFEFF/,'').replace(/["\r]/g,'').trim().toLowerCase());
-
-  function ci(names){
-    for(const n of names){
-      const idx=hdr.findIndex(h=>h===n||h===n.replace(/_/g,' ')||h.replace(/[_\s]/g,'')===n.replace(/[_\s]/g,''));
-      if(idx>=0) return idx;
-    }
-    return -1;
-  }
-
-  // Map all sheet columns
-  const COL={
-    id:          ci(['id']),
-    sku:         ci(['sku']),
-    nombre:      ci(['nombre','name','producto']),
-    categoria:   ci(['categoria','category','cat']),
-    descripcion: ci(['descripcion','description','desc','detalle']),
-    imagen:      ci(['imagen_url','imagen','image','img','foto','url','photo']),
-    precio:      ci(['precio','price']),
-    precioMayor: ci(['precio_mayorista','precio mayorista','mayorista','wholesale','bulk']),
-    variaciones: ci(['variaciones','variacion','variations','variation','vars']),
-    estado:      ci(['estado','status','state']),
-    fecha:       ci(['fecha_creacion','fecha creacion','fecha','date','created'])
-  };
-
-  function get(v,i){ return i>=0?(v[i]||'').replace(/^"|"$/g,'').trim():''; }
-
-  function normBadge(sku,nombre){
-    // derive badge from product data if present
-    const s=((sku||'')+(nombre||'')).toLowerCase();
-    if(s.includes('new')||s.includes('nuevo')) return 'new';
-    if(s.includes('hot')||s.includes('popular')) return 'hot';
-    if(s.includes('sale')||s.includes('oferta')) return 'sale';
-    return '';
-  }
-
-  const products=[];
-  for(let ri=1;ri<lines.length;ri++){
-    const vals=splitLine(lines[ri]);
-    if(!vals.join('').trim()) continue;
-
-    const nombre=get(vals,COL.nombre)||(COL.nombre<0?get(vals,0):'');
-    if(!nombre) continue;
-
-    const estado=get(vals,COL.estado)||'Activo';
-    if(estado.toLowerCase()==='inactivo') continue;
-
-    const imgRaw=get(vals,COL.imagen)||(COL.imagen<0?get(vals,3):'');
-    const imagen=fixImg(imgRaw);
-    const precio=parseFloat(get(vals,COL.precio))||CFG.P_UNIT;
-    const precioMayor=parseFloat(get(vals,COL.precioMayor))||CFG.P_WHOLESALE;
-
-    products.push({
-      _idx:   ri-1,
-      id:     get(vals,COL.id)||('P'+ri),
-      sku:    get(vals,COL.sku)||(COL.sku<0?get(vals,1):''),
-      nombre: nombre,
-      categoria: get(vals,COL.categoria)||(COL.categoria<0?get(vals,2):''),
-      descripcion: get(vals,COL.descripcion),
-      imagen:  imagen,
-      precio:  precio,
-      precioMayor: precioMayor,
-      variaciones: get(vals,COL.variaciones),
-      estado:  estado,
-      fecha:   get(vals,COL.fecha),
-      badge:   normBadge(get(vals,COL.sku), nombre)
-    });
-  }
-  return products;
-}
-
-function setSyncLive(m){ document.getElementById('syncDot').className='sync-dot live'; document.getElementById('syncTxt').textContent=m; }
-function setSyncOffline(m){ document.getElementById('syncDot').className='sync-dot'; document.getElementById('syncTxt').textContent=m; }
-
-// ══════════════════════════════════
-//  TSZ SECTION GRID
-// ══════════════════════════════════
-function renderTSZGrid(){
-  const grid=document.getElementById('tszGrid');
-  const pag=document.getElementById('tszPag');
-  const cnt=document.getElementById('tszCount');
-  if(!grid) return;
-  if(!tszProducts.length){
-    grid.innerHTML='<div class="tsz-empty">Sin productos para The Sweet Zone en el inventario.</div>';
-    if(pag) pag.style.display='none'; return;
-  }
-  const pages=Math.ceil(tszProducts.length/CFG.TSZ_PER);
-  const slice=tszProducts.slice(tszPage*CFG.TSZ_PER,(tszPage+1)*CFG.TSZ_PER);
-  if(cnt) cnt.textContent=tszProducts.length+' productos';
-  grid.innerHTML=slice.map(p=>{
-    const img=p.imagen||FB;
-    const gi=allProducts.indexOf(p);
-    return `<div class="tsz-prod-card" onclick="openModal(${gi})">
-      <div class="tsz-prod-img-wrap"><img src="${esc(img)}" alt="${esc(p.nombre)}" loading="lazy" onerror="fallbackImg(this)"/></div>
-      <div class="tsz-prod-body">
-        <div class="tsz-prod-name">${esc(p.nombre)}</div>
-        ${p.sku?`<div class="tsz-prod-sku">${esc(p.sku)}</div>`:''}
-        <div class="tsz-prod-meta">
-          <div class="tsz-prod-price">$${p.precio.toFixed(2)}</div>
-          <button class="tsz-add-btn" onclick="event.stopPropagation();quickAdd(${gi})"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-  if(pages>1){
-    pag.style.display='flex';
-    pag.innerHTML=Array.from({length:pages},(_,i)=>`<button class="${i===tszPage?'on':''}" onclick="tszGo(${i})">${i+1}</button>`).join('');
-  } else { pag.style.display='none'; }
-}
-function tszGo(p){ tszPage=p; renderTSZGrid(); }
 
 // ══════════════════════════════════
 //  COUNTS
 // ══════════════════════════════════
 function buildCounts(){
+  const cats=['Tacones','Sandalias','Sneakers','Botas'];
   document.getElementById('ct-todos').textContent=allProducts.length;
-  document.getElementById('ct-tsz').textContent=allProducts.filter(p=>p.categoria==='The Sweet Zone').length;
-  document.getElementById('ct-sb').textContent=allProducts.filter(p=>p.categoria==='Salud y Belleza').length;
+  document.getElementById('ct-tac').textContent=allProducts.filter(p=>p.categoria==='Tacones').length;
+  document.getElementById('ct-san').textContent=allProducts.filter(p=>p.categoria==='Sandalias').length;
+  document.getElementById('ct-sne').textContent=allProducts.filter(p=>p.categoria==='Sneakers').length;
+  document.getElementById('ct-bot').textContent=allProducts.filter(p=>p.categoria==='Botas').length;
 }
 
 // ══════════════════════════════════
