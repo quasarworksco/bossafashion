@@ -3,8 +3,63 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Bossa Fashion by Kari Bossa | Calzados · Ocala, Florida</title>
-<meta name="description" content="Bossa Fashion by Kari Bossa — Tienda de calzados en Ocala, Florida. Damas, Caballeros y Niños. Calidad y estilo garantizados."/>
+
+<!-- ── SEO PRIMARY ── -->
+<title>Bossa Fashion by Kari Bossa | Calzado de Dama · Ocala, Florida</title>
+<meta name="description" content="Bossa Fashion by Kari Bossa — Tienda de calzado femenino en Ocala, Florida. Tacones, sandalias, sneakers y botas con estilo y calidad. ¡Escríbenos por WhatsApp!"/>
+<meta name="keywords" content="calzado dama, zapatos mujer, tacones, sandalias, sneakers, botas, Ocala Florida, Bossa Fashion, Kari Bossa"/>
+<meta name="author" content="Bossa Fashion by Kari Bossa"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://bossafashion.com/"/>
+
+<!-- ── FAVICON SVG ── -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E61097'/><text y='.9em' font-size='60' font-family='serif' font-weight='700' fill='white' x='50%25' text-anchor='middle' dominant-baseline='auto' dy='10'>B</text></svg>"/>
+
+<!-- ── OPEN GRAPH (Facebook, WhatsApp preview) ── -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Bossa Fashion"/>
+<meta property="og:title" content="Bossa Fashion by Kari Bossa | Calzado de Dama · Ocala, FL"/>
+<meta property="og:description" content="Tacones, sandalias, sneakers y botas seleccionados por Kari Bossa. Estilo y calidad en Ocala, Florida. ¡Escríbenos!"/>
+<meta property="og:image" content="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1200&auto=format&fit=crop&q=85"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:url" content="https://bossafashion.com/"/>
+<meta property="og:locale" content="es_US"/>
+
+<!-- ── TWITTER CARD ── -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Bossa Fashion by Kari Bossa | Calzado de Dama"/>
+<meta name="twitter:description" content="Tacones, sandalias, sneakers y botas en Ocala, Florida."/>
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1200&auto=format&fit=crop&q=85"/>
+
+<!-- ── SCHEMA.ORG LOCAL BUSINESS ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Bossa Fashion by Kari Bossa",
+  "description": "Tienda de calzado femenino en Ocala, Florida. Tacones, sandalias, sneakers y botas.",
+  "url": "https://bossafashion.com",
+  "telephone": "+17866454434",
+  "email": "bossafashion2025@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ocala",
+    "addressRegion": "FL",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.instagram.com/bossafashion_",
+    "https://www.facebook.com/share/1Gm8Q7hwge/"
+  ],
+  "openingHours": "Mo-Sa 09:00-20:00",
+  "priceRange": "$$",
+  "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&auto=format&fit=crop"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -852,6 +907,46 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 /* ── Prevent body scroll when cart/modal open ── */
 body.cart-open,.cart-open{overflow:hidden!important}
 
+
+/* ── CONTACT FORM STATUS ── */
+.cf-status{font-size:.8rem;padding:10px 14px;border-radius:5px;display:none;margin-bottom:10px}
+.cf-status.ok{display:block;background:#e8f8ed;border:1px solid #4caf50;color:#1b5e20}
+.cf-status.err{display:block;background:#fce8f3;border:1px solid var(--R);color:#880050}
+.cf input:focus,.cf select:focus,.cf textarea:focus{border-color:var(--R)!important;outline:none;box-shadow:0 0 0 3px rgba(230,16,151,.12)}
+.cf input,.cf select,.cf textarea{border:1.5px solid var(--B4);transition:border-color .25s,box-shadow .25s}
+.cf textarea{resize:vertical;min-height:110px}
+
+/* ── CARD HOVER GLOW ── */
+.p-card:hover{transform:translateY(-6px);border-color:rgba(230,16,151,.38);box-shadow:0 16px 44px rgba(230,16,151,.14)}
+.coll-card:hover{transform:translateY(-6px);border-color:rgba(230,16,151,.38);box-shadow:0 14px 36px rgba(230,16,151,.15)}
+
+/* ── HERO BAND PINK BORDER ── */
+.hero-band{border-top:2px solid rgba(255,255,255,.2)}
+
+/* ── SECTION SEPARATOR ── */
+.section+.section{border-top:1px solid var(--B4)}
+
+/* ── ABOUT NUMBERS REFINED ── */
+.a-num .n{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;color:var(--R);line-height:1}
+.a-num .l{font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--W3);margin-top:4px}
+.a-num{text-align:center;padding:22px 16px;background:var(--B3);border:1px solid var(--B4);border-radius:6px;transition:transform .3s var(--ease),box-shadow .3s}
+.a-num:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(230,16,151,.12)}
+
+/* ── FOOTER POLISH ── */
+.site-footer{background:var(--B2);border-top:2px solid var(--R)}
+.footer-copy span{color:var(--R);font-weight:700}
+
+/* ── CONTACT SECTION BG ── */
+.contact-section{background:var(--B2)}
+.cf-title{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--W);margin-bottom:22px}
+.cf-title em{color:var(--R);font-style:italic}
+
+/* ── SCROLL BAR PINK ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--B2)}
+::-webkit-scrollbar-thumb{background:var(--R3);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--R)}
+
 </style>
 </head>
 <body>
@@ -1072,13 +1167,29 @@ body.cart-open,.cart-open{overflow:hidden!important}
     </div>
     <div class="reveal fr d1">
       <div class="cf-title">Envíanos un <em>mensaje</em></div>
-      <div class="cf">
-        <div class="cf-row"><div class="ff"><label>Nombre</label><input type="text" placeholder="María"/></div><div class="ff"><label>Apellido</label><input type="text" placeholder="López"/></div></div>
-        <div class="ff"><label>Correo</label><input type="email" placeholder="tu@correo.com"/></div>
-        <div class="ff"><label>Asunto</label><select><option value="" disabled selected>Selecciona un tema…</option><option>Consulta sobre Calzado</option><option>Pedido de Calzado</option><option>Información de Precios</option><option>Otro</option></select></div>
-        <div class="ff"><label>Mensaje</label><textarea placeholder="¿En qué podemos ayudarte?"></textarea></div>
-        <button class="btn-prim" style="align-self:flex-start">Enviar Mensaje <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
-      </div>
+      <form class="cf" id="contactForm" onsubmit="submitContact(event)">
+        <input type="hidden" name="access_key" value="00000000-0000-0000-0000-000000000000"/>
+        <input type="hidden" name="subject" id="cf_subject_hidden" value="Nuevo mensaje — Bossa Fashion"/>
+        <input type="hidden" name="from_name" value="Bossa Fashion Web"/>
+        <input type="hidden" name="redirect" value=""/>
+        <div class="cf-row">
+          <div class="ff"><label>Nombre</label><input type="text" name="nombre" placeholder="María" required/></div>
+          <div class="ff"><label>Apellido</label><input type="text" name="apellido" placeholder="López"/></div>
+        </div>
+        <div class="ff"><label>Correo *</label><input type="email" name="email" placeholder="tu@correo.com" required/></div>
+        <div class="ff"><label>Asunto</label>
+          <select name="asunto" onchange="document.getElementById('cf_subject_hidden').value='['+this.value+'] Bossa Fashion'">
+            <option value="" disabled selected>Selecciona un tema…</option>
+            <option value="Consulta">Consulta sobre Calzado</option>
+            <option value="Pedido">Pedido de Calzado</option>
+            <option value="Precios">Información de Precios</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="ff"><label>Mensaje *</label><textarea name="mensaje" placeholder="¿En qué podemos ayudarte?" rows="4" required></textarea></div>
+        <div class="cf-status" id="cfStatus"></div>
+        <button type="submit" class="btn-prim" id="cfBtn" style="align-self:flex-start">Enviar Mensaje <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+      </form>
     </div>
   </div>
 </section>
@@ -1800,6 +1911,57 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 // ══════════════════════════════════
 updateCartUI();
 loadProducts();
+
+// ══════════════════════════════════
+//  CONTACT FORM (Web3Forms)
+// ══════════════════════════════════
+async function submitContact(e){
+  e.preventDefault();
+  const form=e.target;
+  const btn=document.getElementById('cfBtn');
+  const status=document.getElementById('cfStatus');
+  const nombre=form.nombre.value.trim();
+  const apellido=(form.apellido.value||'').trim();
+  const email=form.email.value.trim();
+  const asunto=form.asunto.value||'Consulta';
+  const mensaje=form.mensaje.value.trim();
+  const waText=encodeURIComponent(
+    '👠 *Mensaje desde Bossa Fashion Web*\n' +
+    '━━━━━━━━━━━━━━━━━━━━\n' +
+    '👤 '+nombre+' '+apellido+'\n' +
+    '📧 '+email+'\n' +
+    '📋 Asunto: '+asunto+'\n\n' +
+    '💬 '+mensaje
+  );
+  btn.disabled=true;
+  btn.textContent='Enviando…';
+  status.className='cf-status';
+  try {
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:'6e59f4d0-b64c-4bc0-a07f-17d6c4f5a3e2',
+        subject:'['+asunto+'] Bossa Fashion — '+nombre+' '+apellido,
+        from_name:'Bossa Fashion Web',
+        email:email,
+        message:nombre+' '+apellido+'\nCorreo: '+email+'\nAsunto: '+asunto+'\n\n'+mensaje,
+        botcheck:''
+      })
+    });
+    const json=await res.json();
+    if(json.success){
+      status.textContent='✓ ¡Mensaje enviado! Kari Bossa te responderá pronto.';
+      status.className='cf-status ok';
+      form.reset();
+    } else { throw new Error('error'); }
+  } catch(err){
+    status.innerHTML='No se pudo enviar. <a href="https://wa.me/17866454434?text='+waText+'" target="_blank" style="color:var(--R);font-weight:700">Escríbenos por WhatsApp ↗</a>';
+    status.className='cf-status err';
+  }
+  btn.disabled=false;
+  btn.innerHTML='Enviar Mensaje <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;vertical-align:middle"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>';
+}
 </script>
 </body>
 </html>
