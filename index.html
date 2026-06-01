@@ -522,12 +522,11 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:44px;margin-bottom:38px}
 @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:26px}}
 @media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
-.footer-brand img{height:52px;width:auto;mix-blend-mode:screen;display:block;margin-bottom:12px}
-.footer-brand p{font-size:.74rem;color:var(--W3);line-height:1.7;max-width:230px}
+.footer-brand p{font-size:.74rem;color:var(--W3);line-height:1.7;max-width:260px}
 .footer-col-title{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--R2);font-weight:700;margin-bottom:12px}
 .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
 .footer-col ul li a{font-size:.74rem;color:var(--W3);text-decoration:none;transition:color .2s}
-.footer-col ul li a:hover{color:var(--W3)}
+.footer-col ul li a:hover{color:var(--R)}
 .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--B4);padding-top:18px}
 .footer-copy{font-size:.64rem;color:#333;letter-spacing:.5px}
 .footer-copy span{color:var(--R2)}
@@ -598,7 +597,6 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
   .tsz-prod-grid{grid-template-columns:1fr 1fr;gap:6px}
   .tsz-prod-name{font-size:.76rem}
   .tsz-prod-price{font-size:.72rem}
-  .wholesale-bar{padding:18px 16px;flex-direction:column;gap:14px;text-align:center}
   .wb-text h3{font-size:1.1rem}
   .wb-text p{font-size:.7rem}
   .wb-prices{justify-content:center}
@@ -833,12 +831,6 @@ body{font-family:'Outfit',sans-serif;background:var(--B);color:var(--W2);overflo
 
 /* ── Wholesale bar on mobile ── */
 @media(max-width:600px){
-  .wholesale-bar{padding:16px 15px;margin-top:28px;gap:12px;flex-direction:column;text-align:center;align-items:center}
-  .wb-text h3{font-size:1.05rem}
-  .wb-text p{font-size:.68rem}
-  .wb-prices{gap:14px}
-  .wbp-item .a{font-size:1.05rem}
-  .wbp-item .l{font-size:.54rem}
 }
 
 /* ── Touch targets: minimum 44px for interactive elements ── */
@@ -1010,8 +1002,8 @@ body.cart-open,.cart-open{overflow:hidden!important}
 <!-- ════ PRODUCTS SECTION ════ -->
 <section class="section prod-section" id="products">
   <div class="inner-w">
-    <div class="sec-label reveal fl">Catálogo Completo</div>
-    <h2 class="sec-h reveal d1" style="margin-bottom:18px">Todos los <em>Productos</em></h2>
+    <div class="sec-label reveal fl">Catálogo Bossa Fashion</div>
+    <h2 class="sec-h reveal d1" style="margin-bottom:18px">Nuestra <em>Colección</em></h2>
     <div class="prod-search reveal d2">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <input type="text" id="searchInput" placeholder="Buscar por nombre, SKU, categoría…" oninput="handleSearch(this.value)"/>
@@ -1040,21 +1032,20 @@ body.cart-open,.cart-open{overflow:hidden!important}
   <div class="about-inner">
     <div class="reveal fl">
       <div class="about-imgs">
-        <!-- Using the TSZ Drive images from the example site -->
-        <div class="a-img"><img src="https://drive.google.com/thumbnail?id=1wKEy2yNUhAfOITrKW15SemW9ARDWFW9E&sz=s800" alt="The Sweet Zone" onerror="this.src='https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop'"/></div>
-        <div class="a-img"><img src="https://drive.google.com/thumbnail?id=1F1qsIyppjcz0lsbIh5vxyjudPplk2IJX&sz=s800" alt="The Sweet Zone" onerror="this.src='https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&auto=format&fit=crop'"/></div>
-        <div class="a-img"><img src="https://drive.google.com/thumbnail?id=1O0k_J1EvP8D4rjHS9bapFAO8gOuN1C__&sz=s800" alt="The Sweet Zone" onerror="this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&auto=format&fit=crop'"/></div>
+        <div class="a-img"><img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&auto=format&fit=crop" alt="Bossa Fashion Calzado"/></div>
+        <div class="a-img"><img src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=400&auto=format&fit=crop" alt="Bossa Fashion Tacones"/></div>
+        <div class="a-img"><img src="https://images.unsplash.com/photo-1573100925118-870b8efc799d?w=400&auto=format&fit=crop" alt="Bossa Fashion Colección"/></div>
       </div>
     </div>
     <div class="about-text reveal fr">
       <div class="sec-label">Nuestra Historia</div>
-      <h2 class="sec-h">Tu negocio,<br>nuestra <em>misión.</em></h2>
-      <p>The Sweet Zone nació para ser el aliado de quienes cuidan de sí mismos — y de quienes construyen un negocio. Seleccionamos cada producto con criterio: calidad garantizada, precios reales y trato directo. Somos una tienda pensada para emprendedores, revendedores y personas que exigen lo mejor sin pagar de más.</p>
+      <h2 class="sec-h">Kari Bossa,<br>tu guía de <em>estilo.</em></h2>
+      <p>Bossa Fashion nació en Ocala, Florida con una misión clara: llevar calzado femenino de calidad, estilo y tendencia a cada mujer. Kari Bossa selecciona personalmente cada par — porque un buen zapato no solo completa un look, sino que te da confianza para caminar por el mundo.</p>
       <a href="#contact" class="btn-prim" style="margin-bottom:0">Contáctanos <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></a>
       <div class="about-nums">
-        <div class="a-num"><div class="n">2</div><div class="l">Categorías</div></div>
-        <div class="a-num"><div class="n">$4.99</div><div class="l">Precio unitario</div></div>
-        <div class="a-num"><div class="n">$3.99</div><div class="l">Mayoreo 200+</div></div>
+        <div class="a-num"><div class="n">4</div><div class="l">Categorías</div></div>
+        <div class="a-num"><div class="n">👠</div><div class="l">Calzado de Dama</div></div>
+        <div class="a-num"><div class="n">FL</div><div class="l">Ocala, Florida</div></div>
         <div class="a-num"><div class="n">24h</div><div class="l">Respuesta</div></div>
       </div>
     </div>
@@ -1067,16 +1058,16 @@ body.cart-open,.cart-open{overflow:hidden!important}
     <div>
       <div class="sec-label reveal fl">Contáctanos</div>
       <h2 class="sec-h reveal d1">Hablemos <em>hoy.</em></h2>
-      <p class="reveal d2" style="font-size:.87rem;color:var(--W3);line-height:1.8;margin-bottom:30px">¿Tienes preguntas, quieres hacer un pedido mayorista o simplemente saludar? Estamos aquí.</p>
+      <p class="reveal d2" style="font-size:.87rem;color:var(--W3);line-height:1.8;margin-bottom:30px">¿Tienes preguntas sobre nuestro calzado o quieres hacer un pedido? Escríbenos, Kari Bossa te responde personalmente.</p>
       <div class="c-info-list reveal d3">
-        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div><div><div class="c-lbl">Teléfono / WhatsApp</div><div class="c-val"><a href="tel:+17864195886">+1 (786) 419-5886</a></div></div></div>
-        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><div><div class="c-lbl">Correo</div><div class="c-val"><a href="mailto:hello@thesweetzone.com">hello@thesweetzone.com</a></div></div></div>
-        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><div><div class="c-lbl">Horario</div><div class="c-val">Lun–Sáb: 9 AM – 8 PM</div></div></div>
+        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div><div><div class="c-lbl">Teléfono / WhatsApp</div><div class="c-val"><a href="tel:+17866454434">+1 (786) 645-4434</a></div></div></div>
+        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><div><div class="c-lbl">Correo</div><div class="c-val"><a href="mailto:bossafashion2025@gmail.com">bossafashion2025@gmail.com</a></div></div></div>
+        <div class="c-info-row"><div class="c-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div><div class="c-lbl">Ubicación</div><div class="c-val">Ocala, Florida</div></div></div>
       </div>
       <div class="soc-row reveal d4">
-        <a href="#" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-        <a href="#" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-        <a href="https://wa.me/17864195886" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        <a href="https://www.instagram.com/bossafashion_?igsh=azZ1ZnZyZ3NtMzBn" target="_blank" class="soc-btn" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="https://www.facebook.com/share/1Gm8Q7hwge/?mibextid=wwXIfr" target="_blank" class="soc-btn" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://wa.me/17866454434" target="_blank" class="soc-btn" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
       </div>
     </div>
     <div class="reveal fr d1">
@@ -1084,7 +1075,7 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <div class="cf">
         <div class="cf-row"><div class="ff"><label>Nombre</label><input type="text" placeholder="María"/></div><div class="ff"><label>Apellido</label><input type="text" placeholder="López"/></div></div>
         <div class="ff"><label>Correo</label><input type="email" placeholder="tu@correo.com"/></div>
-        <div class="ff"><label>Asunto</label><select><option value="" disabled selected>Selecciona un tema…</option><option>Consulta de Producto</option><option>Pedido Mayoreo</option><option>Información de Precios</option><option>Otro</option></select></div>
+        <div class="ff"><label>Asunto</label><select><option value="" disabled selected>Selecciona un tema…</option><option>Consulta sobre Calzado</option><option>Pedido de Calzado</option><option>Información de Precios</option><option>Otro</option></select></div>
         <div class="ff"><label>Mensaje</label><textarea placeholder="¿En qué podemos ayudarte?"></textarea></div>
         <button class="btn-prim" style="align-self:flex-start">Enviar Mensaje <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
       </div>
@@ -1096,17 +1087,26 @@ body.cart-open,.cart-open{overflow:hidden!important}
 <footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="https://drive.google.com/thumbnail?id=1i1ovW9Fn2jCkRfZZ2LLTn3SWiZ-z3_-0&sz=s400" alt="The Sweet Zone"/>
-      <p>Todo en un lugar. Maquillaje, Salud &amp; Belleza con precios para emprendedores.</p>
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--W);margin-bottom:10px">Bossa <span style="color:var(--R)">Fashion</span></div>
+      <p>Calzado de dama con estilo y elegancia. Ocala, Florida.</p>
     </div>
-    <div class="footer-col"><div class="footer-col-title">Tienda</div><ul><li><a href="#tsz">The Sweet Zone</a></li><li><a href="#products">Salud y Belleza</a></li><li><a href="#products">Todos los Productos</a></li></ul></div>
-    <div class="footer-col"><div class="footer-col-title">Información</div><ul><li><a href="#about">Nosotros</a></li><li><a href="#contact">Contacto</a></li><li><a href="https://wa.me/17864195886">WhatsApp</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Tienda</div><ul>
+      <li><a href="#collection">Colección</a></li>
+      <li><a href="#products">Catálogo</a></li>
+      <li><a href="#about">Nosotros</a></li>
+    </ul></div>
+    <div class="footer-col"><div class="footer-col-title">Contacto</div><ul>
+      <li><a href="tel:+17866454434">+1 (786) 645-4434</a></li>
+      <li><a href="mailto:bossafashion2025@gmail.com">bossafashion2025@gmail.com</a></li>
+      <li><a href="https://wa.me/17866454434" target="_blank">WhatsApp</a></li>
+      <li><a href="https://www.instagram.com/bossafashion_?igsh=azZ1ZnZyZ3NtMzBn" target="_blank">Instagram</a></li>
+    </ul></div>
   </div>
-  <div class="footer-bottom"><div class="footer-copy">&copy; 2026 <span>THE SWEET ZONE</span>. Todos los derechos reservados.</div></div>
+  <div class="footer-bottom"><div class="footer-copy">&copy; 2025 <span>BOSSA FASHION</span> by Kari Bossa · Ocala, Florida</div></div>
 </footer>
 
 <!-- WA FLOAT -->
-<a href="https://wa.me/17864195886" target="_blank" class="wa-float"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span class="wa-float-lbl">¿Preguntas?</span></a>
+<a href="https://wa.me/17866454434" target="_blank" class="wa-float"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span class="wa-float-lbl">¿Preguntas?</span></a>
 
 <!-- PRODUCT MODAL -->
 <div class="modal-veil" id="modalVeil" onclick="closeModal()"></div>
@@ -1397,7 +1397,7 @@ function renderProducts(){
     const groups={};
     pageProds.forEach(p=>{ const c=p.categoria||'Sin categoría'; if(!groups[c])groups[c]=[]; groups[c].push(p); });
     container.innerHTML=Object.entries(groups).map(([cat,prods])=>
-      `<div class="cat-sec-title">${cat==='The Sweet Zone'?'The <em>Sweet Zone</em>':cat==='Salud y Belleza'?'Salud y <em>Belleza</em>':esc(cat)}</div>
+      `<div class="cat-sec-title">${cat==='Tacones'?'<em>Tacones</em>':cat==='Sandalias'?'<em>Sandalias</em>':cat==='Sneakers'?'<em>Sneakers</em>':cat==='Botas'?'<em>Botas</em>':esc(cat)}</div>
        <div class="p-grid">${prods.map(productCard).join('')}</div>`
     ).join('');
   } else {
