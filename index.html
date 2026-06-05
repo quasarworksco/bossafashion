@@ -1245,7 +1245,7 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <div class="mi-sku" id="mi-sku"></div>
       <div class="mi-fecha" id="mi-fecha"></div>
       <div class="mi-desc" id="mi-desc"></div>
-      <div class="mi-vars" id="mi-vars" style="display:none"><div class="mi-vars-label">Selecciona Variaciones y Cantidades</div><div id="mi-vars-list"></div></div>
+      <div class="mi-vars" id="mi-vars" style="display:none"><div class="mi-vars-label">Selecciona tu talla y color</div><div id="mi-vars-list"></div></div>
       <div class="mi-price-box">
         <div class="mipb-item"><div class="a" id="mi-price-unit" style="color:var(--R)">$0.00</div><div class="l">Precio por par</div></div>
       </div>
@@ -1256,7 +1256,7 @@ body.cart-open,.cart-open{overflow:hidden!important}
         <button class="qp-btn" onclick="setQtyPreset(3,this)">×3</button>
         <button class="qp-btn" onclick="setQtyPreset(4,this)">×4</button>
       </div>
-      <div class="qty-custom" id="qtyCustomRow" style="display:none"><label>Cantidad:</label><input type="number" id="customQtyInput" min="1" value="1" oninput="updateQtyTotal()"/></div>
+      <div class="qty-custom" id="qtyCustomRow" style="display:flex"><label>Cantidad:</label><input type="number" id="customQtyInput" min="1" max="99" value="1" oninput="updateQtyTotal()"/></div>
       <div class="qty-total"><span>Subtotal estimado</span><span id="qtyTotalDisplay">$499.00</span></div>
       <button class="btn-add-cart" onclick="addCurrentToCart()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Agregar al Carrito</button>
     </div>
@@ -1643,7 +1643,7 @@ function goPage(n){ currentPage=n; renderProducts(); nav('products'); }
 function openModal(gi){
   const p=allProducts[gi];
   if(!p) return;
-  modalProduct=p; modalQty=100;
+  modalProduct=p; modalQty=1;
   const img=p.imagen||'';
   document.getElementById('mi-cat').textContent=p.categoria||'';
   document.getElementById('mi-name').textContent=p.nombre||'';
@@ -1682,10 +1682,9 @@ function openModal(gi){
       </div>`;
     }
   } else varsWrap.style.display='none';
-  // Qty presets
-  // Reset qty to 1, show custom input by default
+  // Reset qty
   document.querySelectorAll('.qp-btn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('qtyCustomRow').style.display='flex';
+  document.querySelector('.qp-btn').classList.add('on');
   document.getElementById('customQtyInput').value=1;
   modalQty=1;
   updateQtyTotal();
@@ -1710,58 +1709,60 @@ function setQtyPreset(qty,btn){
 }
 
 function updateQtyTotal(){
-  const act=document.querySelector('.qp-btn.on');
-  if(act&&act.textContent==='Personalizar') modalQty=Math.max(1,parseInt(document.getElementById('customQtyInput').value)||1);
+  modalQty=Math.max(1,parseInt(document.getElementById('customQtyInput').value)||1);
   updateVarSubtotal();
 }
 
+// Single-select per type (talla and color are exclusive choices)
 function toggleVarVal(btn){
-  btn.classList.toggle('sel');
+  const type=btn.dataset.type;
+  const wasSelected=btn.classList.contains('sel');
+  // Deselect all in same group
+  document.querySelectorAll(`.var-val-btn[data-type="${type}"]`).forEach(b=>b.classList.remove('sel'));
+  // Toggle this one
+  if(!wasSelected) btn.classList.add('sel');
   updateVarSubtotal();
 }
 
 function getSelectedVars(){
-  // Returns [{type, val, qty}] for each selected variation value
-  const selected=[];
+  const result={};
   document.querySelectorAll('.var-val-btn.sel').forEach(btn=>{
-    const gi=btn.dataset.gi;
-    const qtyEl=document.getElementById('varqty_'+gi);
-    const qty=qtyEl?Math.max(1,parseInt(qtyEl.value)||1):100;
-    selected.push({type:btn.dataset.type, val:btn.dataset.val, qty:qty});
+    result[btn.dataset.type]=btn.dataset.val;
   });
-  return selected;
+  return result; // { Talla: '38', Color: 'Negro' }
 }
 
 function updateVarSubtotal(){
-  const varsWrap=document.getElementById('mi-vars');
   const p=modalProduct;
-  const price=p?p.precio:0;
-  if(!varsWrap||varsWrap.style.display==='none'){
-    modalQty=Math.max(1,parseInt(document.getElementById('customQtyInput').value)||1);
-    document.getElementById('qtyTotalDisplay').textContent='$'+(modalQty*price).toFixed(2);
-    return;
-  }
-  const selectedVars=getSelectedVars();
-  if(selectedVars.length>0){
-    const totalVarQty=selectedVars.reduce((s,v)=>s+v.qty,0);
-    document.getElementById('qtyTotalDisplay').textContent='$'+(totalVarQty*price).toFixed(2)+' ('+totalVarQty+' pares)';
-  } else {
-    document.getElementById('qtyTotalDisplay').textContent='$'+(modalQty*price).toFixed(2);
-  }
+  const price=p?(p.precioOferta&&p.precioOferta>0?Number(p.precioOferta):Number(p.precio)):0;
+  modalQty=Math.max(1,parseInt(document.getElementById('customQtyInput').value)||1);
+  document.getElementById('qtyTotalDisplay').textContent='$'+(modalQty*price).toFixed(2);
 }
 
 function addCurrentToCart(){
   if(!modalProduct) return;
-  const selectedVars=getSelectedVars();
-  if(selectedVars.length>0){
-    // Add one cart entry per selected variation value
-    selectedVars.forEach(sv=>{
-      const prodCopy={...modalProduct, _varLabel:sv.type+': '+sv.val, nombre:modalProduct.nombre+' ('+sv.type+': '+sv.val+')'};
-      addToCart(prodCopy, sv.qty);
-    });
-  } else {
-    addToCart(modalProduct, modalQty);
+  const vars=getSelectedVars();
+  const hasTallas=modalProduct.tallas&&modalProduct.tallas.length;
+  const hasColores=modalProduct.colores&&modalProduct.colores.trim();
+
+  // Require talla selection if product has tallas
+  if(hasTallas&&!vars['Talla']){
+    toast('Selecciona una talla antes de agregar.','err'); return;
   }
+
+  // Build label suffix
+  const parts=[];
+  if(vars['Talla']) parts.push('Talla '+vars['Talla']);
+  if(vars['Color']) parts.push(vars['Color']);
+  const suffix=parts.length?' ('+parts.join(' · ')+')':'';
+
+  const prodCopy={
+    ...modalProduct,
+    nombre: modalProduct.nombre+suffix,
+    _talla: vars['Talla']||null,
+    _color: vars['Color']||null
+  };
+  addToCart(prodCopy, modalQty);
   closeModal();
 }
 
