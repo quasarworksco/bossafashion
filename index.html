@@ -58,6 +58,21 @@
 }
 </script>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyC73OWfCRly1IRPCPAS-lI34acVKohR3bg",
+  authDomain:"bossa-fashion.firebaseapp.com",
+  projectId:"bossa-fashion",
+  storageBucket:"bossa-fashion.firebasestorage.app",
+  messagingSenderId:"805621499704",
+  appId:"1:805621499704:web:50d5c2bed51a14909f23cd"
+});
+const db=firebase.firestore();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
@@ -1397,13 +1412,25 @@ const FB='https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&auto=f
 function fallbackImg(el){ el.onerror=null; el.src=FB; }
 
 // ══════════════════════════════════
-//  CARGAR PRODUCTOS (Firestore — próximamente)
+//  CARGAR PRODUCTOS — Firestore (real-time)
 // ══════════════════════════════════
 function loadProducts(){
-  allProducts=[];
-  buildCounts();
-  renderCollGrid();
-  applyAll();
+  db.collection('products')
+    .where('estado','!=','Inactivo')
+    .orderBy('estado')
+    .orderBy('updatedAt','desc')
+    .onSnapshot(snap=>{
+      allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
+      buildCounts();
+      renderCollGrid();
+      applyAll();
+    }, err=>{
+      console.error('Firestore:',err);
+      allProducts=[];
+      buildCounts();
+      renderCollGrid();
+      applyAll();
+    });
 }
 
 // ══════════════════════════════════
@@ -1544,10 +1571,9 @@ function renderProducts(){
 function productCard(p){
   const img=p.imagen||'';
   const gi=allProducts.indexOf(p);
-  const bv=(p.badge||'').toLowerCase();
-  const bl=bv==='new'?'NUEVO':bv==='hot'?'HOT':bv==='sale'?'OFERTA':'';
-  const badge=bl?`<div class="p-badge pb-${bv}">${bl}</div>`:'';
-  const varsBadge=p.variaciones&&p.variaciones.trim()?`<div class="p-vars-badge">Variaciones disponibles</div>`:'';
+  const hasSale=p.precioOferta&&p.precioOferta>0;
+  const badge=hasSale?`<div class="p-badge pb-sale">OFERTA</div>`:'';
+  const tallasSnip=p.tallas&&p.tallas.length?`<div class="p-vars-badge">Tallas: ${p.tallas.slice(0,4).join(' · ')}${p.tallas.length>4?'…':''}</div>`:'';
   return `<div class="p-card" onclick="openModal(${gi})">
     ${badge}
     <div class="p-img">
@@ -1557,11 +1583,13 @@ function productCard(p){
     <div class="p-body">
       <div class="p-cat">${esc(p.categoria||'')}</div>
       <div class="p-name">${esc(p.nombre||'-')}</div>
-      ${p.sku?`<div class="p-sku">${esc(p.sku)}</div>`:''}
       ${p.descripcion?`<div class="p-desc-snip">${esc(p.descripcion)}</div>`:''}
-      ${varsBadge}
+      ${tallasSnip}
       <div class="p-footer">
-        <div class="p-price"><div class="unit">$${p.precio.toFixed(2)}</div><div class="bulk">200+ uds: $${p.precioMayor.toFixed(2)}</div></div>
+        <div class="p-price">
+          ${hasSale?`<div class="unit" style="color:var(--R)">$${Number(p.precioOferta).toFixed(2)}</div><div class="bulk" style="text-decoration:line-through;color:var(--W3)">$${Number(p.precio).toFixed(2)}</div>`
+                   :`<div class="unit">$${Number(p.precio).toFixed(2)}</div>`}
+        </div>
         <button class="p-add" onclick="event.stopPropagation();quickAdd(${gi})"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
       </div>
     </div>
@@ -1605,35 +1633,36 @@ function openModal(gi){
   document.getElementById('mi-name2').textContent=p.nombre||'';
   document.getElementById('mi-sku').textContent=p.sku?'SKU: '+p.sku:'';
   document.getElementById('mi-fecha').textContent=p.fecha?'Alta: '+p.fecha:'';
-  document.getElementById('mi-price-unit').textContent='$'+p.precio.toFixed(2);
+  const hasSale=p.precioOferta&&p.precioOferta>0;
+  document.getElementById('mi-price-unit').textContent=hasSale?'$'+Number(p.precioOferta).toFixed(2):'$'+Number(p.precio).toFixed(2);
   const descEl=document.getElementById('mi-desc');
   descEl.textContent=p.descripcion||''; descEl.style.display=p.descripcion?'block':'none';
   // Badge
-  const bv=(p.badge||'').toLowerCase();
   const badgeEl=document.getElementById('mi-badge');
-  if(bv&&['new','hot','sale'].includes(bv)) badgeEl.innerHTML=`<span class="p-badge pb-${bv}" style="position:static">${bv==='new'?'NUEVO':bv==='hot'?'HOT':'OFERTA'}</span>`;
-  else badgeEl.innerHTML='';
+  badgeEl.innerHTML=hasSale?`<span class="p-badge pb-sale" style="position:static">OFERTA</span>`:'';
   // Image
   const imgEl=document.getElementById('mi-img');
   imgEl.src=img||''; imgEl.onerror=function(){this.src=FB;};
-  // Variations
+  // Tallas + Colores as variations
   const varsWrap=document.getElementById('mi-vars'),varsList=document.getElementById('mi-vars-list');
-  if(p.variaciones&&p.variaciones.trim()){
+  const hasTallas=p.tallas&&p.tallas.length;
+  const hasColores=p.colores&&p.colores.trim();
+  if(hasTallas||hasColores){
     varsWrap.style.display='block';
-    // Parse "Color: Rojo, Azul, Negro | Talla: S, M, L" — render selectable buttons + qty input per value
-    varsList.innerHTML=p.variaciones.split('|').map((g,gi)=>{
-      const pts=(g||'').split(':');
-      if(pts.length<2) return '';
-      const type=pts[0].trim();
-      const values=pts[1].split(',').map(v=>v.trim()).filter(Boolean);
-      const btnId=`vtype_${gi}`;
-      return `<div class="var-type-section">
-        <span class="var-type-label">${esc(type)}</span>
-        <div class="var-values-row">${values.map((v,vi)=>`<button class="var-val-btn" data-type="${esc(type)}" data-val="${esc(v)}" data-gi="${gi}" data-vi="${vi}" onclick="toggleVarVal(this)">${esc(v)}</button>`).join('')}</div>
-        <div class="var-qty-row"><label>Cantidad por variación:</label><input type="number" class="var-qty-input" id="varqty_${gi}" min="1" value="1" oninput="updateVarSubtotal()"/></div>
+    varsList.innerHTML='';
+    if(hasTallas){
+      varsList.innerHTML+=`<div class="var-type-section">
+        <span class="var-type-label">Talla</span>
+        <div class="var-values-row">${p.tallas.map((v,vi)=>`<button class="var-val-btn" data-type="Talla" data-val="${esc(v)}" data-gi="0" data-vi="${vi}" onclick="toggleVarVal(this)">${esc(v)}</button>`).join('')}</div>
       </div>`;
-    }).join('');
-    updateVarSubtotal();
+    }
+    if(hasColores){
+      const cols=p.colores.split(',').map(c=>c.trim()).filter(Boolean);
+      varsList.innerHTML+=`<div class="var-type-section">
+        <span class="var-type-label">Color</span>
+        <div class="var-values-row">${cols.map((v,vi)=>`<button class="var-val-btn" data-type="Color" data-val="${esc(v)}" data-gi="1" data-vi="${vi}" onclick="toggleVarVal(this)">${esc(v)}</button>`).join('')}</div>
+      </div>`;
+    }
   } else varsWrap.style.display='none';
   // Qty presets
   // Reset qty to 1, show custom input by default
