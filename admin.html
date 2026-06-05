@@ -275,6 +275,10 @@ input,select,textarea{font-family:'Outfit',sans-serif}
         <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5S15.01 22 17.5 22s4.5-2.01 4.5-4.5S19.99 13 17.5 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/></svg>
         Categorías
       </button>
+      <button class="sb-btn" id="nav-settings" onclick="showView('settings')">
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87a.48.48 0 00.12.6l2.03 1.58c-.05.3-.09.63-.09.95s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 00-.12-.6l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        Configuración
+      </button>
       <div class="sb-section">Sitio</div>
       <a class="sb-btn" href="https://bossafashion.dgp-link.com" target="_blank">
         <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
@@ -401,6 +405,78 @@ input,select,textarea{font-family:'Outfit',sans-serif}
           <div class="sc-head"><div class="sc-title">Productos por categoría</div></div>
           <div class="sc-body" id="catBreakdown"></div>
         </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="view-settings" style="display:none">
+
+        <!-- Fotos "Nuestra Historia" -->
+        <div class="sc" style="margin-bottom:20px">
+          <div class="sc-head"><div class="sc-title">Fotos — Nuestra Historia</div></div>
+          <div class="sc-body">
+            <p style="font-size:.8rem;color:var(--W3);margin-bottom:18px;line-height:1.65">Estas 3 fotos aparecen en la sección "Nuestra Historia" del sitio. La primera es la foto grande (izquierda), las otras dos van apiladas a la derecha.</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <div class="ff" id="aboutPhotoSlot1">
+                <label>Foto 1 — Grande</label>
+                <div class="about-photo-preview" id="aboutPreview1" style="width:100%;height:140px;border-radius:8px;background:var(--B4);border:1.5px dashed var(--B5);overflow:hidden;position:relative;cursor:pointer" onclick="document.getElementById('aboutFile1').click()">
+                  <img id="aboutPreviewImg1" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none"/>
+                  <div id="aboutPreviewPh1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:var(--W3);font-size:.72rem">
+                    <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:var(--B5)"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                    Subir foto
+                  </div>
+                </div>
+                <input type="file" id="aboutFile1" accept="image/*" style="display:none" onchange="uploadAboutPhoto(this,1)"/>
+                <div class="about-prog" id="aboutProg1" style="display:none;margin-top:6px"><div style="background:var(--B4);border-radius:4px;height:5px"><div id="aboutProgBar1" style="height:100%;background:var(--R);width:0%;border-radius:4px;transition:width .2s"></div></div></div>
+              </div>
+              <div class="ff" id="aboutPhotoSlot2">
+                <label>Foto 2 — Arriba derecha</label>
+                <div style="width:100%;height:140px;border-radius:8px;background:var(--B4);border:1.5px dashed var(--B5);overflow:hidden;position:relative;cursor:pointer" onclick="document.getElementById('aboutFile2').click()">
+                  <img id="aboutPreviewImg2" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none"/>
+                  <div id="aboutPreviewPh2" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:var(--W3);font-size:.72rem">
+                    <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:var(--B5)"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                    Subir foto
+                  </div>
+                </div>
+                <input type="file" id="aboutFile2" accept="image/*" style="display:none" onchange="uploadAboutPhoto(this,2)"/>
+                <div class="about-prog" id="aboutProg2" style="display:none;margin-top:6px"><div style="background:var(--B4);border-radius:4px;height:5px"><div id="aboutProgBar2" style="height:100%;background:var(--R);width:0%;border-radius:4px;transition:width .2s"></div></div></div>
+              </div>
+              <div class="ff" id="aboutPhotoSlot3">
+                <label>Foto 3 — Abajo derecha</label>
+                <div style="width:100%;height:140px;border-radius:8px;background:var(--B4);border:1.5px dashed var(--B5);overflow:hidden;position:relative;cursor:pointer" onclick="document.getElementById('aboutFile3').click()">
+                  <img id="aboutPreviewImg3" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none"/>
+                  <div id="aboutPreviewPh3" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;color:var(--W3);font-size:.72rem">
+                    <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:var(--B5)"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                    Subir foto
+                  </div>
+                </div>
+                <input type="file" id="aboutFile3" accept="image/*" style="display:none" onchange="uploadAboutPhoto(this,3)"/>
+                <div class="about-prog" id="aboutProg3" style="display:none;margin-top:6px"><div style="background:var(--B4);border-radius:4px;height:5px"><div id="aboutProgBar3" style="height:100%;background:var(--R);width:0%;border-radius:4px;transition:width .2s"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Productos Destacados -->
+        <div class="sc">
+          <div class="sc-head">
+            <div class="sc-title">Productos Destacados</div>
+            <span style="font-size:.7rem;color:var(--W3)">Se muestran en la sección principal del sitio (máx. 4)</span>
+          </div>
+          <div class="sc-body">
+            <p style="font-size:.8rem;color:var(--W3);margin-bottom:16px;line-height:1.65">Marca hasta 4 productos como destacados y asigna un orden (1–4) para controlar cómo aparecen en el sitio.</p>
+            <div class="tbl-ov">
+              <table class="prod-table">
+                <thead><tr><th>Foto</th><th>Producto</th><th>Categoría</th><th style="text-align:center">Destacado</th><th style="text-align:center">Orden</th></tr></thead>
+                <tbody id="featTbody"></tbody>
+              </table>
+            </div>
+            <div id="featEmpty" class="empty-state" style="display:none">
+              <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <p>No hay productos activos aún.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -739,15 +815,16 @@ function refreshUI() {
 }
 
 // ══ NAV ══
-const VIEWS = ['dashboard', 'products', 'categories'];
+const VIEWS = ['dashboard', 'products', 'categories', 'settings'];
 function showView(v) {
   VIEWS.forEach(id => {
     document.getElementById('view-' + id).style.display = id === v ? 'block' : 'none';
     const nb = document.getElementById('nav-' + id);
     if (nb) nb.classList.toggle('on', id === v);
   });
-  const T = { dashboard: 'Dashboard', products: 'Productos', categories: 'Categorías' };
+  const T = { dashboard: 'Dashboard', products: 'Productos', categories: 'Categorías', settings: 'Configuración' };
   document.getElementById('topbarTitle').textContent = T[v] || v;
+  if (v === 'settings') renderFeatTable();
   closeSidebar();
 }
 function toggleSidebar() {
@@ -973,6 +1050,100 @@ function renderCategoryBreakdown() {
     const n = products.filter(p => p.categoria === cat).length;
     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--B4)"><span class="cat-badge">${esc(cat)}</span><span style="font-family:'Space Mono',monospace;font-size:.74rem;color:var(--W3)">${n} producto${n !== 1 ? 's' : ''}</span></div>`;
   }).join('');
+}
+
+// ══ SETTINGS — About photos ══
+async function uploadAboutPhoto(input, n) {
+  const file = input.files[0];
+  if (!file) return;
+  const MAX = 10 * 1024 * 1024;
+  if (file.size > MAX) { toast('Foto supera 10 MB.', 'err'); input.value = ''; return; }
+
+  const prog = document.getElementById('aboutProg' + n);
+  const bar  = document.getElementById('aboutProgBar' + n);
+  prog.style.display = 'block';
+  bar.style.width = '0%';
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CL_PRESET);
+  fd.append('folder', 'about');
+
+  try {
+    const url = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', CL_URL);
+      xhr.upload.onprogress = e => { if (e.lengthComputable) bar.style.width = Math.round(e.loaded/e.total*100)+'%'; };
+      xhr.onload = () => xhr.status === 200 ? resolve(JSON.parse(xhr.responseText).secure_url) : reject();
+      xhr.onerror = reject;
+      xhr.send(fd);
+    });
+    // Save to Firestore settings doc
+    await db.collection('settings').doc('site').set({ ['aboutImg'+n]: url }, { merge: true });
+    // Show preview
+    const img = document.getElementById('aboutPreviewImg' + n);
+    const ph  = document.getElementById('aboutPreviewPh' + n);
+    img.src = url; img.style.display = 'block'; if(ph) ph.style.display = 'none';
+    toast('Foto ' + n + ' actualizada en el sitio.', 'ok');
+  } catch (e) {
+    toast('Error al subir la foto.', 'err');
+    console.error(e);
+  } finally {
+    prog.style.display = 'none';
+    input.value = '';
+  }
+}
+
+function loadSettingsPreviews() {
+  db.collection('settings').doc('site').get().then(snap => {
+    if (!snap.exists) return;
+    const d = snap.data();
+    ['1','2','3'].forEach(n => {
+      const url = d['aboutImg'+n];
+      if (!url) return;
+      const img = document.getElementById('aboutPreviewImg' + n);
+      const ph  = document.getElementById('aboutPreviewPh' + n);
+      if (img) { img.src = url; img.style.display = 'block'; }
+      if (ph)  ph.style.display = 'none';
+    });
+  });
+}
+
+// ══ SETTINGS — Featured products ══
+function renderFeatTable() {
+  loadSettingsPreviews();
+  const tb = document.getElementById('featTbody');
+  const em = document.getElementById('featEmpty');
+  if (!products.length) { tb.innerHTML = ''; em.style.display = 'block'; return; }
+  em.style.display = 'none';
+  tb.innerHTML = products.map(p => `<tr>
+    <td>${p.imagen ? `<img class="prod-img-cell" src="${esc(p.imagen)}" alt="" onerror="this.style.display='none'">` : `<div class="prod-img-ph"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>`}</td>
+    <td><div class="prod-name">${esc(p.nombre)}</div>${p.sku?`<div class="prod-sku">${esc(p.sku)}</div>`:''}</td>
+    <td>${p.categoria?`<span class="cat-badge">${esc(p.categoria)}</span>`:'-'}</td>
+    <td style="text-align:center">
+      <input type="checkbox" ${p.destacado?'checked':''} style="width:17px;height:17px;accent-color:var(--R);cursor:pointer" onchange="toggleDestacado('${esc(p.id)}',this.checked)"/>
+    </td>
+    <td style="text-align:center">
+      <input type="number" min="1" max="4" value="${p.ordenDestacado||''}" placeholder="—" ${p.destacado?'':'disabled'} style="width:52px;padding:5px;border:1.5px solid var(--B4);border-radius:5px;text-align:center;font-size:.8rem;background:var(--B);outline:none" onchange="setOrdenDestacado('${esc(p.id)}',this.value)" onfocus="this.style.borderColor='var(--R)'" onblur="this.style.borderColor='var(--B4)'"/>
+    </td>
+  </tr>`).join('');
+}
+
+async function toggleDestacado(id, val) {
+  const destCount = products.filter(p => p.destacado && p.id !== id).length;
+  if (val && destCount >= 4) { toast('Máximo 4 productos destacados.', 'err'); renderFeatTable(); return; }
+  try {
+    await db.collection('products').doc(id).update({ destacado: val, ordenDestacado: val ? (products.find(p=>p.id===id)?.ordenDestacado||99) : null });
+    toast(val ? 'Producto marcado como destacado.' : 'Quitado de destacados.', 'ok');
+  } catch(e) { toast('Error al guardar.', 'err'); console.error(e); }
+}
+
+async function setOrdenDestacado(id, val) {
+  const n = parseInt(val);
+  if (!n || n < 1 || n > 4) return;
+  try {
+    await db.collection('products').doc(id).update({ ordenDestacado: n });
+  } catch(e) { toast('Error al guardar orden.', 'err'); console.error(e); }
 }
 
 // ══ UTILS ══
