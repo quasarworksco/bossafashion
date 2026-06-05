@@ -548,6 +548,10 @@ const CL_PRESET = 'bossa_fashion';
 let uploadWidget = null;
 
 function initCloudinaryWidget() {
+  if (typeof cloudinary === 'undefined') {
+    toast('El widget de Cloudinary no cargó. Verifica tu conexión.', 'err');
+    return false;
+  }
   uploadWidget = cloudinary.createUploadWidget({
     cloudName: CL_CLOUD,
     uploadPreset: CL_PRESET,
@@ -576,7 +580,7 @@ function initCloudinaryWidget() {
       }
     }
   }, (error, result) => {
-    if (error) { toast('Error al subir la imagen.', 'err'); return; }
+    if (error) { toast('Error al subir: ' + (error.message || error.statusText || 'intenta de nuevo'), 'err'); return; }
     if (result && result.event === 'success') {
       const url = result.info.secure_url;
       document.getElementById('fImagen').value = url;
@@ -584,10 +588,14 @@ function initCloudinaryWidget() {
       toast('Foto subida correctamente.', 'ok');
     }
   });
+  return true;
 }
 
 function openUploadWidget() {
-  if (!uploadWidget) initCloudinaryWidget();
+  if (!uploadWidget) {
+    const ok = initCloudinaryWidget();
+    if (!ok) return;
+  }
   uploadWidget.open();
 }
 
@@ -816,7 +824,7 @@ function closeProductModal() {
   document.getElementById('modalVeil').classList.remove('open');
   document.getElementById('productModal').classList.remove('open');
   editingId = null;
-  if (uploadWidget) { uploadWidget.destroy(); uploadWidget = null; }
+  // widget se reutiliza entre aperturas del modal
 }
 
 async function saveProduct() {
