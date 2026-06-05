@@ -10,8 +10,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<!-- Cloudinary Upload Widget -->
-<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+<!-- Cloudinary: direct upload, no external widget needed -->
 <style>
 :root{
   --R:#E61097;--R2:#FF40B8;--R3:#fce4f6;--R4:rgba(230,16,151,.08);
@@ -422,18 +421,29 @@ input,select,textarea{font-family:'Outfit',sans-serif}
     <div class="ff ff-full" style="margin-bottom:18px">
       <label>Foto del Producto</label>
       <div class="photo-area">
+        <!-- Preview -->
         <div class="photo-preview-wrap" id="photoPreviewWrap">
           <img class="photo-preview" id="photoPreview" src="" alt=""/>
-          <button type="button" class="btn-upload-small photo-change-btn" onclick="openUploadWidget()">
+          <button type="button" class="btn-upload-small photo-change-btn" onclick="document.getElementById('photoFileInput').click()">
             <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
             Cambiar foto
           </button>
         </div>
-        <button type="button" class="btn btn-upload" id="uploadPlaceholder" onclick="openUploadWidget()">
-          <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        <!-- Upload zone -->
+        <label class="btn btn-upload" id="uploadPlaceholder" for="photoFileInput" style="cursor:pointer">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
           <span>Haz clic para subir foto</span>
-          <span style="font-size:.65rem;color:var(--W3)">JPG, PNG, WEBP · máx 8 MB</span>
-        </button>
+          <span style="font-size:.65rem;color:var(--W3)">JPG, PNG, WEBP, HEIC · máx 10 MB</span>
+        </label>
+        <!-- Progress bar -->
+        <div id="uploadProgressWrap" style="display:none;margin-top:8px">
+          <div style="background:var(--B4);border-radius:4px;height:6px;overflow:hidden">
+            <div id="uploadProgressBar" style="height:100%;background:var(--R);width:0%;transition:width .2s;border-radius:4px"></div>
+          </div>
+          <div id="uploadProgressTxt" style="font-size:.66rem;color:var(--W3);margin-top:4px;text-align:center">Subiendo…</div>
+        </div>
+        <!-- Hidden inputs -->
+        <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="handleFileSelect(this)"/>
         <input type="hidden" id="fImagen"/>
       </div>
     </div>
@@ -542,67 +552,75 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ══ CLOUDINARY ══
+// ══ CLOUDINARY — direct upload (no widget) ══
 const CL_CLOUD = 'dvin2kayq';
 const CL_PRESET = 'bossa_fashion';
-let uploadWidget = null;
+const CL_URL = `https://api.cloudinary.com/v1_1/${CL_CLOUD}/image/upload`;
 
-function initCloudinaryWidget() {
-  if (typeof cloudinary === 'undefined') {
-    toast('El widget de Cloudinary no cargó. Verifica tu conexión.', 'err');
-    return false;
-  }
-  uploadWidget = cloudinary.createUploadWidget({
-    cloudName: CL_CLOUD,
-    uploadPreset: CL_PRESET,
-    folder: 'products',
-    multiple: false,
-    sources: ['local', 'url', 'camera'],
-    maxFileSize: 10000000,
-    clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'avif', 'gif', 'bmp', 'tiff'],
-    showAdvancedOptions: false,
-    cropping: false,
-    styles: {
-      palette: {
-        window: '#FFFFFF',
-        windowBorder: '#fce4f6',
-        tabIcon: '#E61097',
-        menuIcons: '#E61097',
-        textDark: '#1a1a1a',
-        textLight: '#FFFFFF',
-        link: '#E61097',
-        action: '#E61097',
-        inactiveTabIcon: '#aaaaaa',
-        error: '#dc2626',
-        inProgress: '#E61097',
-        complete: '#22c55e',
-        sourceBg: '#fff8fc'
-      }
-    }
-  }, (error, result) => {
-    if (error) { toast('Error al subir: ' + (error.message || error.statusText || 'intenta de nuevo'), 'err'); return; }
-    if (result && result.event === 'success') {
-      const url = result.info.secure_url;
-      document.getElementById('fImagen').value = url;
-      setPhotoPreview(url);
-      toast('Foto subida correctamente.', 'ok');
-    }
-  });
-  return true;
-}
+async function handleFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-function openUploadWidget() {
-  if (!uploadWidget) {
-    const ok = initCloudinaryWidget();
-    if (!ok) return;
+  const MAX = 10 * 1024 * 1024;
+  if (file.size > MAX) {
+    toast('La foto supera los 10 MB. Comprime la imagen e intenta de nuevo.', 'err');
+    input.value = '';
+    return;
   }
-  uploadWidget.open();
+
+  // Show progress
+  const progressWrap = document.getElementById('uploadProgressWrap');
+  const progressBar  = document.getElementById('uploadProgressBar');
+  const progressTxt  = document.getElementById('uploadProgressTxt');
+  progressWrap.style.display = 'block';
+  progressBar.style.width = '0%';
+  progressTxt.textContent = 'Subiendo…';
+  document.getElementById('uploadPlaceholder').style.display = 'none';
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CL_PRESET);
+  formData.append('folder', 'products');
+
+  try {
+    await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', CL_URL);
+      xhr.upload.onprogress = e => {
+        if (e.lengthComputable) {
+          const pct = Math.round(e.loaded / e.total * 100);
+          progressBar.style.width = pct + '%';
+          progressTxt.textContent = `Subiendo… ${pct}%`;
+        }
+      };
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const data = JSON.parse(xhr.responseText);
+          document.getElementById('fImagen').value = data.secure_url;
+          setPhotoPreview(data.secure_url);
+          progressWrap.style.display = 'none';
+          toast('Foto subida correctamente.', 'ok');
+          resolve();
+        } else {
+          reject(new Error(xhr.responseText));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Error de red'));
+      xhr.send(formData);
+    });
+  } catch (err) {
+    progressWrap.style.display = 'none';
+    document.getElementById('uploadPlaceholder').style.display = 'flex';
+    toast('Error al subir la foto. Intenta de nuevo.', 'err');
+    console.error('Cloudinary upload error:', err);
+  }
+  input.value = '';
 }
 
 function setPhotoPreview(url) {
   const wrap = document.getElementById('photoPreviewWrap');
-  const ph = document.getElementById('uploadPlaceholder');
-  const img = document.getElementById('photoPreview');
+  const ph   = document.getElementById('uploadPlaceholder');
+  const img  = document.getElementById('photoPreview');
   if (url) {
     img.src = url;
     wrap.classList.add('show');
