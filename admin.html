@@ -448,8 +448,8 @@ input,select,textarea{font-family:'Outfit',sans-serif}
     <div class="form-grid" style="margin-bottom:14px">
       <div class="ff">
         <label>SKU / Código</label>
-        <input type="text" id="fSku" placeholder="Ej: BF-001"/>
-        <span class="hint">Identificador único del producto</span>
+        <input type="text" id="fSku" placeholder="BF-001"/>
+        <span class="hint">Generado automáticamente · puedes editarlo</span>
       </div>
       <div class="ff">
         <label>Categoría <span>*</span></label>
@@ -797,6 +797,18 @@ function renderRecent() {
     </tr>`).join('') + '</tbody></table></div>';
 }
 
+// ══ SKU AUTO-GENERATOR ══
+function generateSKU() {
+  const existing = new Set(products.map(p => p.sku).filter(Boolean));
+  let n = products.length + 1;
+  let sku;
+  do {
+    sku = 'BF-' + String(n).padStart(3, '0');
+    n++;
+  } while (existing.has(sku));
+  return sku;
+}
+
 // ══ PRODUCT MODAL ══
 function openProductModal(id) {
   editingId = id || null;
@@ -804,7 +816,7 @@ function openProductModal(id) {
   const p = id ? products.find(x => x.id === id) : null;
   document.getElementById('editId').value = id || '';
   document.getElementById('fNombre').value = p?.nombre || '';
-  document.getElementById('fSku').value = p?.sku || '';
+  document.getElementById('fSku').value = p?.sku || (id ? '' : generateSKU());
   document.getElementById('fPrecio').value = p?.precio != null ? p.precio : '';
   document.getElementById('fPrecioOferta').value = p?.precioOferta != null ? p.precioOferta : '';
   document.getElementById('fColores').value = p?.colores || '';
