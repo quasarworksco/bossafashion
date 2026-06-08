@@ -568,7 +568,7 @@ input,select,textarea{font-family:'Outfit',sans-serif}
       <label>Tallas disponibles</label>
       <div class="tallas-wrap" id="tallasWrap"></div>
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-        <input type="text" id="fTallaExtra" placeholder="Talla personalizada (ej: 43)" style="border:1.5px solid var(--B4);border-radius:6px;padding:7px 10px;font-size:.78rem;outline:none;width:180px;background:var(--B)" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomTalla()}" onfocus="this.style.borderColor='var(--R)'" onblur="this.style.borderColor='var(--B4)'"/>
+        <input type="text" id="fTallaExtra" placeholder="Talla personalizada (ej: 12)" style="border:1.5px solid var(--B4);border-radius:6px;padding:7px 10px;font-size:.78rem;outline:none;width:180px;background:var(--B)" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomTalla()}" onfocus="this.style.borderColor='var(--R)'" onblur="this.style.borderColor='var(--B4)'"/>
         <button type="button" class="btn btn-outline btn-sm" onclick="addCustomTalla()">+ Agregar</button>
       </div>
       <span class="hint">Selecciona las tallas disponibles o agrega tallas personalizadas</span>
@@ -712,7 +712,7 @@ let products = [], categories = [], editingId = null;
 let unsubProducts = null, unsubCategories = null;
 
 // ══ TALLAS ══
-const TALLAS_DEFAULT = ['35','36','37','38','39','40','41','42'];
+const TALLAS_DEFAULT = ['5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10','11'];
 let selectedTallas = new Set();
 
 function renderTallasChips() {
