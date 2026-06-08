@@ -581,6 +581,19 @@ input,select,textarea{font-family:'Outfit',sans-serif}
         <textarea id="fDescripcion" placeholder="Descripción del producto (opcional)…"></textarea>
       </div>
     </div>
+
+    <!-- ETIQUETA -->
+    <div class="ff" style="margin-bottom:14px">
+      <label>Etiqueta <span style="font-weight:400;color:var(--W3)">(opcional)</span></label>
+      <select id="fEtiqueta">
+        <option value="">Sin etiqueta</option>
+        <option value="Nuevo">🟢 Nuevo</option>
+        <option value="Oferta">🔴 Oferta</option>
+        <option value="Descuento">🟠 Descuento</option>
+      </select>
+      <span class="hint">La etiqueta aparece como chip sobre la foto del producto en el catálogo</span>
+    </div>
+
     <div class="ff" style="margin-bottom:4px">
       <label>Estado</label>
       <select id="fEstado">
@@ -917,6 +930,7 @@ function openProductModal(id) {
   document.getElementById('fColores').value = p?.colores || '';
   document.getElementById('fImagen').value = p?.imagen || '';
   document.getElementById('fDescripcion').value = p?.descripcion || '';
+  document.getElementById('fEtiqueta').value = p?.etiqueta || '';
   document.getElementById('fEstado').value = p?.estado || 'Activo';
   populateCatSelect('fCategoria', p?.categoria || '');
   setPhotoPreview(p?.imagen || '');
@@ -956,6 +970,7 @@ async function saveProduct() {
     colores: document.getElementById('fColores').value.trim(),
     imagen: document.getElementById('fImagen').value.trim(),
     descripcion: document.getElementById('fDescripcion').value.trim(),
+    etiqueta: document.getElementById('fEtiqueta').value,
     tallas: [...selectedTallas].sort((a, b) => parseFloat(a) - parseFloat(b)),
     estado: document.getElementById('fEstado').value,
     updatedAt: Date.now()

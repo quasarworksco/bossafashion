@@ -964,6 +964,44 @@ body.cart-open,.cart-open{overflow:hidden!important}
 ::-webkit-scrollbar-thumb{background:var(--R3);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--R)}
 
+
+/* ── Talla filter bar ── */
+.talla-filter-row{display:flex;flex-wrap:wrap;gap:7px;padding:10px 0 4px;align-items:center}
+.talla-filter-label{font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--W3);margin-right:4px}
+.tflt{font-size:.68rem;font-weight:700;padding:5px 13px;background:var(--B4);border:1px solid var(--B5);color:var(--W3);cursor:pointer;border-radius:20px;transition:all .22s var(--ease);font-family:'Outfit',sans-serif;white-space:nowrap}
+.tflt.on{background:rgba(230,16,151,.14);border-color:var(--R);color:var(--W2)}
+
+/* ── Product badges ── */
+.p-badge-wrap{position:absolute;top:8px;left:8px;display:flex;gap:5px;flex-wrap:wrap;z-index:2}
+.pb-nuevo{background:#22aa4a;color:#fff;font-size:.55rem;font-weight:800;letter-spacing:1.5px;padding:3px 7px;border-radius:4px;text-transform:uppercase}
+.pb-sale{background:var(--R);color:#fff;font-size:.55rem;font-weight:800;letter-spacing:1.5px;padding:3px 7px;border-radius:4px;text-transform:uppercase}
+.pb-desc{background:#ff6b00;color:#fff;font-size:.55rem;font-weight:800;letter-spacing:1.5px;padding:3px 7px;border-radius:4px;text-transform:uppercase}
+
+/* ── Share WA button ── */
+.p-share-btn{position:absolute;top:8px;right:8px;z-index:2;background:rgba(0,0,0,.45);border:none;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;backdrop-filter:blur(3px)}
+.p-card:hover .p-share-btn{opacity:1}
+.p-share-btn svg{width:15px;height:15px;fill:#fff}
+.mi-share-btn{display:flex;align-items:center;gap:7px;background:#25d366;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:filter .2s}
+.mi-share-btn:hover{filter:brightness(1.1)}
+.mi-share-btn svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
+
+/* ── Order confirmation overlay ── */
+.order-confirm-overlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.order-confirm-overlay.open{opacity:1;pointer-events:all}
+.order-confirm-box{background:var(--B);border-radius:16px;padding:36px 32px;max-width:420px;width:90%;text-align:center;animation:fadeUp .4s var(--ease) both;border-top:4px solid #22aa4a}
+.oc-check{width:60px;height:60px;background:#e8f9ee;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.oc-check svg{width:32px;height:32px;fill:#22aa4a}
+.oc-num{font-size:.7rem;letter-spacing:2px;color:var(--W3);font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.oc-order-id{font-size:1.4rem;font-weight:800;color:var(--R);margin-bottom:6px;font-family:'Playfair Display',serif}
+.oc-title{font-size:1.1rem;font-weight:700;color:var(--W);margin-bottom:8px}
+.oc-sub{font-size:.82rem;color:var(--W3);line-height:1.7;margin-bottom:22px}
+.oc-summary{background:var(--B2);border-radius:8px;padding:12px 16px;margin-bottom:22px;text-align:left;max-height:160px;overflow-y:auto}
+.oc-item{font-size:.78rem;color:var(--W2);padding:3px 0;border-bottom:1px solid var(--B4)}
+.oc-item:last-child{border-bottom:none}
+.oc-total{font-size:.85rem;font-weight:700;color:var(--W);margin-top:6px}
+.oc-wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;width:100%;justify-content:center;margin-bottom:10px}
+.oc-close-btn{font-size:.78rem;color:var(--W3);cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;text-decoration:underline}
+
 </style>
 </head>
 <body>
@@ -1118,6 +1156,11 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <button class="flt on" onclick="setCategory('Todos',this)">Todos</button>
       <!-- filter buttons rendered dynamically by buildCategoryUI() -->
     </div>
+    <div class="talla-filter-row reveal d3" id="tallaFilterRow" style="display:none">
+      <span class="talla-filter-label">Talla:</span>
+      <button class="tflt on" id="tfTodas" onclick="setTallaFilter('Todas',this)">Todas</button>
+      <!-- injected dynamically -->
+    </div>
     <div class="prod-header">
       <div class="prod-ttl" id="prodTtl">Cargando…<span id="prodCount"></span></div>
       <select class="sort-sel" id="sortSel" onchange="applySortFilter()">
@@ -1259,6 +1302,7 @@ body.cart-open,.cart-open{overflow:hidden!important}
       <div class="qty-custom" id="qtyCustomRow" style="display:flex"><label>Cantidad:</label><input type="number" id="customQtyInput" min="1" max="99" value="1" oninput="updateQtyTotal()"/></div>
       <div class="qty-total"><span>Subtotal estimado</span><span id="qtyTotalDisplay">$499.00</span></div>
       <button class="btn-add-cart" onclick="addCurrentToCart()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Agregar al Carrito</button>
+      <button class="mi-share-btn" id="miShareBtn" onclick="shareProduct(allProducts.indexOf(modalProduct))"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Compartir por WhatsApp</button>
     </div>
   </div>
 </div>
@@ -1373,7 +1417,8 @@ const CFG = {
 //  STATE
 // ══════════════════════════════════
 let allProducts=[], filtered=[], cart=[];
-let currentCat='Todos', currentPage=1, currentSort='default', searchQ='';
+let currentCat='Todos', currentPage=1, currentSort='default', searchQ='', currentTalla='Todas';
+let lastOrderWaUrl='';
 let modalProduct=null, modalQty=1;
 let userLocation='', selectedPay='';
 
@@ -1487,7 +1532,34 @@ function buildCategoryUI(){
   document.getElementById('ct-todos').textContent=allProducts.length;
 }
 
-function buildCounts(){ buildCategoryUI(); }
+function buildCounts(){ buildCategoryUI(); buildTallaFilter(); }
+
+function buildTallaFilter(){
+  const row=document.getElementById('tallaFilterRow');
+  if(!row) return;
+  // Collect all unique tallas from active products
+  const tallaSet=new Set();
+  allProducts.forEach(p=>{ if(p.tallas&&p.tallas.length) p.tallas.forEach(t=>tallaSet.add(t)); });
+  const tallas=[...tallaSet].sort((a,b)=>parseFloat(a)-parseFloat(b));
+  // Remove old dynamic buttons
+  row.querySelectorAll('.tflt-dyn').forEach(el=>el.remove());
+  if(!tallas.length){ row.style.display='none'; return; }
+  row.style.display='flex';
+  tallas.forEach(t=>{
+    const btn=document.createElement('button');
+    btn.className='tflt tflt-dyn'+(currentTalla===t?' on':'');
+    btn.textContent=t;
+    btn.onclick=()=>setTallaFilter(t,btn);
+    row.appendChild(btn);
+  });
+}
+
+function setTallaFilter(t,btn){
+  currentTalla=t; currentPage=1;
+  document.querySelectorAll('.tflt').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  applyAll();
+}
 
 // ══════════════════════════════════
 //  COLECCIÓN DESTACADA (4 productos)
@@ -1522,8 +1594,9 @@ function renderCollGrid(){
 //  FILTERING & SORTING
 // ══════════════════════════════════
 function setCategory(cat,btn){
-  currentCat=cat; currentPage=1;
+  currentCat=cat; currentPage=1; currentTalla='Todas';
   searchQ=''; document.getElementById('searchInput').value='';
+  document.querySelectorAll('.tflt').forEach(b=>b.classList.remove('on')); const tfa=document.getElementById('tfTodas'); if(tfa) tfa.classList.add('on');
   document.querySelectorAll('.ct-btn,.flt').forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   applyAll();
@@ -1535,6 +1608,7 @@ function applyAll(){
   let arr=[...allProducts];
   if(currentCat!=='Todos') arr=arr.filter(p=>p.categoria===currentCat);
   if(searchQ) arr=arr.filter(p=>(p.nombre||'').toLowerCase().includes(searchQ)||(p.categoria||'').toLowerCase().includes(searchQ)||(p.sku||'').toLowerCase().includes(searchQ)||(p.descripcion||'').toLowerCase().includes(searchQ));
+  if(currentTalla!=='Todas') arr=arr.filter(p=>p.tallas&&p.tallas.includes(currentTalla));
   if(currentSort==='az') arr.sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||''));
   if(currentSort==='za') arr.sort((a,b)=>(b.nombre||'').localeCompare(a.nombre||''));
   filtered=arr;
@@ -1590,10 +1664,16 @@ function productCard(p){
   const img=p.imagen||'';
   const gi=allProducts.indexOf(p);
   const hasSale=p.precioOferta&&p.precioOferta>0;
-  const badge=hasSale?`<div class="p-badge pb-sale">OFERTA</div>`:'';
+  const isNuevo=p.etiqueta==='Nuevo';
+  const isDesc=p.etiqueta==='Descuento';
+  const badges=[];
+  if(isNuevo) badges.push('<span class="pb-nuevo">NUEVO</span>');
+  if(hasSale||isDesc) badges.push('<span class="pb-sale">OFERTA</span>');
+  const badgeWrap=badges.length?`<div class="p-badge-wrap">${badges.join('')}</div>`:'';
   const tallasSnip=p.tallas&&p.tallas.length?`<div class="p-vars-badge">Tallas: ${p.tallas.slice(0,4).join(' · ')}${p.tallas.length>4?'…':''}</div>`:'';
   return `<div class="p-card" onclick="openModal(${gi})">
-    ${badge}
+    ${badgeWrap}
+    <button class="p-share-btn" onclick="event.stopPropagation();shareProduct(${gi})" title="Compartir por WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
     <div class="p-img">
       ${img?`<img src="${esc(img)}" alt="${esc(p.nombre)}" loading="lazy" onerror="fallbackImg(this)"/>`:``}
       <div class="p-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>Ver detalles</div>
@@ -1657,7 +1737,11 @@ function openModal(gi){
   descEl.textContent=p.descripcion||''; descEl.style.display=p.descripcion?'block':'none';
   // Badge
   const badgeEl=document.getElementById('mi-badge');
-  badgeEl.innerHTML=hasSale?`<span class="p-badge pb-sale" style="position:static">OFERTA</span>`:'';
+  const isNuevoM=p.etiqueta==='Nuevo';
+  const badgeParts=[];
+  if(isNuevoM) badgeParts.push('<span class="p-badge pb-nuevo" style="position:static">NUEVO</span>');
+  if(hasSale) badgeParts.push('<span class="p-badge pb-sale" style="position:static">OFERTA</span>');
+  badgeEl.innerHTML=badgeParts.join(' ');
   // Image
   const imgEl=document.getElementById('mi-img');
   imgEl.src=img||''; imgEl.onerror=function(){this.src=FB;};
@@ -1695,6 +1779,17 @@ function openModal(gi){
   modalEl.classList.add('open');
   if(isMob) setTimeout(()=>modalEl.style.transform='translateY(0)',10);
   document.body.style.overflow='hidden';
+}
+
+
+function shareProduct(gi){
+  const p=allProducts[gi];
+  if(!p) return;
+  const hasSale=p.precioOferta&&p.precioOferta>0;
+  const price=hasSale?'$'+Number(p.precioOferta).toFixed(2):'$'+Number(p.precio).toFixed(2);
+  const tallas=p.tallas&&p.tallas.length?'\nTallas disponibles: '+p.tallas.join(', '):'';
+  const msg='*'+p.nombre+'*'+(p.sku?' ('+p.sku+')':'')+'\n'+price+(tallas)+'\n\n_Bossa Fashion by Kari Bossa — Ocala, Florida_\nhttps://bossafashion.dgp-link.com';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 
 function closeModal(){ const m=document.getElementById('productModal'); if(window.innerWidth<=600){m.style.transform='translateY(100%)';setTimeout(()=>{m.classList.remove('open');m.style.cssText='';document.getElementById('modalVeil').classList.remove('open');document.body.style.overflow='';},320);}else{document.getElementById('modalVeil').classList.remove('open');m.classList.remove('open');document.body.style.overflow='';} }
@@ -1913,9 +2008,11 @@ function sendOrder(){
   if(!tel){toast('Ingresa tu número de teléfono');return;}
   if(!pago){toast('Selecciona un método de pago');return;}
   if(!cart.length){toast('El carrito está vacío');return;}
+  const orderNum=generateOrderNum();
+  const cartSnapshot=[...cart];
   const units=totalUnits(),total=cartTotal().toFixed(2);
   const lines=[
-    '*Pedido — Bossa Fashion by Kari Bossa*',
+    `*Pedido #${orderNum} — Bossa Fashion by Kari Bossa*`,
     '━━━━━━━━━━━━━━━━━━━━',
     `*Cliente:* ${nombre} ${apellido}`,
     `*Teléfono:* ${tel}`,
@@ -1932,9 +2029,34 @@ function sendOrder(){
     `*TOTAL: $${total}*`,
     'Ocala, Florida — bossafashion2025@gmail.com',
   ].filter(Boolean).join('\n');
-  window.open('https://wa.me/'+CFG.WA+'?text='+encodeURIComponent(lines),'_blank');
-  toast('Pedido enviado por WhatsApp');
+  const waUrl='https://wa.me/'+CFG.WA+'?text='+encodeURIComponent(lines);
+  window.open(waUrl,'_blank');
+  lastOrderWaUrl=waUrl;
+  showOrderConfirm(orderNum, waUrl);
   cart=[];updateCartUI();goStep1();closeCart();
+}
+
+function generateOrderNum(){
+  const d=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  return 'BF-'+d.getFullYear().toString().slice(-2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.floor(1000+Math.random()*9000);
+}
+
+function showOrderConfirm(orderNum, waUrl){
+  document.getElementById('ocOrderId').textContent='#'+orderNum;
+  // Build summary
+  const summaryEl=document.getElementById('ocSummary');
+  const total=cartSnapshot.reduce((s,i)=>s+(i.qty*(i.precioOferta&&i.precioOferta>0?Number(i.precioOferta):Number(i.precio||0))),0);
+  summaryEl.innerHTML=cartSnapshot.map(item=>{
+    const pe=item.precioOferta&&item.precioOferta>0?Number(item.precioOferta):Number(item.precio||0);
+    return `<div class="oc-item">${item.nombre} × ${item.qty} — $${(item.qty*pe).toFixed(2)}</div>`;
+  }).join('')+`<div class="oc-total">Total: $${total.toFixed(2)}</div>`;
+  document.getElementById('ocWaBtn').onclick=()=>window.open(waUrl,'_blank');
+  document.getElementById('orderConfirmOverlay').classList.add('open');
+}
+
+function closeOrderConfirm(){
+  document.getElementById('orderConfirmOverlay').classList.remove('open');
 }
 
 // ══════════════════════════════════
@@ -2032,5 +2154,23 @@ async function submitContact(e){
   btn.innerHTML='Enviar Mensaje <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;vertical-align:middle"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>';
 }
 </script>
+
+<!-- ════ ORDER CONFIRMATION OVERLAY ════ -->
+<div class="order-confirm-overlay" id="orderConfirmOverlay">
+  <div class="order-confirm-box">
+    <div class="oc-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+    <div class="oc-num">Número de Pedido</div>
+    <div class="oc-order-id" id="ocOrderId">#BF-000000</div>
+    <div class="oc-title">¡Pedido Enviado!</div>
+    <div class="oc-sub">Tu pedido fue enviado a Kari Bossa por WhatsApp. Te responderá en breve para confirmar los detalles.</div>
+    <div class="oc-summary" id="ocSummary"></div>
+    <button class="oc-wa-btn" id="ocWaBtn">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Ver pedido en WhatsApp
+    </button>
+    <button class="oc-close-btn" onclick="closeOrderConfirm()">Cerrar</button>
+  </div>
+</div>
+
 </body>
 </html>
