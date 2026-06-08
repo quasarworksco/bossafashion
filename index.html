@@ -2032,6 +2032,21 @@ function sendOrder(){
   const waUrl='https://wa.me/'+CFG.WA+'?text='+encodeURIComponent(lines);
   window.open(waUrl,'_blank');
   lastOrderWaUrl=waUrl;
+  // Save order to Firestore
+  try {
+    const orderData = {
+      orderNum, nombre, apellido, tel, email: email||'', dir: dir||'',
+      pago, total: parseFloat(cartTotal().toFixed(2)),
+      productos: cartSnapshot.map(i=>({
+        id:i.id||'', nombre:i.nombre, sku:i.sku||'', categoria:i.categoria||'',
+        qty:i.qty, precio:priceEach(i), imagen:i.imagen||''
+      })),
+      estado: 'Pendiente',
+      createdAt: Date.now(),
+      ubicacion: userLocation||''
+    };
+    db.collection('orders').doc(orderNum).set(orderData);
+  } catch(e){ console.warn('Order save error:',e); }
   showOrderConfirm(orderNum, waUrl);
   cart=[];updateCartUI();goStep1();closeCart();
 }

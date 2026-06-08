@@ -224,6 +224,26 @@ input,select,textarea{font-family:'Outfit',sans-serif}
   .stats-grid{gap:10px}
   .stat-card{padding:14px}
 }
+
+/* ── Orders ── */
+.order-status{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:20px;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .2s}
+.os-pendiente{background:#fff3cd;color:#856404}
+.os-confirmado{background:#d1ecf1;color:#0c5460}
+.os-entregado{background:#d4edda;color:#155724}
+.os-cancelado{background:#f8d7da;color:#721c24}
+.order-num{font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;color:var(--R)}
+.order-client{font-size:.8rem;font-weight:600;color:var(--W)}
+.order-meta{font-size:.7rem;color:var(--W3)}
+.order-prods{font-size:.72rem;color:var(--W3);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order-total{font-size:.85rem;font-weight:700;color:var(--W)}
+.orders-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.ofl-btn{font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 13px;background:var(--B4);border:1px solid var(--B5);color:var(--W3);cursor:pointer;border-radius:20px;transition:all .2s;font-family:'Outfit',sans-serif}
+.ofl-btn.on{background:rgba(230,16,151,.14);border-color:var(--R);color:var(--W2)}
+.order-wa-btn{background:#25d366;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-size:.65rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;display:inline-flex;align-items:center;gap:4px}
+.order-wa-btn svg{width:11px;height:11px;fill:#fff}
+.stat-ico.teal{background:rgba(0,128,128,.12)}
+.stat-ico.teal svg{fill:teal}
+
 </style>
 </head>
 <body>
@@ -274,6 +294,10 @@ input,select,textarea{font-family:'Outfit',sans-serif}
       <button class="sb-btn" id="nav-categories" onclick="showView('categories')">
         <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5S15.01 22 17.5 22s4.5-2.01 4.5-4.5S19.99 13 17.5 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/></svg>
         Categorías
+      </button>
+      <button class="sb-btn" id="nav-orders" onclick="showView('orders')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Pedidos <span id="nav-orders-badge" style="background:var(--R);color:#fff;border-radius:10px;padding:1px 6px;font-size:.6rem;font-weight:700;margin-left:4px;display:none">0</span>
       </button>
       <button class="sb-btn" id="nav-settings" onclick="showView('settings')">
         <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87a.48.48 0 00.12.6l2.03 1.58c-.05.3-.09.63-.09.95s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 00-.12-.6l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
@@ -328,6 +352,10 @@ input,select,textarea{font-family:'Outfit',sans-serif}
           <div class="stat-card">
             <div class="stat-ico orange"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
             <div><div class="stat-val" id="stat-updated" style="font-size:1rem">—</div><div class="stat-lbl">Última actualización</div></div>
+          </div>
+          <div class="stat-card" onclick="showView('orders')" style="cursor:pointer">
+            <div class="stat-ico teal"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+            <div><div class="stat-val" id="stat-orders">0</div><div class="stat-lbl">Pedidos</div></div>
           </div>
         </div>
         <div class="sc">
@@ -478,6 +506,46 @@ input,select,textarea{font-family:'Outfit',sans-serif}
         </div>
 
       </div>
+
+      <!-- ORDERS -->
+      <div id="view-orders" style="display:none">
+        <div class="sc">
+          <div class="sc-head">
+            <div class="sc-title">Historial de Pedidos</div>
+            <div class="orders-filter-row" style="margin-bottom:0">
+              <button class="ofl-btn on" id="ofl-Todos" onclick="setOrderFilter('Todos',this)">Todos</button>
+              <button class="ofl-btn" id="ofl-Pendiente" onclick="setOrderFilter('Pendiente',this)">Pendientes</button>
+              <button class="ofl-btn" id="ofl-Confirmado" onclick="setOrderFilter('Confirmado',this)">Confirmados</button>
+              <button class="ofl-btn" id="ofl-Entregado" onclick="setOrderFilter('Entregado',this)">Entregados</button>
+              <button class="ofl-btn" id="ofl-Cancelado" onclick="setOrderFilter('Cancelado',this)">Cancelados</button>
+            </div>
+          </div>
+          <div class="sc-body">
+            <div class="tbl-ov">
+              <table class="prod-table" id="ordersTable">
+                <thead>
+                  <tr>
+                    <th>Orden</th>
+                    <th>Cliente</th>
+                    <th>Productos</th>
+                    <th>Total</th>
+                    <th>Pago</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTbody"></tbody>
+              </table>
+            </div>
+            <div id="ordersEmpty" class="empty-state" style="display:none">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+              <p>No hay pedidos aún.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -722,7 +790,101 @@ function setPhotoPreview(url) {
 
 // ══ STATE ══
 let products = [], categories = [], editingId = null;
-let unsubProducts = null, unsubCategories = null;
+let unsubProducts = null, unsubCategories = null, unsubOrders = null;
+
+
+// ══ ORDERS ══
+let orders = [];
+let orderFilter = 'Todos';
+
+function updateOrderStats() {
+  const pending = orders.filter(o => o.estado === 'Pendiente').length;
+  document.getElementById('stat-orders').textContent = orders.length;
+  const badge = document.getElementById('nav-orders-badge');
+  if (pending > 0) { badge.textContent = pending; badge.style.display = 'inline'; }
+  else badge.style.display = 'none';
+}
+
+function setOrderFilter(f, btn) {
+  orderFilter = f;
+  document.querySelectorAll('.ofl-btn').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderOrders();
+}
+
+function renderOrders() {
+  const tbody = document.getElementById('ordersTbody');
+  const empty = document.getElementById('ordersEmpty');
+  if (!tbody) return;
+  const list = orderFilter === 'Todos' ? orders : orders.filter(o => o.estado === orderFilter);
+  if (!list.length) {
+    tbody.innerHTML = '';
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+  const statusClass = { Pendiente:'os-pendiente', Confirmado:'os-confirmado', Entregado:'os-entregado', Cancelado:'os-cancelado' };
+  tbody.innerHTML = list.map(o => {
+    const fecha = o.createdAt ? new Date(o.createdAt).toLocaleDateString('es-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+    const prodsStr = (o.productos||[]).map(p=>`${p.nombre} ×${p.qty}`).join(', ');
+    const waMsg = buildOrderWaMsg(o);
+    return `<tr>
+      <td><div class="order-num">#${esc(o.orderNum||o.id)}</div></td>
+      <td>
+        <div class="order-client">${esc(o.nombre||'')} ${esc(o.apellido||'')}</div>
+        <div class="order-meta">${esc(o.tel||'')}${o.email?' · '+esc(o.email):''}</div>
+      </td>
+      <td><div class="order-prods" title="${esc(prodsStr)}">${esc(prodsStr)}</div></td>
+      <td><div class="order-total">$${Number(o.total||0).toFixed(2)}</div></td>
+      <td><div class="order-meta">${esc(o.pago||'—')}</div></td>
+      <td>
+        <select class="order-status ${statusClass[o.estado]||'os-pendiente'}" onchange="setOrderStatus('${esc(o.id)}',this)">
+          <option value="Pendiente" ${o.estado==='Pendiente'?'selected':''}>⏳ Pendiente</option>
+          <option value="Confirmado" ${o.estado==='Confirmado'?'selected':''}>✅ Confirmado</option>
+          <option value="Entregado" ${o.estado==='Entregado'?'selected':''}>📦 Entregado</option>
+          <option value="Cancelado" ${o.estado==='Cancelado'?'selected':''}>❌ Cancelado</option>
+        </select>
+      </td>
+      <td><div class="order-meta">${fecha}</div></td>
+      <td>
+        <button class="order-wa-btn" onclick="window.open('https://wa.me/${13524846858}?text='+encodeURIComponent(buildOrderWaMsg(orders.find(x=>x.id==='${esc(o.id)}'))),'_blank')" title="Abrir en WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WA
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function buildOrderWaMsg(o) {
+  if (!o) return '';
+  const lines = [
+    `*Pedido #${o.orderNum||o.id} — Bossa Fashion*`,
+    '━━━━━━━━━━━━━━━━━━━━',
+    `*Cliente:* ${o.nombre||''} ${o.apellido||''}`,
+    `*Teléfono:* ${o.tel||''}`,
+    o.email ? `*Correo:* ${o.email}` : '',
+    o.dir ? `*Dirección:* ${o.dir}` : '',
+    `*Pago:* ${o.pago||''}`,
+    `*Estado:* ${o.estado||'Pendiente'}`,
+    '',
+    '*Productos:*',
+    ...(o.productos||[]).map((p,i)=>`  ${i+1}. ${p.nombre}${p.sku?' ('+p.sku+')':''} × ${p.qty} = $${(p.qty*p.precio).toFixed(2)}`),
+    '',
+    '━━━━━━━━━━━━━━━━━━━━',
+    `*TOTAL: $${Number(o.total||0).toFixed(2)}*`,
+  ].filter(Boolean).join('\n');
+  return lines;
+}
+
+function setOrderStatus(id, select) {
+  const newStatus = select.value;
+  const cls = { Pendiente:'os-pendiente', Confirmado:'os-confirmado', Entregado:'os-entregado', Cancelado:'os-cancelado' };
+  select.className = 'order-status ' + (cls[newStatus]||'os-pendiente');
+  db.collection('orders').doc(id).update({ estado: newStatus })
+    .then(() => toast('Estado actualizado: ' + newStatus, 'ok'))
+    .catch(() => toast('Error al actualizar', 'err'));
+}
 
 // ══ TALLAS ══
 const TALLAS_DEFAULT = ['5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10','11'];
@@ -809,11 +971,18 @@ function startListeners() {
     products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     refreshUI();
   }, err => console.error('products:', err));
+
+  unsubOrders = db.collection('orders').orderBy('createdAt', 'desc').onSnapshot(snap => {
+    orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderOrders();
+    updateOrderStats();
+  }, err => console.warn('Orders listener:', err));
 }
 
 function stopListeners() {
   if (unsubCategories) { unsubCategories(); unsubCategories = null; }
   if (unsubProducts) { unsubProducts(); unsubProducts = null; }
+  if (unsubOrders) { unsubOrders(); unsubOrders = null; }
   products = []; categories = [];
 }
 
@@ -828,14 +997,14 @@ function refreshUI() {
 }
 
 // ══ NAV ══
-const VIEWS = ['dashboard', 'products', 'categories', 'settings'];
+const VIEWS = ['dashboard', 'products', 'categories', 'settings', 'orders'];
 function showView(v) {
   VIEWS.forEach(id => {
     document.getElementById('view-' + id).style.display = id === v ? 'block' : 'none';
     const nb = document.getElementById('nav-' + id);
     if (nb) nb.classList.toggle('on', id === v);
   });
-  const T = { dashboard: 'Dashboard', products: 'Productos', categories: 'Categorías', settings: 'Configuración' };
+  const T = { dashboard: 'Dashboard', products: 'Productos', categories: 'Categorías', settings: 'Configuración', orders: 'Pedidos' };
   document.getElementById('topbarTitle').textContent = T[v] || v;
   if (v === 'settings') renderFeatTable();
   closeSidebar();
