@@ -244,6 +244,19 @@ input,select,textarea{font-family:'Outfit',sans-serif}
 .stat-ico.teal{background:rgba(0,128,128,.12)}
 .stat-ico.teal svg{fill:teal}
 
+
+/* ── Size migration card ── */
+.migration-card{background:linear-gradient(135deg,rgba(230,16,151,.06),rgba(255,64,184,.04));border:1.5px solid rgba(230,16,151,.2);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.migration-title{font-size:.8rem;font-weight:700;color:var(--W);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.migration-desc{font-size:.74rem;color:var(--W3);line-height:1.7;margin-bottom:14px}
+.size-table{width:100%;border-collapse:collapse;font-size:.72rem;margin-bottom:14px}
+.size-table th{background:var(--B4);color:var(--W3);font-weight:700;letter-spacing:.5px;padding:5px 10px;text-align:center}
+.size-table td{padding:4px 10px;text-align:center;border-bottom:1px solid var(--B4);color:var(--W2)}
+.size-table tr:last-child td{border-bottom:none}
+.migration-result{font-size:.74rem;margin-top:10px;padding:8px 12px;border-radius:6px;display:none}
+.migration-result.ok{background:#d4edda;color:#155724}
+.migration-result.err{background:#f8d7da;color:#721c24}
+
 </style>
 </head>
 <body>
@@ -485,6 +498,41 @@ input,select,textarea{font-family:'Outfit',sans-serif}
         </div>
 
         <!-- Productos Destacados -->
+
+        <!-- Migración de tallas EU → US -->
+        <div class="sc" style="margin-bottom:20px">
+          <div class="sc-head"><div class="sc-title">Tallas — Conversión EU → US</div></div>
+          <div class="sc-body">
+            <div class="migration-card">
+              <div class="migration-title">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--R)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Migrar productos con tallas europeas a tallas americanas
+              </div>
+              <p class="migration-desc">Si cargaste productos con tallas EU (35, 36, 37…) usa este botón para convertirlas automáticamente a tallas US (5, 6, 7…). Solo afecta los productos que tengan tallas europeas — los demás no cambian.</p>
+
+              <table class="size-table">
+                <thead><tr><th>EU</th><th>→</th><th>US</th><th>EU</th><th>→</th><th>US</th></tr></thead>
+                <tbody>
+                  <tr><td>35</td><td>→</td><td>5</td><td>39</td><td>→</td><td>9</td></tr>
+                  <tr><td>35.5</td><td>→</td><td>5.5</td><td>39.5</td><td>→</td><td>9.5</td></tr>
+                  <tr><td>36</td><td>→</td><td>6</td><td>40</td><td>→</td><td>10</td></tr>
+                  <tr><td>36.5</td><td>→</td><td>6.5</td><td>40.5</td><td>→</td><td>10.5</td></tr>
+                  <tr><td>37</td><td>→</td><td>7</td><td>41</td><td>→</td><td>11</td></tr>
+                  <tr><td>37.5</td><td>→</td><td>7.5</td><td>41.5</td><td>→</td><td>11.5</td></tr>
+                  <tr><td>38</td><td>→</td><td>8</td><td>42</td><td>→</td><td>12</td></tr>
+                  <tr><td>38.5</td><td>→</td><td>8.5</td><td>43</td><td>→</td><td>13</td></tr>
+                </tbody>
+              </table>
+
+              <button class="btn btn-pink" onclick="migrateEuToUs()" id="migrateBtnEl">
+                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                Convertir tallas EU → US en todos los productos
+              </button>
+              <div class="migration-result" id="migrationResult"></div>
+            </div>
+          </div>
+        </div>
+
         <div class="sc">
           <div class="sc-head">
             <div class="sc-title">Productos Destacados</div>
@@ -633,7 +681,7 @@ input,select,textarea{font-family:'Outfit',sans-serif}
 
     <!-- TALLAS -->
     <div class="ff" style="margin-bottom:14px">
-      <label>Tallas disponibles</label>
+      <label>Tallas disponibles <span style="font-weight:400;color:var(--W3);font-size:.7rem">(tallas US)</span></label>
       <div class="tallas-wrap" id="tallasWrap"></div>
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
         <input type="text" id="fTallaExtra" placeholder="Talla personalizada (ej: 12)" style="border:1.5px solid var(--B4);border-radius:6px;padding:7px 10px;font-size:.78rem;outline:none;width:180px;background:var(--B)" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomTalla()}" onfocus="this.style.borderColor='var(--R)'" onblur="this.style.borderColor='var(--B4)'"/>
@@ -884,6 +932,58 @@ function setOrderStatus(id, select) {
   db.collection('orders').doc(id).update({ estado: newStatus })
     .then(() => toast('Estado actualizado: ' + newStatus, 'ok'))
     .catch(() => toast('Error al actualizar', 'err'));
+}
+
+
+// ══ EU → US SIZE MIGRATION ══
+const EU_TO_US = {
+  '35':'5','35.5':'5.5','36':'6','36.5':'6.5',
+  '37':'7','37.5':'7.5','38':'8','38.5':'8.5',
+  '39':'9','39.5':'9.5','40':'10','40.5':'10.5',
+  '41':'11','41.5':'11.5','42':'12','43':'13','44':'14'
+};
+
+async function migrateEuToUs() {
+  const btn = document.getElementById('migrateBtnEl');
+  const res = document.getElementById('migrationResult');
+  btn.disabled = true;
+  btn.textContent = 'Migrando…';
+  res.style.display = 'none';
+
+  try {
+    const snap = await db.collection('products').get();
+    const batch = db.batch();
+    let changed = 0, skipped = 0;
+
+    snap.docs.forEach(doc => {
+      const tallas = doc.data().tallas || [];
+      if (!tallas.length) { skipped++; return; }
+
+      const hasEu = tallas.some(t => EU_TO_US[String(t)]);
+      if (!hasEu) { skipped++; return; }
+
+      const newTallas = tallas.map(t => EU_TO_US[String(t)] || String(t));
+      batch.update(doc.ref, { tallas: newTallas });
+      changed++;
+    });
+
+    if (changed === 0) {
+      res.textContent = 'No se encontraron productos con tallas europeas. Todo ya está en US.';
+      res.className = 'migration-result ok';
+    } else {
+      await batch.commit();
+      res.textContent = `✓ ${changed} producto${changed!==1?'s':''} actualizados correctamente. ${skipped} sin cambios.`;
+      res.className = 'migration-result ok';
+    }
+  } catch(e) {
+    res.textContent = 'Error al migrar: ' + e.message;
+    res.className = 'migration-result err';
+    console.error(e);
+  }
+
+  res.style.display = 'block';
+  btn.disabled = false;
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Migración completada';
 }
 
 // ══ TALLAS ══
