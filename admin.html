@@ -257,6 +257,20 @@ input,select,textarea{font-family:'Outfit',sans-serif}
 .migration-result.ok{background:#d4edda;color:#155724}
 .migration-result.err{background:#f8d7da;color:#721c24}
 
+
+/* ── Talla chip with stock ── */
+.talla-chip-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.talla-chip{min-width:42px;height:36px;padding:0 10px;border:1.5px solid var(--B4);border-radius:6px;font-size:.74rem;font-weight:600;background:var(--B);color:var(--W3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;user-select:none}
+.talla-chip:hover{border-color:var(--R2);color:var(--R2)}
+.talla-chip.on{border-color:var(--R);background:var(--R3);color:var(--R)}
+.talla-stock-input{width:46px;height:26px;border:1.5px solid var(--B4);border-radius:5px;font-size:.7rem;font-weight:600;text-align:center;background:var(--B);color:var(--W);outline:none;display:none;font-family:'Outfit',sans-serif}
+.talla-chip.on + .talla-stock-input{display:block;border-color:rgba(230,16,151,.4)}
+.talla-stock-input:focus{border-color:var(--R)}
+.talla-stock-hint{font-size:.58rem;color:var(--W3);text-align:center;display:none}
+.talla-chip.on ~ .talla-stock-hint{display:block}
+.stock-badge{font-size:.58rem;font-weight:700;color:var(--W3);margin-top:1px;line-height:1}
+.stock-agotado .talla-chip{opacity:.45;text-decoration:line-through;cursor:not-allowed}
+
 </style>
 </head>
 <body>
@@ -413,7 +427,7 @@ input,select,textarea{font-family:'Outfit',sans-serif}
               <table class="prod-table">
                 <thead><tr>
                   <th>Foto</th><th>Nombre / SKU</th><th>Categoría</th>
-                  <th>Precio</th><th>Tallas</th><th>Estado</th><th>Acciones</th>
+                  <th>Precio</th><th>Tallas / Stock</th><th>Estado</th><th>Acciones</th>
                 </tr></thead>
                 <tbody id="prodTbody"></tbody>
               </table>
@@ -963,7 +977,13 @@ async function migrateEuToUs() {
       if (!hasEu) { skipped++; return; }
 
       const newTallas = tallas.map(t => EU_TO_US[String(t)] || String(t));
-      batch.update(doc.ref, { tallas: newTallas });
+      const oldStock = doc.data().tallaStock || {};
+      const newStock = {};
+      tallas.forEach(t => {
+        const usT = EU_TO_US[String(t)] || String(t);
+        newStock[usT] = oldStock[t] !== undefined ? oldStock[t] : 0;
+      });
+      batch.update(doc.ref, { tallas: newTallas, tallaStock: newStock });
       changed++;
     });
 
@@ -989,18 +1009,34 @@ async function migrateEuToUs() {
 // ══ TALLAS ══
 const TALLAS_DEFAULT = ['5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10','11'];
 let selectedTallas = new Set();
+let tallaStock = {}; // { '7': 5, '8': 3, ... }
 
 function renderTallasChips() {
   const wrap = document.getElementById('tallasWrap');
   const allTallas = [...new Set([...TALLAS_DEFAULT, ...selectedTallas])].sort((a,b) => parseFloat(a)-parseFloat(b));
-  wrap.innerHTML = allTallas.map(t =>
-    `<div class="talla-chip ${selectedTallas.has(t) ? 'on' : ''}" onclick="toggleTalla('${esc(t)}')">${esc(t)}</div>`
-  ).join('');
+  wrap.innerHTML = allTallas.map(t => {
+    const sel = selectedTallas.has(t);
+    const stock = tallaStock[t] !== undefined ? tallaStock[t] : '';
+    return `<div class="talla-chip-wrap">
+      <div class="talla-chip ${sel ? 'on' : ''}" onclick="toggleTalla('${esc(t)}')">${esc(t)}</div>
+      <input type="number" class="talla-stock-input" id="stock_${esc(t)}" min="0" max="9999" value="${sel ? (stock===''?'':stock) : ''}"
+        placeholder="0" title="Stock talla ${esc(t)}"
+        onchange="tallaStock['${esc(t)}']=parseInt(this.value)||0"
+        oninput="tallaStock['${esc(t)}']=parseInt(this.value)||0"
+        style="${sel ? '' : 'display:none'}"/>
+      <span class="stock-badge" style="${sel ? '' : 'display:none'}" id="stocklbl_${esc(t)}">und.</span>
+    </div>`;
+  }).join('');
 }
 
 function toggleTalla(t) {
-  if (selectedTallas.has(t)) selectedTallas.delete(t);
-  else selectedTallas.add(t);
+  if (selectedTallas.has(t)) {
+    selectedTallas.delete(t);
+    delete tallaStock[t];
+  } else {
+    selectedTallas.add(t);
+    if (tallaStock[t] === undefined) tallaStock[t] = 0;
+  }
   renderTallasChips();
 }
 
@@ -1009,6 +1045,7 @@ function addCustomTalla() {
   const val = input.value.trim();
   if (!val) return;
   selectedTallas.add(val);
+  if (tallaStock[val] === undefined) tallaStock[val] = 0;
   input.value = '';
   renderTallasChips();
 }
@@ -1140,7 +1177,7 @@ function renderProductTable(list) {
     <td><div class="prod-name">${esc(p.nombre)}</div>${p.sku ? `<div class="prod-sku">${esc(p.sku)}</div>` : ''}</td>
     <td>${p.categoria ? `<span class="cat-badge">${esc(p.categoria)}</span>` : '-'}</td>
     <td style="font-family:'Space Mono',monospace;font-size:.8rem;color:var(--W)">${p.precio != null ? '$' + Number(p.precio).toFixed(2) : '-'}${p.precioOferta ? `<div style="font-size:.65rem;color:var(--R);text-decoration:line-through">oferta $${Number(p.precioOferta).toFixed(2)}</div>` : ''}</td>
-    <td style="font-size:.7rem;color:var(--W3);max-width:100px">${(p.tallas && p.tallas.length) ? p.tallas.join(', ') : '-'}</td>
+    <td style="font-size:.7rem;color:var(--W3);max-width:120px">${(p.tallas && p.tallas.length) ? p.tallas.map(t => t + (p.tallaStock && p.tallaStock[t] !== undefined ? ' (' + p.tallaStock[t] + ')' : '')).join(', ') : '-'}</td>
     <td><span class="status-dot ${p.estado === 'Inactivo' ? 'status-inactive' : 'status-active'}">${p.estado || 'Activo'}</span></td>
     <td><div class="table-actions">
       <button class="btn btn-outline btn-sm" onclick="openProductModal('${esc(p.id)}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> Editar</button>
@@ -1204,6 +1241,9 @@ function openProductModal(id) {
   populateCatSelect('fCategoria', p?.categoria || '');
   setPhotoPreview(p?.imagen || '');
   selectedTallas = new Set(p?.tallas || []);
+  tallaStock = p?.tallaStock ? {...p.tallaStock} : {};
+  // Seed missing talla stocks to 0
+  selectedTallas.forEach(t => { if (tallaStock[t] === undefined) tallaStock[t] = 0; });
   renderTallasChips();
   document.getElementById('modalVeil').classList.add('open');
   document.getElementById('productModal').classList.add('open');
@@ -1241,6 +1281,7 @@ async function saveProduct() {
     descripcion: document.getElementById('fDescripcion').value.trim(),
     etiqueta: document.getElementById('fEtiqueta').value,
     tallas: [...selectedTallas].sort((a, b) => parseFloat(a) - parseFloat(b)),
+    tallaStock: Object.fromEntries([...selectedTallas].map(t => [t, parseInt(tallaStock[t])||0])),
     estado: document.getElementById('fEstado').value,
     updatedAt: Date.now()
   };

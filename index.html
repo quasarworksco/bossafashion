@@ -1002,6 +1002,15 @@ body.cart-open,.cart-open{overflow:hidden!important}
 .oc-wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;width:100%;justify-content:center;margin-bottom:10px}
 .oc-close-btn{font-size:.78rem;color:var(--W3);cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;text-decoration:underline}
 
+
+/* ── Talla stock display ── */
+.var-val-btn{position:relative}
+.var-val-btn .talla-stock-lbl{display:block;font-size:.5rem;font-weight:700;color:inherit;opacity:.7;line-height:1;margin-top:1px}
+.var-val-btn.agotado{opacity:.4;text-decoration:line-through;pointer-events:none;cursor:not-allowed}
+.var-val-btn.stock-low .talla-stock-lbl{color:#e67e22}
+.stock-total-badge{font-size:.68rem;color:var(--W3);margin-top:8px}
+.stock-total-badge strong{color:var(--R)}
+
 </style>
 </head>
 <body>
@@ -1670,7 +1679,13 @@ function productCard(p){
   if(isNuevo) badges.push('<span class="pb-nuevo">NUEVO</span>');
   if(hasSale||isDesc) badges.push('<span class="pb-sale">OFERTA</span>');
   const badgeWrap=badges.length?`<div class="p-badge-wrap">${badges.join('')}</div>`:'';
-  const tallasSnip=p.tallas&&p.tallas.length?`<div class="p-vars-badge">Tallas US: ${p.tallas.slice(0,4).join(' · ')}${p.tallas.length>4?'…':''}</div>`:'';
+  const ts=p.tallaStock||{};
+  const hasStockData=p.tallas&&p.tallas.length&&Object.keys(ts).length>0;
+  const availTallas=hasStockData?p.tallas.filter(t=>ts[t]===undefined||Number(ts[t])>0):p.tallas||[];
+  const allAgotado=hasStockData&&availTallas.length===0;
+  const tallasSnip=p.tallas&&p.tallas.length
+    ?`<div class="p-vars-badge">${allAgotado?'<span style="color:#e74c3c">Agotado</span>':'Tallas US: '+availTallas.slice(0,4).join(' · ')+(availTallas.length>4?'…':'')}</div>`
+    :'';
   return `<div class="p-card" onclick="openModal(${gi})">
     ${badgeWrap}
     <button class="p-share-btn" onclick="event.stopPropagation();shareProduct(${gi})" title="Compartir por WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
@@ -1753,9 +1768,21 @@ function openModal(gi){
     varsWrap.style.display='block';
     varsList.innerHTML='';
     if(hasTallas){
+      const ts=p.tallaStock||{};
+      const totalStock=p.tallas.reduce((s,t)=>s+(ts[t]!==undefined?Number(ts[t]):999),0);
+      const hasStockData=Object.keys(ts).length>0;
       varsList.innerHTML+=`<div class="var-type-section">
         <span class="var-type-label">Talla US</span>
-        <div class="var-values-row">${p.tallas.map((v,vi)=>`<button class="var-val-btn" data-type="Talla" data-val="${esc(v)}" data-gi="0" data-vi="${vi}" onclick="toggleVarVal(this)">${esc(v)}</button>`).join('')}</div>
+        <div class="var-values-row">${p.tallas.map((v,vi)=>{
+          const stk=ts[v]!==undefined?Number(ts[v]):null;
+          const agotado=stk!==null&&stk<=0;
+          const low=stk!==null&&stk>0&&stk<=3;
+          return `<button class="var-val-btn${agotado?' agotado':''}${low?' stock-low':''}" data-type="Talla" data-val="${esc(v)}" data-gi="0" data-vi="${vi}" onclick="${agotado?'':'toggleVarVal(this)'}" ${agotado?'disabled title="Agotado"':''}>
+            ${esc(v)}
+            ${stk!==null?`<span class="talla-stock-lbl">${agotado?'Agotado':stk<=3?'Últimas '+stk:stk+' disp.'}</span>`:''}
+          </button>`;
+        }).join('')}</div>
+        ${hasStockData&&totalStock<10&&totalStock>0?`<div class="stock-total-badge">⚡ Solo <strong>${totalStock}</strong> unidades en total</div>`:''}
       </div>`;
     }
     if(hasColores){
@@ -1843,6 +1870,16 @@ function addCurrentToCart(){
   // Require talla selection if product has tallas
   if(hasTallas&&!vars['Talla']){
     toast('Selecciona una talla antes de agregar.','err'); return;
+  }
+  // Stock check
+  if(vars['Talla']&&modalProduct.tallaStock){
+    const stk=modalProduct.tallaStock[vars['Talla']];
+    if(stk!==undefined&&Number(stk)<=0){
+      toast('Esa talla está agotada.','err'); return;
+    }
+    if(stk!==undefined&&modalQty>Number(stk)){
+      toast('Solo hay '+stk+' unidades de esa talla.','err'); return;
+    }
   }
 
   // Build label suffix
