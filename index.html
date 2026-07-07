@@ -131,7 +131,7 @@ section[id],div[id]{scroll-margin-top:var(--hh)}
 .slider{position:absolute;inset:0;z-index:0}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
 .slide.active{opacity:1;pointer-events:all}
-.slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.45) saturate(.7);animation:sliderZoom 8s ease-out forwards}
+.slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:brightness(.55) saturate(.85);animation:sliderZoom 8s ease-out forwards}
 .slide.active img{animation:sliderZoom 8s ease-out forwards}
 .slide-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.2) 100%),linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 50%)}
 /* SLIDER DOTS */
@@ -1022,6 +1022,13 @@ body.has-banner .hdr{top:var(--banner-h)}
 body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(--hh) + var(--banner-h))}
 
 
+/* ── Sticky FAB ── */
+.fab-comprar{position:fixed;bottom:24px;right:20px;z-index:900;display:flex;align-items:center;gap:8px;background:var(--R);color:#fff;font-weight:700;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:13px 22px;border-radius:50px;box-shadow:0 4px 20px rgba(230,16,151,.5);text-decoration:none;opacity:0;transform:translateY(12px);transition:opacity .35s,transform .35s,background .2s,box-shadow .2s;pointer-events:none}
+.fab-comprar.vis{opacity:1;transform:translateY(0);pointer-events:all}
+.fab-comprar:hover{background:var(--R2);box-shadow:0 6px 28px rgba(230,16,151,.65)}
+.fab-comprar svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
+@media(max-width:480px){.fab-comprar{bottom:16px;right:12px;padding:11px 18px;font-size:.68rem}}
+
 /* ── Trust bar ── */
 .trust-bar{background:var(--B);border-top:1px solid var(--B4);border-bottom:1px solid var(--B4);padding:0}
 .trust-bar-inner{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;max-width:1200px;margin:0 auto}
@@ -1091,24 +1098,24 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 <section class="hero" id="home">
   <!-- SLIDER -->
   <div class="slider" id="slider">
-    <!-- Slide 1: Calzado femenino elegante -->
+    <!-- Slide 1: Modelo con calzado elegante -->
     <div class="slide active" id="slide0">
-      <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1800&auto=format&fit=crop&q=85" alt="Calzado Damas Bossa Fashion"/>
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027f1573?w=1800&auto=format&fit=crop&q=85" alt="Calzado Damas Bossa Fashion"/>
       <div class="slide-overlay"></div>
     </div>
-    <!-- Slide 2: Tacones -->
+    <!-- Slide 2: Modelo jeans colombianos -->
     <div class="slide" id="slide1">
-      <img src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=1800&auto=format&fit=crop&q=85" alt="Tacones Bossa Fashion"/>
+      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1800&auto=format&fit=crop&q=85" alt="Jeans Colombianos Bossa Fashion"/>
       <div class="slide-overlay"></div>
     </div>
-    <!-- Slide 3: Colección completa -->
+    <!-- Slide 3: Modelo fajas colombianas -->
     <div class="slide" id="slide2">
-      <img src="https://images.unsplash.com/photo-1573100925118-870b8efc799d?w=1800&auto=format&fit=crop&q=85" alt="Colección Bossa Fashion"/>
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&auto=format&fit=crop&q=85" alt="Fajas Colombianas Bossa Fashion"/>
       <div class="slide-overlay"></div>
     </div>
-    <!-- Slide 4: Calzado casual mujer -->
+    <!-- Slide 4: Moda colombiana -->
     <div class="slide" id="slide3">
-      <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=1800&auto=format&fit=crop&q=85" alt="Calzado Casual Bossa Fashion"/>
+      <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1800&auto=format&fit=crop&q=85" alt="Moda Colombiana Bossa Fashion"/>
       <div class="slide-overlay"></div>
     </div>
   </div>
@@ -2330,6 +2337,25 @@ async function submitContact(e){
     <button class="oc-close-btn" onclick="closeOrderConfirm()">Cerrar</button>
   </div>
 </div>
+
+<!-- ── Sticky FAB ── -->
+<a href="#products" class="fab-comprar" id="fabComprar" aria-label="Comprar Ahora">
+  <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM5.83 6l-.94-2H2V2H0v2h2l3.6 7.59L4.25 14A2 2 0 006 17h14v-2H6.42l1.1-2h9.28a2 2 0 001.75-1.03l3.58-6.49A1 1 0 0021.25 4H5.83z"/></svg>
+  Comprar Ahora
+</a>
+<script>
+(function(){
+  var fab=document.getElementById('fabComprar');
+  var hero=document.getElementById('home');
+  if(!fab||!hero)return;
+  function onScroll(){
+    var below=window.scrollY>hero.offsetHeight*0.6;
+    fab.classList.toggle('vis',below);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
 
 </body>
 </html>
