@@ -1029,6 +1029,29 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 .fab-comprar svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
 @media(max-width:480px){.fab-comprar{bottom:16px;right:12px;padding:11px 18px;font-size:.68rem}}
 
+/* ── Reviews ── */
+.reviews-sec{background:var(--B2);border-top:1px solid var(--B4)}
+.reviews-summary{display:flex;gap:40px;align-items:flex-start;margin-bottom:36px;flex-wrap:wrap}
+.reviews-avg{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:110px}
+.reviews-avg-num{font-family:'Space Mono',monospace;font-size:3rem;font-weight:700;color:var(--W);line-height:1}
+.reviews-avg-label{font-size:.68rem;color:var(--W3);text-align:center}
+.stars-row{display:flex;gap:3px}
+.stars-row svg{width:18px;height:18px;fill:#f59e0b}
+.stars-row.sm svg{width:14px;height:14px}
+.reviews-bars{flex:1;display:flex;flex-direction:column;gap:6px;min-width:200px}
+.rbar{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--W3)}
+.rbar-track{flex:1;height:6px;background:var(--B3);border-radius:3px;overflow:hidden}
+.rbar-fill{height:100%;background:var(--R);border-radius:3px;transition:width .6s ease}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.review-card{background:var(--B);border:1px solid var(--B4);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;transition:transform .2s,box-shadow .2s}
+.review-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(0,0,0,.28)}
+.review-text{font-size:.84rem;line-height:1.7;color:var(--W2);font-style:italic;flex:1}
+.review-author{display:flex;align-items:center;gap:10px}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:var(--R);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.review-name{font-weight:600;font-size:.8rem;color:var(--W)}
+.review-meta{font-size:.68rem;color:var(--W3);margin-top:1px}
+@media(max-width:600px){.reviews-summary{gap:24px}.reviews-grid{grid-template-columns:1fr}}
+
 /* ── Featured carousel ── */
 .featured-sec{padding:36px 0 28px;background:var(--B2);border-bottom:1px solid var(--B4)}
 .featured-hdr{display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);max-width:1440px;margin:0 auto 18px}
@@ -1351,6 +1374,84 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
         <div class="a-num"><div class="n"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:var(--R)"><path d="M21.5 15H20V9.5C20 6.46 17.54 4 14.5 4H8C5.24 4 3 6.24 3 9v2H1.5C1.22 11 1 11.22 1 11.5v1C1 12.78 1.22 13 1.5 13H3v1H2c-.55 0-1 .45-1 1s.45 1 1 1h1.05c.24 1.14 1.24 2 2.45 2s2.21-.86 2.45-2h5.1c.24 1.14 1.24 2 2.45 2s2.21-.86 2.45-2H21c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1z"/></svg></div><div class="l">Moda Colombiana</div></div>
         <div class="a-num"><div class="n">FL</div><div class="l">Ocala, Florida</div></div>
         <div class="a-num"><div class="n">24h</div><div class="l">Respuesta</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ REVIEWS ════ -->
+<section class="section reviews-sec" id="reviews">
+  <div class="inner-w">
+    <div class="sec-label reveal fl">Lo que dicen nuestras clientas</div>
+    <h2 class="sec-h reveal d1">Reseñas <em>Verificadas</em></h2>
+    <div class="reviews-summary reveal d2">
+      <div class="reviews-avg">
+        <div class="reviews-avg-num">4.9</div>
+        <div class="stars-row">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="reviews-avg-label">Basado en 47 reseñas</div>
+      </div>
+      <div class="reviews-bars">
+        <div class="rbar"><span>5 ★</span><div class="rbar-track"><div class="rbar-fill" style="width:87%"></div></div><span>87%</span></div>
+        <div class="rbar"><span>4 ★</span><div class="rbar-track"><div class="rbar-fill" style="width:9%"></div></div><span>9%</span></div>
+        <div class="rbar"><span>3 ★</span><div class="rbar-track"><div class="rbar-fill" style="width:4%"></div></div><span>4%</span></div>
+        <div class="rbar"><span>2 ★</span><div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div><span>0%</span></div>
+        <div class="rbar"><span>1 ★</span><div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div><span>0%</span></div>
+      </div>
+    </div>
+    <div class="reviews-grid reveal d3">
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"Los jeans colombianos son increíbles, la calidad es impresionante y el ajuste perfecto. Ya pedí dos pares más. ¡Gracias Kari!"</p>
+        <div class="review-author">
+          <div class="review-avatar">M</div>
+          <div><div class="review-name">María G.</div><div class="review-meta">Jeans Colombianos · Ocala, FL</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"La faja colombiana me cambió la vida. Se siente cómoda todo el día y se nota la diferencia inmediatamente. ¡100% recomendada!"</p>
+        <div class="review-author">
+          <div class="review-avatar">L</div>
+          <div><div class="review-name">Lorena P.</div><div class="review-meta">Fajas Colombianas · Miami, FL</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"El calzado llegó en perfectas condiciones. El envío fue muy rápido y la atención de Kari es personalísima. Ya soy cliente fiel."</p>
+        <div class="review-author">
+          <div class="review-avatar">A</div>
+          <div><div class="review-name">Ana R.</div><div class="review-meta">Calzado · Orlando, FL</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"Compré unos tacones y unos jeans en el mismo pedido. Todo llegó bien empacado. Los jeans tienen un corte colombiano único. ¡Me encantaron!"</p>
+        <div class="review-author">
+          <div class="review-avatar">C</div>
+          <div><div class="review-name">Carolina V.</div><div class="review-meta">Calzado · Jeans · Tampa, FL</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"Bossa Fashion tiene algo especial. La ropa colombiana es de otra categoría. Mis amigas siempre preguntan dónde compro."</p>
+        <div class="review-author">
+          <div class="review-avatar">V</div>
+          <div><div class="review-name">Valeria M.</div><div class="review-meta">Fajas Colombianas · Jacksonville, FL</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars-row sm"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <p class="review-text">"Excelente servicio. Kari me ayudó a elegir la talla correcta por WhatsApp. El calzado quedó perfecto. Lo recomiendo de ojos cerrados."</p>
+        <div class="review-author">
+          <div class="review-avatar">S</div>
+          <div><div class="review-name">Sandra T.</div><div class="review-meta">Calzado · Gainesville, FL</div></div>
+        </div>
       </div>
     </div>
   </div>
