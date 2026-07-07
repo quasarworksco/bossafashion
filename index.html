@@ -1029,6 +1029,15 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 .fab-comprar svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
 @media(max-width:480px){.fab-comprar{bottom:16px;right:12px;padding:11px 18px;font-size:.68rem}}
 
+/* ── Stats bar ── */
+.stats-bar{background:var(--R);padding:36px var(--pad)}
+.stats-bar-inner{display:flex;align-items:center;justify-content:center;gap:0;max-width:900px;margin:0 auto;flex-wrap:wrap}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 36px;flex:1;min-width:150px;text-align:center}
+.stat-num{font-family:'Space Mono',monospace;font-size:2.4rem;font-weight:700;color:#fff;line-height:1}
+.stat-label{font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.stat-divider{width:1px;height:48px;background:rgba(255,255,255,.25);flex-shrink:0}
+@media(max-width:640px){.stat-divider{display:none}.stat-item{min-width:140px;padding:10px 16px}.stat-num{font-size:1.9rem}}
+
 /* ── Reviews ── */
 .reviews-sec{background:var(--B2);border-top:1px solid var(--B4)}
 .reviews-summary{display:flex;gap:40px;align-items:flex-start;margin-bottom:36px;flex-wrap:wrap}
@@ -1353,6 +1362,31 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
     <div id="prodContainer"></div>
   </div>
 </section>
+
+<!-- ════ STATS ════ -->
+<div class="stats-bar" id="statsBar">
+  <div class="stats-bar-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="500" data-suffix="+">0</div>
+      <div class="stat-label">Clientes Satisfechas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal d1">
+      <div class="stat-num" data-target="1200" data-suffix="+">0</div>
+      <div class="stat-label">Productos Vendidos</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal d2">
+      <div class="stat-num" data-target="3" data-suffix=" categorías">0</div>
+      <div class="stat-label">Calzado · Jeans · Fajas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal d3">
+      <div class="stat-num" data-target="4.9" data-suffix="★">0</div>
+      <div class="stat-label">Calificación Promedio</div>
+    </div>
+  </div>
+</div>
 
 <!-- ════ ABOUT ════ -->
 <section class="section about-section" id="about">
@@ -2424,6 +2458,39 @@ function toast(msg){ const el=document.getElementById('toast');document.getEleme
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -24px 0px'});
 function observeReveals(){ document.querySelectorAll('.reveal:not(.vis)').forEach(el=>ro.observe(el)); }
 observeReveals();
+
+// ── Stats counter animation ──
+(function(){
+  var counters=document.querySelectorAll('.stat-num[data-target]');
+  if(!counters.length) return;
+  var done=false;
+  var statsObs=new IntersectionObserver(function(entries){
+    if(done) return;
+    if(entries.some(function(e){return e.isIntersecting;})){
+      done=true;
+      statsObs.disconnect();
+      counters.forEach(function(el){
+        var target=parseFloat(el.dataset.target);
+        var suffix=el.dataset.suffix||'';
+        var isFloat=target%1!==0;
+        var duration=1800;
+        var start=null;
+        function step(ts){
+          if(!start) start=ts;
+          var prog=Math.min((ts-start)/duration,1);
+          var ease=1-Math.pow(1-prog,3);
+          var val=target*ease;
+          el.textContent=(isFloat?val.toFixed(1):Math.floor(val))+suffix;
+          if(prog<1) requestAnimationFrame(step);
+          else el.textContent=(isFloat?target.toFixed(1):target)+suffix;
+        }
+        requestAnimationFrame(step);
+      });
+    }
+  },{threshold:0.3});
+  var bar=document.getElementById('statsBar');
+  if(bar) statsObs.observe(bar);
+})();
 
 // ══════════════════════════════════
 //  HEADER SCROLL
