@@ -1011,6 +1011,16 @@ body.cart-open,.cart-open{overflow:hidden!important}
 .stock-total-badge{font-size:.68rem;color:var(--W3);margin-top:8px}
 .stock-total-badge strong{color:var(--R)}
 
+
+/* ── Promo Banner ── */
+#promoBanner{position:fixed;top:0;left:0;right:0;z-index:700;display:none;align-items:center;justify-content:center;gap:10px;padding:8px 16px;font-size:.75rem;font-weight:600;letter-spacing:.3px;line-height:1.4;text-align:center;transition:all .3s}
+#promoBanner.visible{display:flex}
+#promoBanner .pb-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;opacity:.7;line-height:1;font-size:1rem;padding:2px 6px;color:inherit}
+#promoBanner .pb-close:hover{opacity:1}
+body.has-banner{--banner-h:36px}
+body.has-banner .hdr{top:var(--banner-h)}
+body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(--hh) + var(--banner-h))}
+
 </style>
 </head>
 <body>
@@ -1028,6 +1038,12 @@ body.cart-open,.cart-open{overflow:hidden!important}
 </nav>
 
 <!-- HEADER -->
+<!-- ════ PROMO BANNER ════ -->
+<div id="promoBanner" role="alert">
+  <span id="promoBannerText"></span>
+  <button class="pb-close" onclick="closeBanner()" title="Cerrar">✕</button>
+</div>
+
 <header class="hdr" id="hdr">
   <a href="#home" class="hdr-logo"><div class="hdr-logo-text">Bossa <span>Fashion</span></div></a>
   <ul class="hdr-nav">
@@ -1808,6 +1824,15 @@ function openModal(gi){
   document.body.style.overflow='hidden';
 }
 
+
+
+function closeBanner(){
+  const banner=document.getElementById('promoBanner');
+  const txt=document.getElementById('promoBannerText').textContent;
+  banner.classList.remove('visible');
+  document.body.classList.remove('has-banner');
+  sessionStorage.setItem('bannerClosed_'+txt,'1');
+}
 
 function shareProduct(gi){
   const p=allProducts[gi];

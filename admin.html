@@ -271,6 +271,11 @@ input,select,textarea{font-family:'Outfit',sans-serif}
 .stock-badge{font-size:.58rem;font-weight:700;color:var(--W3);margin-top:1px;line-height:1}
 .stock-agotado .talla-chip{opacity:.45;text-decoration:line-through;cursor:not-allowed}
 
+
+/* ── Banner color swatches ── */
+.banner-color-opt{width:26px;height:26px;border-radius:50%;cursor:pointer;transition:transform .15s,box-shadow .15s;border:2px solid transparent}
+.banner-color-opt:hover,.banner-color-opt.on{transform:scale(1.2);box-shadow:0 0 0 3px rgba(230,16,151,.35)}
+
 </style>
 </head>
 <body>
@@ -464,6 +469,50 @@ input,select,textarea{font-family:'Outfit',sans-serif}
 
       <!-- SETTINGS -->
       <div id="view-settings" style="display:none">
+
+        <!-- Banner de Promociones -->
+        <div class="sc" style="margin-bottom:20px">
+          <div class="sc-head"><div class="sc-title">Banner de Promociones</div></div>
+          <div class="sc-body">
+            <p style="font-size:.8rem;color:var(--W3);margin-bottom:16px;line-height:1.65">El banner aparece en la parte superior del sitio. Úsalo para anunciar ofertas, envíos gratis, descuentos, etc.</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <label style="font-size:.8rem;font-weight:600;color:var(--W)">Activar banner</label>
+              <label style="position:relative;display:inline-flex;align-items:center;cursor:pointer">
+                <input type="checkbox" id="bannerActive" onchange="saveBanner()" style="opacity:0;width:0;height:0;position:absolute"/>
+                <span id="bannerToggle" style="width:42px;height:24px;background:var(--B5);border-radius:12px;display:block;transition:.2s;position:relative">
+                  <span style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="bannerThumb"></span>
+                </span>
+              </label>
+            </div>
+            <div class="form-grid" style="margin-bottom:12px">
+              <div class="ff ff-full">
+                <label>Texto del banner</label>
+                <input type="text" id="bannerText" maxlength="120" placeholder="Ej: 🚚 Envíos gratis en compras mayores a $60 · Usa el código BOSSA10 para 10% OFF" oninput="updateBannerPreview()"/>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap">
+              <div class="ff">
+                <label>Color de fondo</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+                  <div class="banner-color-opt" data-bg="#E61097" data-col="#fff" style="background:#E61097" onclick="setBannerColor(this)"></div>
+                  <div class="banner-color-opt" data-bg="#ff6b00" data-col="#fff" style="background:#ff6b00" onclick="setBannerColor(this)"></div>
+                  <div class="banner-color-opt" data-bg="#22aa4a" data-col="#fff" style="background:#22aa4a" onclick="setBannerColor(this)"></div>
+                  <div class="banner-color-opt" data-bg="#1a1a2e" data-col="#fff" style="background:#1a1a2e" onclick="setBannerColor(this)"></div>
+                  <div class="banner-color-opt" data-bg="#fce4f6" data-col="#E61097" style="background:#fce4f6;border:1.5px solid #E61097" onclick="setBannerColor(this)"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Preview -->
+            <div style="margin-bottom:14px">
+              <label style="font-size:.72rem;color:var(--W3);font-weight:700;letter-spacing:1px;text-transform:uppercase">Vista previa</label>
+              <div id="bannerPreview" style="margin-top:6px;padding:10px 20px;border-radius:6px;font-size:.75rem;font-weight:600;text-align:center;background:#E61097;color:#fff;min-height:36px">Tu banner aparecerá aquí</div>
+            </div>
+            <button class="btn btn-pink" onclick="saveBanner()">
+              <svg viewBox="0 0 24 24"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+              Guardar banner
+            </button>
+          </div>
+        </div>
 
         <!-- Fotos "Nuestra Historia" -->
         <div class="sc" style="margin-bottom:20px">
@@ -949,6 +998,68 @@ function setOrderStatus(id, select) {
 }
 
 
+
+// ══ BANNER ══
+let bannerBg = '#E61097', bannerColor = '#fff';
+
+function updateBannerPreview() {
+  const txt = document.getElementById('bannerText').value || 'Tu banner aparecerá aquí';
+  const prev = document.getElementById('bannerPreview');
+  prev.textContent = txt;
+  prev.style.background = bannerBg;
+  prev.style.color = bannerColor;
+}
+
+function setBannerColor(el) {
+  document.querySelectorAll('.banner-color-opt').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+  bannerBg = el.dataset.bg;
+  bannerColor = el.dataset.col;
+  updateBannerPreview();
+}
+
+function updateToggleUI(active) {
+  const thumb = document.getElementById('bannerThumb');
+  const track = document.getElementById('bannerToggle');
+  if (active) {
+    track.style.background = 'var(--R)';
+    thumb.style.left = '21px';
+  } else {
+    track.style.background = 'var(--B5)';
+    thumb.style.left = '3px';
+  }
+}
+
+function saveBanner() {
+  const active = document.getElementById('bannerActive').checked;
+  const text = (document.getElementById('bannerText').value || '').trim();
+  updateToggleUI(active);
+  db.collection('settings').doc('site').set({
+    bannerActive: active,
+    bannerText: text,
+    bannerBg: bannerBg,
+    bannerColor: bannerColor
+  }, { merge: true })
+    .then(() => toast('Banner guardado.', 'ok'))
+    .catch(() => toast('Error al guardar banner.', 'err'));
+}
+
+function loadBannerSettings(data) {
+  if (!data) return;
+  if (data.bannerText) document.getElementById('bannerText').value = data.bannerText;
+  if (data.bannerBg) bannerBg = data.bannerBg;
+  if (data.bannerColor) bannerColor = data.bannerColor;
+  if (data.bannerActive !== undefined) {
+    document.getElementById('bannerActive').checked = data.bannerActive;
+    updateToggleUI(data.bannerActive);
+  }
+  // Highlight matching color swatch
+  document.querySelectorAll('.banner-color-opt').forEach(el => {
+    el.classList.toggle('on', el.dataset.bg === bannerBg);
+  });
+  updateBannerPreview();
+}
+
 // ══ EU → US SIZE MIGRATION ══
 const EU_TO_US = {
   '35':'5','35.5':'5.5','36':'6','36.5':'6.5',
@@ -1431,6 +1542,7 @@ function loadSettingsPreviews() {
       if (img) { img.src = url; img.style.display = 'block'; }
       if (ph)  ph.style.display = 'none';
     });
+    loadBannerSettings(d);
   });
 }
 
