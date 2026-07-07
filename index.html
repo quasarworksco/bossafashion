@@ -1029,6 +1029,33 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 .fab-comprar svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
 @media(max-width:480px){.fab-comprar{bottom:16px;right:12px;padding:11px 18px;font-size:.68rem}}
 
+/* ── Featured carousel ── */
+.featured-sec{padding:36px 0 28px;background:var(--B2);border-bottom:1px solid var(--B4)}
+.featured-hdr{display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);max-width:1440px;margin:0 auto 18px}
+.featured-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--W)}
+.featured-title span{color:var(--R2);font-style:italic}
+.featured-view-all{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--R2);text-decoration:none;border:1px solid rgba(230,16,151,.3);padding:6px 14px;border-radius:20px;transition:background .2s,color .2s}
+.featured-view-all:hover{background:var(--R);color:#fff;border-color:var(--R)}
+.feat-track-wrap{position:relative;overflow:hidden;padding:0 var(--pad)}
+.feat-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.feat-track::-webkit-scrollbar{display:none}
+.feat-card{flex:0 0 200px;scroll-snap-align:start;background:var(--B);border:1px solid var(--B4);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+.feat-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.35)}
+.feat-card-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block;background:var(--B3)}
+.feat-card-body{padding:10px 12px 12px}
+.feat-card-name{font-weight:600;font-size:.8rem;color:var(--W);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.feat-card-price{font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;color:var(--R2)}
+.feat-card-price-orig{font-size:.72rem;color:var(--W3);text-decoration:line-through;margin-left:4px}
+.feat-badge{position:absolute;top:8px;left:8px;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+.feat-badge.nuevo{background:var(--R);color:#fff}
+.feat-badge.oferta{background:#f59e0b;color:#000}
+.feat-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:var(--B2);border:1px solid var(--B4);color:var(--W2);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;opacity:0;pointer-events:none}
+.feat-arr.vis{opacity:1;pointer-events:all}
+.feat-arr:hover{background:var(--R);color:#fff;border-color:var(--R)}
+.feat-arr svg{width:18px;height:18px;fill:currentColor}
+.feat-arr-l{left:4px}.feat-arr-r{right:4px}
+@media(max-width:480px){.feat-card{flex:0 0 160px}.featured-hdr{margin-bottom:12px}}
+
 /* ── Trust bar ── */
 .trust-bar{background:var(--B);border-top:1px solid var(--B4);border-bottom:1px solid var(--B4);padding:0}
 .trust-bar-inner{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;max-width:1200px;margin:0 auto}
@@ -1218,6 +1245,23 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
   <span class="pay-logo ap">Apple Pay</span>
   <span class="pay-logo sp">Shop Pay</span>
   <span class="pay-logo zelle">Zelle</span>
+</div>
+
+<!-- ════ FEATURED CAROUSEL ════ -->
+<div class="featured-sec" id="featuredSec" style="display:none">
+  <div class="featured-hdr">
+    <div class="featured-title">Productos <span>Destacados</span></div>
+    <a href="#products" class="featured-view-all">Ver todos</a>
+  </div>
+  <div class="feat-track-wrap">
+    <button class="feat-arr feat-arr-l" id="featArrL" onclick="scrollFeat(-1)" aria-label="Anterior">
+      <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+    </button>
+    <div class="feat-track" id="featTrack"></div>
+    <button class="feat-arr feat-arr-r vis" id="featArrR" onclick="scrollFeat(1)" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </button>
+  </div>
 </div>
 
 <!-- ════ CATEGORY TABS ════ -->
@@ -1582,12 +1626,14 @@ function loadProducts(){
         .sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
       buildCounts();
       renderCollGrid();
+      renderFeaturedCarousel();
       applyAll();
     }, err=>{
       console.error('Firestore products:',err);
       allProducts=[];
       buildCounts();
       renderCollGrid();
+      renderFeaturedCarousel();
       applyAll();
     });
 
@@ -1702,6 +1748,46 @@ function renderCollGrid(){
       </div>
     </div>`;
   }).join('');
+}
+
+// ── Featured Carousel ──
+function renderFeaturedCarousel(){
+  var sec=document.getElementById('featuredSec');
+  var track=document.getElementById('featTrack');
+  if(!sec||!track) return;
+  var dest=allProducts.filter(function(p){return p.destacado&&p.estado==='Activo';}).sort(function(a,b){return (a.ordenDestacado||99)-(b.ordenDestacado||99);});
+  if(!dest.length){sec.style.display='none';return;}
+  sec.style.display='';
+  track.innerHTML=dest.map(function(p){
+    var gi=allProducts.indexOf(p);
+    var priceHtml='<span class="feat-card-price">$'+Number(p.precioOferta||p.precio||0).toFixed(2)+'</span>';
+    if(p.precioOferta&&p.precio) priceHtml+='<span class="feat-card-price-orig">$'+Number(p.precio).toFixed(2)+'</span>';
+    var badge='';
+    if(p.etiqueta==='Nuevo') badge='<div class="feat-badge nuevo">NUEVO</div>';
+    else if(p.etiqueta==='Oferta'||p.etiqueta==='Descuento') badge='<div class="feat-badge oferta">OFERTA</div>';
+    return '<div class="feat-card" onclick="openModal('+gi+')">'+
+      badge+
+      '<img class="feat-card-img" src="'+esc(p.imagen||FB)+'" alt="'+esc(p.nombre)+'" loading="lazy" onerror="fallbackImg(this)"/>'+
+      '<div class="feat-card-body">'+
+      '<div class="feat-card-name">'+esc(p.nombre)+'</div>'+
+      '<div>'+priceHtml+'</div>'+
+      '</div></div>';
+  }).join('');
+  // update arrow visibility
+  updateFeatArrows();
+  track.addEventListener('scroll',updateFeatArrows,{passive:true});
+}
+function updateFeatArrows(){
+  var track=document.getElementById('featTrack');
+  var l=document.getElementById('featArrL');
+  var r=document.getElementById('featArrR');
+  if(!track||!l||!r) return;
+  l.classList.toggle('vis',track.scrollLeft>10);
+  r.classList.toggle('vis',track.scrollLeft<track.scrollWidth-track.clientWidth-10);
+}
+function scrollFeat(dir){
+  var track=document.getElementById('featTrack');
+  if(track) track.scrollBy({left:dir*220,behavior:'smooth'});
 }
 
 // ══════════════════════════════════
