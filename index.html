@@ -591,16 +591,36 @@ section[id],div[id]{scroll-margin-top:var(--hh)}
 
 /* FOOTER */
 .site-footer{background:var(--B);border-top:2px solid var(--R3);padding:50px var(--pad) 24px}
-.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:44px;margin-bottom:38px}
-@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:26px}}
-@media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
-.footer-brand p{font-size:.74rem;color:var(--W3);line-height:1.7;max-width:260px}
-.footer-col-title{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--R2);font-weight:700;margin-bottom:12px}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-newsletter{background:var(--B3);border-bottom:1px solid var(--B4);padding:22px var(--pad)}
+.fn-inner{display:flex;align-items:center;justify-content:space-between;max-width:900px;margin:0 auto;gap:20px;flex-wrap:wrap}
+.fn-title{font-weight:700;font-size:.9rem;color:var(--W)}
+.fn-sub{font-size:.72rem;color:var(--W3);margin-top:2px}
+.fn-form{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.fn-input{background:var(--B);border:1px solid var(--B4);color:var(--W);padding:9px 14px;border-radius:6px;font-size:.8rem;outline:none;min-width:200px;transition:border-color .2s}
+.fn-input:focus{border-color:var(--R)}
+.fn-btn{background:var(--R);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .2s}
+.fn-btn:hover{background:var(--R2)}
+.footer-main{padding:52px var(--pad) 24px}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:20px}}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--W);margin-bottom:12px}
+.footer-logo span{color:var(--R)}
+.footer-brand p{font-size:.74rem;color:var(--W3);line-height:1.75;max-width:260px;margin-bottom:18px}
+.footer-social{display:flex;gap:8px;flex-wrap:wrap}
+.fsoc-btn{width:36px;height:36px;border-radius:8px;background:var(--B3);border:1px solid var(--B4);display:flex;align-items:center;justify-content:center;color:var(--W3);transition:background .2s,color .2s,border-color .2s}
+.fsoc-btn:hover{background:var(--R);color:#fff;border-color:var(--R)}
+.fsoc-btn svg{width:16px;height:16px;fill:currentColor}
+.footer-col-title{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--R2);font-weight:700;margin-bottom:14px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
 .footer-col ul li a{font-size:.74rem;color:var(--W3);text-decoration:none;transition:color .2s}
 .footer-col ul li a:hover{color:var(--R)}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--B4);padding-top:18px}
-.footer-copy{font-size:.64rem;color:#333;letter-spacing:.5px}
+.footer-addr,.footer-hours{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--W3);margin-top:10px}
+.footer-addr svg{width:14px;height:14px;fill:var(--R);flex-shrink:0}
+.footer-pay{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:16px 0;border-top:1px solid var(--B4);border-bottom:1px solid var(--B4);margin-bottom:18px}
+.footer-pay-label{font-size:.62rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--W3)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.footer-copy{font-size:.64rem;color:#444;letter-spacing:.5px}
 .footer-copy span{color:var(--R2)}
 
 /* ════ MOBILE RESPONSIVE IMPROVEMENTS ════ */
@@ -1540,25 +1560,113 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--W);margin-bottom:10px">Bossa <span style="color:var(--R)">Fashion</span></div>
-      <p>Calzado, jeans y fajas colombianos. Estilo y elegancia. Ocala, Florida.</p>
+  <!-- Newsletter strip -->
+  <div class="footer-newsletter">
+    <div class="fn-inner">
+      <div class="fn-copy">
+        <div class="fn-title">¿Quieres enterarte primero de las novedades?</div>
+        <div class="fn-sub">Únete a nuestra comunidad y recibe ofertas exclusivas.</div>
+      </div>
+      <div class="fn-form">
+        <input type="email" id="fnEmail" placeholder="tu@email.com" class="fn-input"/>
+        <button class="fn-btn" onclick="subscribeNewsletter()">Suscribirme</button>
+      </div>
     </div>
-    <div class="footer-col"><div class="footer-col-title">Tienda</div><ul>
-      <li><a href="#collection">Colección</a></li>
-      <li><a href="#products">Catálogo</a></li>
-      <li><a href="#about">Nosotros</a></li>
-    </ul></div>
-    <div class="footer-col"><div class="footer-col-title">Contacto</div><ul>
-      <li><a href="tel:+13524846858">+1 (352) 484-6858</a></li>
-      <li><a href="mailto:bossafashion2025@gmail.com">bossafashion2025@gmail.com</a></li>
-      <li><a href="https://wa.me/13524846858" target="_blank">WhatsApp</a></li>
-      <li><a href="https://www.instagram.com/bossafashion_?igsh=azZ1ZnZyZ3NtMzBn" target="_blank">Instagram</a></li>
-    </ul></div>
   </div>
-  <div class="footer-bottom"><div class="footer-copy">&copy; 2026 <span>BOSSA FASHION</span> by Kari Bossa · Ocala, Florida</div></div>
+
+  <div class="footer-main">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="footer-logo">Bossa <span>Fashion</span></div>
+        <p>Calzado de dama, jeans colombianos y fajas colombianas de calidad premium. Desde Ocala, Florida, llevamos el estilo colombiano a todo EE.UU.</p>
+        <!-- Social -->
+        <div class="footer-social">
+          <a href="https://www.instagram.com/bossafashion_?igsh=azZ1ZnZyZ3NtMzBn" target="_blank" rel="noopener" class="fsoc-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/13524846858" target="_blank" rel="noopener" class="fsoc-btn" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/bossafashion" target="_blank" rel="noopener" class="fsoc-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@bossafashion" target="_blank" rel="noopener" class="fsoc-btn" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tienda -->
+      <div class="footer-col">
+        <div class="footer-col-title">Tienda</div>
+        <ul>
+          <li><a href="#collection">Colección Destacada</a></li>
+          <li><a href="#products">Catálogo Completo</a></li>
+          <li><a href="#products" onclick="setCategory('Calzado',null)">Calzado de Dama</a></li>
+          <li><a href="#products" onclick="setCategory('Jeans Colombianos',null)">Jeans Colombianos</a></li>
+          <li><a href="#products" onclick="setCategory('Fajas Colombianas',null)">Fajas Colombianas</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#reviews">Reseñas</a></li>
+        </ul>
+      </div>
+
+      <!-- Políticas -->
+      <div class="footer-col">
+        <div class="footer-col-title">Políticas</div>
+        <ul>
+          <li><a href="#" onclick="showPolicy('envios')">Envíos y Entregas</a></li>
+          <li><a href="#" onclick="showPolicy('cambios')">Cambios y Devoluciones</a></li>
+          <li><a href="#" onclick="showPolicy('tallas')">Guía de Tallas</a></li>
+          <li><a href="#" onclick="showPolicy('privacidad')">Política de Privacidad</a></li>
+          <li><a href="#" onclick="showPolicy('terminos')">Términos y Condiciones</a></li>
+        </ul>
+      </div>
+
+      <!-- Contacto -->
+      <div class="footer-col">
+        <div class="footer-col-title">Contacto</div>
+        <ul>
+          <li><a href="tel:+13524846858">📞 +1 (352) 484-6858</a></li>
+          <li><a href="mailto:bossafashion2025@gmail.com">✉️ bossafashion2025@gmail.com</a></li>
+          <li><a href="https://wa.me/13524846858" target="_blank" rel="noopener">💬 WhatsApp directo</a></li>
+          <li><a href="https://www.instagram.com/bossafashion_?igsh=azZ1ZnZyZ3NtMzBn" target="_blank" rel="noopener">📸 @bossafashion_</a></li>
+        </ul>
+        <div class="footer-addr">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Ocala, Florida · EE.UU.
+        </div>
+        <div class="footer-hours">Lun–Sáb 9am–7pm EST</div>
+      </div>
+    </div>
+
+    <!-- Pay logos row -->
+    <div class="footer-pay">
+      <span class="footer-pay-label">Métodos de pago aceptados:</span>
+      <span class="pay-logo visa">VISA</span>
+      <span class="pay-logo mc">MC</span>
+      <span class="pay-logo pp">PayPal</span>
+      <span class="pay-logo ap">Apple Pay</span>
+      <span class="pay-logo sp">Shop Pay</span>
+      <span class="pay-logo zelle">Zelle</span>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 <span>BOSSA FASHION</span> by Kari Bossa · Ocala, Florida · Todos los derechos reservados</div>
+      <div class="footer-copy" style="color:#444">Hecho con ❤️ para la comunidad latina en EE.UU.</div>
+    </div>
+  </div>
 </footer>
+
+<!-- POLICY MODAL -->
+<div class="modal-veil" id="policyVeil" onclick="closePolicy()" style="display:none;z-index:1200"></div>
+<div id="policyModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1201;background:var(--B2);border:1px solid var(--B4);border-radius:16px;padding:32px;max-width:560px;width:calc(100% - 32px);max-height:80vh;overflow-y:auto">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+    <div id="policyTitle" style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--W)"></div>
+    <button onclick="closePolicy()" style="background:none;border:none;color:var(--W3);cursor:pointer;font-size:1.4rem;line-height:1">&times;</button>
+  </div>
+  <div id="policyBody" style="font-size:.84rem;color:var(--W2);line-height:1.75"></div>
+</div>
 
 <!-- WA FLOAT -->
 <a href="https://wa.me/13524846858" target="_blank" class="wa-float"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span class="wa-float-lbl">¿Preguntas?</span></a>
@@ -2491,6 +2599,34 @@ observeReveals();
   var bar=document.getElementById('statsBar');
   if(bar) statsObs.observe(bar);
 })();
+
+// ── Newsletter ──
+function subscribeNewsletter(){
+  var email=(document.getElementById('fnEmail')||{}).value||'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Ingresa un correo válido');return;}
+  toast('¡Gracias! Te avisaremos de nuestras ofertas.');
+  document.getElementById('fnEmail').value='';
+}
+
+// ── Policy Modal ──
+var POLICIES={
+  envios:{title:'Envíos y Entregas',body:'<p><strong>Cobertura:</strong> Realizamos envíos a todo EE.UU. desde Ocala, Florida.</p><p><strong>Tiempo de entrega:</strong> 3-7 días hábiles según la ubicación. Productos en inventario se despachan en 1-2 días hábiles.</p><p><strong>Costo de envío:</strong> Varía según destino y peso del pedido. El costo se informa al confirmar el pedido por WhatsApp.</p><p><strong>Seguimiento:</strong> Recibirás el número de rastreo por WhatsApp o correo una vez despachado tu pedido.</p>'},
+  cambios:{title:'Cambios y Devoluciones',body:'<p><strong>Cambios de talla:</strong> Aceptamos cambios dentro de los 7 días calendario de recibido el producto, siempre que esté sin usar, sin lavar y con etiquetas originales.</p><p><strong>Devoluciones:</strong> Se aceptan devoluciones por defecto de fábrica. El costo de envío de retorno corre por cuenta del cliente salvo error nuestro.</p><p><strong>¿Cómo iniciar un cambio?</strong> Escríbenos por WhatsApp al +1 (352) 484-6858 con foto del producto y número de pedido.</p><p><strong>Nota:</strong> No se aceptan cambios en productos de temporada agotada.</p>'},
+  tallas:{title:'Guía de Tallas (US)',body:'<p>Trabajamos con tallas americanas (US) para calzado:</p><table style="width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px"><tr style="background:var(--B3)"><th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--B4)">US</th><th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--B4)">EU</th><th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--B4)">CM (aprox.)</th></tr><tr><td style="padding:5px 10px">5</td><td style="padding:5px 10px">35-36</td><td style="padding:5px 10px">22 cm</td></tr><tr style="background:var(--B3)"><td style="padding:5px 10px">6</td><td style="padding:5px 10px">36-37</td><td style="padding:5px 10px">23 cm</td></tr><tr><td style="padding:5px 10px">7</td><td style="padding:5px 10px">37-38</td><td style="padding:5px 10px">24 cm</td></tr><tr style="background:var(--B3)"><td style="padding:5px 10px">8</td><td style="padding:5px 10px">38-39</td><td style="padding:5px 10px">25 cm</td></tr><tr><td style="padding:5px 10px">9</td><td style="padding:5px 10px">39-40</td><td style="padding:5px 10px">26 cm</td></tr><tr style="background:var(--B3)"><td style="padding:5px 10px">10</td><td style="padding:5px 10px">40-41</td><td style="padding:5px 10px">27 cm</td></tr><tr><td style="padding:5px 10px">11</td><td style="padding:5px 10px">41-42</td><td style="padding:5px 10px">28 cm</td></tr><tr style="background:var(--B3)"><td style="padding:5px 10px">12</td><td style="padding:5px 10px">42-43</td><td style="padding:5px 10px">29 cm</td></tr></table><p style="margin-top:12px;font-size:.75rem;color:var(--W3)">¿Dudas con tu talla? Escríbenos por WhatsApp y te ayudamos.</p>'},
+  privacidad:{title:'Política de Privacidad',body:'<p>En Bossa Fashion respetamos tu privacidad. Los datos que recolectamos (nombre, correo, teléfono, dirección) se usan exclusivamente para procesar y entregar tu pedido.</p><p>No compartimos tu información con terceros ni la usamos para marketing sin tu consentimiento. Puedes solicitar la eliminación de tus datos en cualquier momento escribiéndonos a bossafashion2025@gmail.com.</p>'},
+  terminos:{title:'Términos y Condiciones',body:'<p>Al realizar una compra en Bossa Fashion aceptas los siguientes términos:</p><ul style="padding-left:18px;display:flex;flex-direction:column;gap:6px"><li>Los precios están en dólares americanos (USD).</li><li>El pedido se confirma una vez recibido el pago acordado.</li><li>Bossa Fashion se reserva el derecho de cancelar pedidos en caso de error de precio o stock insuficiente.</li><li>Las imágenes de los productos son referenciales; el color real puede variar ligeramente según pantalla.</li><li>Para disputas, el foro aplicable es el estado de Florida, EE.UU.</li></ul>'}
+};
+function showPolicy(key){
+  var p=POLICIES[key];if(!p)return;
+  document.getElementById('policyTitle').textContent=p.title;
+  document.getElementById('policyBody').innerHTML=p.body;
+  document.getElementById('policyModal').style.display='';
+  document.getElementById('policyVeil').style.display='';
+}
+function closePolicy(){
+  document.getElementById('policyModal').style.display='none';
+  document.getElementById('policyVeil').style.display='none';
+}
 
 // ══════════════════════════════════
 //  HEADER SCROLL
