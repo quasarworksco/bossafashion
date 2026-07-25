@@ -1,0 +1,8 @@
+{
+  "name": "bossa-fashion-api",
+  "private": true,
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "stripe": "^16.0.0"
+  }
+}

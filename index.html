@@ -453,6 +453,18 @@ section[id],div[id]{scroll-margin-top:var(--hh)}
 .cff input:focus,.cff select:focus{border-bottom-color:var(--R)}
 .cff input::placeholder{color:#444}
 .cff select option{background:var(--B2)}
+/* Stripe pay block */
+.stripe-pay-block{background:rgba(103,114,229,.08);border:1.5px solid rgba(103,114,229,.3);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.stripe-pay-label{display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;color:var(--W2);margin-bottom:8px}
+.stripe-pay-methods{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.spb-badge{font-size:.6rem;font-weight:700;background:var(--B3);border:1px solid var(--B4);padding:3px 8px;border-radius:4px;color:var(--W3);letter-spacing:.5px}
+.spb-badge.visa{color:#1a1f71}.spb-badge.mc{color:#eb001b}
+.btn-stripe-pay{width:100%;padding:13px;background:linear-gradient(135deg,#6772e5,#4f59d9);color:#fff;border:none;font-family:'Outfit',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:filter .2s,transform .15s;box-shadow:0 4px 14px rgba(103,114,229,.4)}
+.btn-stripe-pay:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn-stripe-pay:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.stripe-pay-note{font-size:.62rem;color:var(--W3);text-align:center;margin-top:6px;line-height:1.5}
+.pay-divider{display:flex;align-items:center;gap:10px;margin:10px 0;color:var(--W3);font-size:.64rem}
+.pay-divider::before,.pay-divider::after{content:'';flex:1;height:1px;background:var(--B4)}
 .pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px}
 .pay-opt{padding:10px;background:var(--B3);border:1.5px solid var(--B4);border-radius:6px;cursor:pointer;font-size:.75rem;color:var(--W3);transition:all .2s;font-family:'Outfit',sans-serif;font-weight:500;text-align:center}
 .pay-opt:hover{border-color:var(--B5);color:var(--W2)}
@@ -1775,6 +1787,30 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
 
       <!-- payment -->
       <div class="co-sec-label">Método de pago *</div>
+
+      <!-- Stripe card payment (recommended) -->
+      <div class="stripe-pay-block">
+        <div class="stripe-pay-label">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#6772e5;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          Pago con tarjeta — seguro y rápido
+        </div>
+        <div class="stripe-pay-methods">
+          <span class="spb-badge visa">VISA</span>
+          <span class="spb-badge mc">MC</span>
+          <span class="spb-badge">Apple Pay</span>
+          <span class="spb-badge">Google Pay</span>
+        </div>
+        <button class="btn-stripe-pay" id="btnStripePay" onclick="payWithStripe()">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm-7 12l-5-5 1.41-1.41L13 13.17l7.59-7.59L22 7l-9 9z"/></svg>
+          Pagar con Tarjeta / Apple Pay
+        </button>
+        <p class="stripe-pay-note">Redirige a la página segura de Stripe. Nunca compartimos tus datos de tarjeta.</p>
+      </div>
+
+      <!-- Divider -->
+      <div class="pay-divider"><span>o elige otro método</span></div>
+
+      <!-- Other payment options (manual / WhatsApp-confirmed) -->
       <div class="pay-methods">
         <button class="pay-opt" onclick="selPay(this,'Zelle')"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg> Zelle</button>
         <button class="pay-opt" onclick="selPay(this,'Binance')"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg> Binance</button>
@@ -2476,6 +2512,66 @@ function getLocation(){
     btn.style.color='#22aa4a';toast('Ubicación capturada');
   },()=>{btn.textContent='Compartir ubicación exacta';btn.disabled=false;toast('No se pudo obtener la ubicación');});
 }
+
+// ── Stripe Checkout ──
+const STRIPE_API_URL = '/api/create-checkout-session'; // Vercel function
+
+async function payWithStripe(){
+  const nombre=(document.getElementById('cfNombre').value||'').trim();
+  const apellido=(document.getElementById('cfApellido').value||'').trim();
+  const tel=(document.getElementById('cfTel').value||'').trim();
+  const email=(document.getElementById('cfEmail').value||'').trim();
+  if(!nombre){toast('Ingresa tu nombre');return;}
+  if(!apellido){toast('Ingresa tu apellido');return;}
+  if(!tel){toast('Ingresa tu teléfono');return;}
+  if(!cart.length){toast('El carrito está vacío');return;}
+
+  const btn=document.getElementById('btnStripePay');
+  btn.disabled=true;
+  btn.textContent='Redirigiendo a Stripe…';
+
+  const orderNum=genOrderNum();
+  const items=cart.map(c=>({
+    id:c.id, nombre:c.nombre, precio:c.precio, precioOferta:c.precioOferta||null,
+    imagen:c.imagen||null, qty:c.qty, talla:c.talla||null, color:c.color||null
+  }));
+
+  try{
+    const resp=await fetch(STRIPE_API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        items, orderNum,
+        customerEmail: email||undefined
+      })
+    });
+    const data=await resp.json();
+    if(!resp.ok||!data.url) throw new Error(data.error||'Error al crear sesión');
+    window.location.href=data.url; // → Stripe Checkout page
+  }catch(err){
+    toast('No se pudo iniciar el pago: '+err.message);
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm-7 12l-5-5 1.41-1.41L13 13.17l7.59-7.59L22 7l-9 9z"/></svg> Pagar con Tarjeta / Apple Pay';
+  }
+}
+
+// ── Handle return from Stripe ──
+(function handleStripeReturn(){
+  const params=new URLSearchParams(location.search);
+  const pago=params.get('pago');
+  const order=params.get('order');
+  if(!pago) return;
+  history.replaceState(null,'',location.pathname); // clean URL
+  if(pago==='ok'&&order){
+    // Show confirmation overlay
+    setTimeout(()=>{
+      showOrderConfirm(order, null);
+      toast('¡Pago confirmado con Stripe! Pedido '+order);
+    },600);
+  }else if(pago==='cancelado'){
+    setTimeout(()=>toast('Pago cancelado. Tu carrito sigue guardado.'),400);
+  }
+})();
 
 function sendOrder(){
   const nombre=(document.getElementById('cfNombre').value||'').trim();
