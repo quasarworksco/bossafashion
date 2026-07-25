@@ -1862,7 +1862,7 @@ let userLocation='', selectedPay='';
 // Snapshot of cart preserved for the confirmation overlay (scope fix)
 let _confirmSnapshot=[], _confirmOrderNum='', _confirmWaUrl='';
 // Double-submit guards
-let _sendingOrder=false, _sendingStripe=false;
+let _sendingOrder=false, _sendingStripe=false, stripeRedirected=false;
 
 // ══════════════════════════════════
 //  HERO SLIDER
@@ -2407,7 +2407,7 @@ function addCurrentToCart(){
 //  CART
 // ══════════════════════════════════
 function totalUnits(){ return cart.reduce((s,i)=>s+i.qty,0); }
-function priceEach(p){ return p.precio||0; }
+function priceEach(p){ return (p.precioOferta&&Number(p.precioOferta)>0?Number(p.precioOferta):Number(p.precio))||0; }
 function cartTotal(){ return cart.reduce((s,i)=>s+(i.qty*priceEach(i)),0); }
 
 function addToCart(product,qty){
@@ -2547,6 +2547,7 @@ const STRIPE_BTN_SPINNER = '<svg viewBox="0 0 24 24" style="width:16px;height:16
 
 async function payWithStripe(){
   if(_sendingStripe) return; // double-submit guard
+  stripeRedirected=false; // reset for this attempt
 
   const nombre=(document.getElementById('cfNombre').value||'').trim();
   const apellido=(document.getElementById('cfApellido').value||'').trim();
@@ -2585,15 +2586,19 @@ async function payWithStripe(){
 
     // Persist snapshot so we can show the confirmation on return
     try{sessionStorage.setItem('stripeSnapshot_'+orderNum,JSON.stringify(_confirmSnapshot));}catch(e){}
-    // Redirect — no need to re-enable button, page is leaving
+    stripeRedirected=true; // flag visible in finally
     window.location.href=data.url;
+    // Pause — the browser should navigate away before this resolves
+    await new Promise(r=>setTimeout(r,3000));
   }catch(err){
     toast('No se pudo iniciar el pago: '+err.message);
   }finally{
-    // Always restore button in case redirect didn't happen
-    _sendingStripe=false;
-    btn.disabled=false;
-    btn.innerHTML=STRIPE_BTN_ICON+' Pagar con Tarjeta / Apple Pay';
+    // Only reset the button if the redirect never happened (error path)
+    if(!stripeRedirected){
+      _sendingStripe=false;
+      btn.disabled=false;
+      btn.innerHTML=STRIPE_BTN_ICON+' Pagar con Tarjeta / Apple Pay';
+    }
   }
 }
 
@@ -2673,7 +2678,7 @@ function sendOrder(){
         id:i.id||'', nombre:i.nombre, sku:i.sku||'', categoria:i.categoria||'',
         qty:i.qty, precio:priceEach(i), imagen:i.imagen||''
       })),
-      estado:'Pendiente', createdAt:Date.now(), ubicacion:userLocation||''
+      estado:'Pendiente', createdAt:firebase.firestore.FieldValue.serverTimestamp(), ubicacion:userLocation||''
     });
   }catch(e){console.warn('Order save error:',e);}
 

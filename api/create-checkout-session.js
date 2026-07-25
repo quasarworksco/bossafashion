@@ -10,7 +10,7 @@
 
 const Stripe = require("stripe");
 const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 
 // Init Firebase Admin once (Vercel reuses the runtime between invocations)
 if (!getApps().length) {
@@ -152,7 +152,7 @@ module.exports = async function handler(req, res) {
       total: parseFloat(totalUsd.toFixed(2)),
       pago: "Stripe",
       stripeSessionId: session.id,
-      createdAt: require("firebase-admin/firestore").FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
     });
 
     return res.status(200).json({ url: session.url });
