@@ -1908,16 +1908,16 @@ function loadProducts(){
       allProducts=snap.docs
         .map(d=>({id:d.id,...d.data()}))
         .sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-      buildCounts();
-      renderCollGrid();
-      renderFeaturedCarousel();
+      try{buildCounts();}catch(e){console.error('buildCounts:',e);}
+      try{renderCollGrid();}catch(e){console.error('renderCollGrid:',e);}
+      try{renderFeaturedCarousel();}catch(e){console.error('renderFeaturedCarousel:',e);}
       applyAll();
     }, err=>{
       console.error('Firestore products:',err);
       allProducts=[];
-      buildCounts();
-      renderCollGrid();
-      renderFeaturedCarousel();
+      try{buildCounts();}catch(e){}
+      try{renderCollGrid();}catch(e){}
+      try{renderFeaturedCarousel();}catch(e){}
       applyAll();
     });
 
@@ -2028,7 +2028,7 @@ function renderCollGrid(){
       <div class="coll-card-body">
         <div class="coll-card-cat">${esc(p.categoria||'Calzado')}</div>
         <div class="coll-card-name">${esc(p.nombre)}</div>
-        ${p.precio?`<div class="coll-card-price">$${p.precio.toFixed(2)}</div>`:''}
+        ${p.precio?`<div class="coll-card-price">$${Number(p.precio).toFixed(2)}</div>`:''}
       </div>
     </div>`;
   }).join('');
