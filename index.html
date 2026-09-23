@@ -1901,12 +1901,13 @@ function fallbackImg(el){ el.onerror=null; el.src=FB; }
 //  CARGAR PRODUCTOS — Firestore (real-time)
 // ══════════════════════════════════
 function loadProducts(){
-  // Listen to active products
+  // Listen to all products, filter Inactivo in JS so products without
+  // the estado field (or with any non-Inactivo value) still show up
   db.collection('products')
-    .where('estado','==','Activo')
     .onSnapshot(snap=>{
       allProducts=snap.docs
         .map(d=>({id:d.id,...d.data()}))
+        .filter(p=>p.estado!=='Inactivo')
         .sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
       try{buildCounts();}catch(e){console.error('buildCounts:',e);}
       try{renderCollGrid();}catch(e){console.error('renderCollGrid:',e);}
