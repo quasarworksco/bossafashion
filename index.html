@@ -2579,7 +2579,7 @@ async function payWithStripe(){
 
     let data;
     try{ data=await resp.json(); }
-    catch(){ throw new Error('Respuesta inválida del servidor'); }
+    catch(e){ throw new Error('Respuesta inválida del servidor'); }
 
     if(!resp.ok||!data.url) throw new Error(data.error||'Error al crear sesión de pago');
 
