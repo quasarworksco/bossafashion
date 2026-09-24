@@ -1888,21 +1888,31 @@ function fallbackImg(el){ el.onerror=null; el.src=FB; }
 // ══════════════════════════════════
 //  CARGAR PRODUCTOS — Firestore (real-time)
 // ══════════════════════════════════
+function showFirestoreError(msg){
+  const c=document.getElementById('prodContainer');
+  if(c) c.innerHTML=`<div style="padding:32px;text-align:center;color:#e74c3c;font-size:.9rem"><b>Error cargando productos:</b><br>${msg}<br><br><small>Revisa la consola (F12) para más detalles.</small></div>`;
+  const t=document.getElementById('prodTtl');
+  if(t&&t.childNodes[0]) t.childNodes[0].textContent='Error';
+}
+
 function loadProducts(){
   // Listen to all products, filter Inactivo in JS so products without
   // the estado field (or with any non-Inactivo value) still show up
   db.collection('products')
     .onSnapshot(snap=>{
+      console.log('Firestore snapshot: '+snap.size+' productos');
       allProducts=snap.docs
         .map(d=>({id:d.id,...d.data()}))
         .filter(p=>p.estado!=='Inactivo')
         .sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+      console.log('Productos activos: '+allProducts.length);
       try{buildCounts();}catch(e){console.error('buildCounts:',e);}
       try{renderCollGrid();}catch(e){console.error('renderCollGrid:',e);}
       try{renderFeaturedCarousel();}catch(e){console.error('renderFeaturedCarousel:',e);}
-      applyAll();
+      try{applyAll();}catch(e){console.error('applyAll:',e); showFirestoreError('Error renderizando: '+e.message);}
     }, err=>{
-      console.error('Firestore products:',err);
+      console.error('Firestore products error:',err);
+      showFirestoreError(err.code+': '+err.message);
       allProducts=[];
       try{buildCounts();}catch(e){}
       try{renderCollGrid();}catch(e){}
