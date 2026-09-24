@@ -2625,7 +2625,7 @@ async function payWithStripe(){
   }
 })();
 
-function sendOrder(){
+async function sendOrder(){
   if(_sendingOrder) return; // double-submit guard
   if(!validateCheckoutForm()) return;
   const nombre=(document.getElementById('cfNombre').value||'').trim();
