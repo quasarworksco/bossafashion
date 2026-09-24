@@ -496,19 +496,7 @@ section[id],div[id]{scroll-margin-top:var(--hh)}
 .cd-empty{text-align:center;padding:52px 0;color:#555}
 .cd-empty svg{width:48px;height:48px;fill:var(--B4);margin-bottom:11px;display:block;margin-left:auto;margin-right:auto}
 .cd-empty p{font-size:.78rem;line-height:1.6}
-.c-item{display:flex;gap:10px;background:var(--B3);border-radius:5px;padding:11px;border:1px solid var(--B4);position:relative}
-.ci-img{width:56px;height:56px;object-fit:cover;border-radius:4px;background:var(--B4);flex-shrink:0}
-.ci-info{flex:1;min-width:0}
-.ci-name{font-size:.76rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;color:var(--W2)}
-.ci-meta{font-size:.62rem;color:var(--W3);margin-bottom:5px}
-.ci-price{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--W)}
-.ci-qty{display:flex;align-items:center;gap:4px;margin-top:6px;flex-wrap:wrap}
-.ciq-btn{padding:3px 8px;background:var(--B4);border:none;border-radius:3px;cursor:pointer;color:var(--W2);font-size:.68rem;transition:background .2s;font-family:'Outfit',sans-serif}
-.ciq-btn:hover{background:var(--R)}
-.ciq-val{font-family:'Space Mono',monospace;font-size:.68rem;min-width:24px;text-align:center;color:var(--W)}
-.ci-del{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;color:#555;transition:color .2s}
-.ci-del:hover{color:var(--R2)}
-.ci-del svg{width:12px;height:12px;fill:currentColor}
+/* duplicate .c-item block removed — canonical rules are at top of cart section */
 
 /* CART FORM */
 .cart-form{padding:13px 15px;border-top:1px solid var(--B4);flex-shrink:0}
@@ -1714,7 +1702,7 @@ body.has-banner section[id],body.has-banner div[id]{scroll-margin-top:calc(var(-
         <button class="qp-btn" onclick="setQtyPreset(4,this)">×4</button>
       </div>
       <div class="qty-custom" id="qtyCustomRow" style="display:flex"><label>Cantidad:</label><input type="number" id="customQtyInput" min="1" max="99" value="1" oninput="updateQtyTotal()"/></div>
-      <div class="qty-total"><span>Subtotal estimado</span><span id="qtyTotalDisplay">$499.00</span></div>
+      <div class="qty-total"><span>Subtotal estimado</span><span id="qtyTotalDisplay">$0.00</span></div>
       <button class="btn-add-cart" onclick="addCurrentToCart()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Agregar al Carrito</button>
       <button class="mi-share-btn" id="miShareBtn" onclick="shareProduct(allProducts.indexOf(modalProduct))"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Compartir por WhatsApp</button>
     </div>
@@ -2670,9 +2658,9 @@ function sendOrder(){
   const waTab=window.open(waUrl,'_blank');
   lastOrderWaUrl=waUrl;
 
-  // Save order to Firestore
+  // Save order to Firestore (await so errors are caught)
   try{
-    db.collection('orders').doc(orderNum).set({
+    await db.collection('orders').doc(orderNum).set({
       orderNum, nombre, apellido, tel, email:email||'', dir:dir||'',
       pago, total:parseFloat(cartTotal().toFixed(2)),
       productos:_confirmSnapshot.map(i=>({

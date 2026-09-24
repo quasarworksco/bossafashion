@@ -936,7 +936,8 @@ function renderOrders() {
   empty.style.display = 'none';
   const statusClass = { Pendiente:'os-pendiente', Confirmado:'os-confirmado', Entregado:'os-entregado', Cancelado:'os-cancelado' };
   tbody.innerHTML = list.map(o => {
-    const fecha = o.createdAt ? new Date(o.createdAt).toLocaleDateString('es-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+    const _ts = o.createdAt?.toDate ? o.createdAt.toDate() : (o.createdAt ? new Date(o.createdAt) : null);
+    const fecha = _ts ? _ts.toLocaleDateString('es-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
     const prodsStr = (o.productos||[]).map(p=>`${p.nombre} ×${p.qty}`).join(', ');
     const waMsg = buildOrderWaMsg(o);
     return `<tr>
@@ -1215,13 +1216,19 @@ function startListeners() {
     refreshUI();
   }, err => console.error('categories:', err));
 
-  unsubProducts = db.collection('products').orderBy('updatedAt', 'desc').onSnapshot(snap => {
-    products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  unsubProducts = db.collection('products').onSnapshot(snap => {
+    products = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     refreshUI();
   }, err => console.error('products:', err));
 
-  unsubOrders = db.collection('orders').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  unsubOrders = db.collection('orders').onSnapshot(snap => {
+    orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => {
+        const ta = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt || 0);
+        const tb = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt || 0);
+        return tb - ta;
+      });
     renderOrders();
     updateOrderStats();
   }, err => console.warn('Orders listener:', err));
